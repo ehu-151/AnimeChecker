@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">AnimeCkecker</string>
+    <string name="app_name">AnimeChecker</string>
+    <string name="authorize_open_warning">認証画面からAniictにログインし、認証コードをコピーしてください</string>
+    <string name="authorize_open_button_text">認証画面を開く</string>
+    <string name="authorize_code_edit_text">認証コードを入力してください</string>
+    <string name="authorize_code_login">ログイン</string>
 </resources>

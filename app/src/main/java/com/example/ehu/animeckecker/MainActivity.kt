@@ -13,13 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
-        val repository = SubscriptionRepository(this)
-        repository.getAllSubsctiption()
 
-        val d = Date()
-        repository.setSubscription(SubscriptionEntity(111, "ポケモン", d, listOf(d, d)))
-
-        repository.getAllSubsctiption()
     }
 
 }
