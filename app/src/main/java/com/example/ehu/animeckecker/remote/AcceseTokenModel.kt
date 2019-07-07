@@ -2,7 +2,7 @@ package com.example.ehu.animeckecker.remote
 
 import com.squareup.moshi.Json
 
-class AcceseTokenModel(
+data class AcceseTokenModel(
     @field:Json(name = "access_token")
     val accessToken: String,
     @field:Json(name = "token_type")
