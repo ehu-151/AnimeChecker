@@ -4,22 +4,14 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.ehu.animeckecker.databinding.ActivityMainBinding
-import com.example.ehu.animeckecker.room.SubscriptionEntity
-import java.util.*
+import com.example.ehu.animeckecker.util.AppSharedPreferences
 
 class MainActivity : AppCompatActivity() {
-
+    lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        val repository = SubscriptionRepository(this)
-        repository.getAllSubsctiption()
-
-        val d = Date()
-        repository.setSubscription(SubscriptionEntity(111, "ポケモン", d, listOf(d, d)))
-
-        repository.getAllSubsctiption()
+        val token = AppSharedPreferences(this).getToken()
     }
-
 }

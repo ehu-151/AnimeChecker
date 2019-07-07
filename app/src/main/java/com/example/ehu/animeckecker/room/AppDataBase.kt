@@ -4,8 +4,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import java.util.*
 
 @Database(entities = arrayOf(SubscriptionEntity::class), version = 1)
@@ -34,17 +32,23 @@ class DateTimeConverter {
 }
 
 class ListDateConverter {
+
+    // String(,で区切られている)
+    // List<String>
+    // List<Long>
+    // List<Date>
     @TypeConverter
     fun fromString(value: String): List<Date> {
-        val listType = object : TypeToken<List<Date>>() {
-
-        }.getType()
-        return Gson().fromJson(value, listType)
+        val longList = value.split(",").map { it.toLong() }
+        return longList.map { Date(it) }
     }
 
+    // List<Date>
+    // List<Long>
+    // String(,で区切る)
     @TypeConverter
     fun listToString(list: List<Date>): String {
-        val gson = Gson()
-        return gson.toJson(list)
+        val longList = list.map { it.time.toLong() }
+        return longList.joinToString { "," }
     }
 }

@@ -1,7 +1,8 @@
-package com.example.ehu.animeckecker
+package com.example.ehu.animeckecker.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.ehu.animeckecker.repository.SubscriptionRepository
 import com.example.ehu.animeckecker.room.SubscriptionEntity
 
 class SubscriptionViewModel(private val repository: SubscriptionRepository) : ViewModel() {
