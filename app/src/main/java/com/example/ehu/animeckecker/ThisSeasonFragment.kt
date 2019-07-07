@@ -5,18 +5,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.example.ehu.animeckecker.databinding.FragmentThisSeasenBinding
 import com.example.ehu.animeckecker.repository.ThisSeasonRepositoty
 import com.example.ehu.animeckecker.util.AppSharedPreferences
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.example.ehu.animeckecker.util.Status
+import com.example.ehu.animeckecker.viewmodel.ThisSeasonViewModel
 
 class ThisSeasonFragment : Fragment() {
 
     lateinit var binding: FragmentThisSeasenBinding
     lateinit var token: String
+    lateinit var viewModel: ThisSeasonViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,9 +35,24 @@ class ThisSeasonFragment : Fragment() {
         // tokenの取得
         token = AppSharedPreferences(context!!).getToken()
 
-        GlobalScope.launch {
-            val repositoty = ThisSeasonRepositoty().getWorks("2014-autumn", token)
-            Log.d("Anime", repositoty.toString())
-        }
+        //ViewModel初期化
+//        viewModel = ViewModelProviders.of(this.activity!!)
+//            .get(ThisSeasonViewModel(ThisSeasonRepositoty())::class.java)
+        viewModel = ThisSeasonViewModel(ThisSeasonRepositoty())
+
+        viewModel.loadWorks(token)
+        viewModel.workData.observe(this, Observer {
+            when (it) {
+                is Status.Logging -> {
+
+                }
+                is Status.Success -> {
+                    Log.d("APPC", it.data.toString())
+                }
+                is Status.Failure -> {
+                    Toast.makeText(this.context, "ロードに失敗しました", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 }
