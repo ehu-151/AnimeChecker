@@ -1,10 +1,12 @@
-package com.example.ehu.animeckecker
+package com.example.ehu.animeckecker.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.ehu.animeckecker.util.Status
 import com.example.ehu.animeckecker.remote.AcceseTokenModel
+import com.example.ehu.animeckecker.repository.LoginRepository
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 

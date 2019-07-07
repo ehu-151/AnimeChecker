@@ -1,4 +1,4 @@
-package com.example.ehu.animeckecker
+package com.example.ehu.animeckecker.repository
 
 import android.content.Context
 import android.util.Log

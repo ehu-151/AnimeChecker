@@ -8,6 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.ehu.animeckecker.databinding.ActivityLoginBinding
+import com.example.ehu.animeckecker.repository.LoginRepository
+import com.example.ehu.animeckecker.util.AppSharedPreferences
+import com.example.ehu.animeckecker.util.Status
+import com.example.ehu.animeckecker.viewmodel.LoginViewModel
 
 
 class LoginActivity : AppCompatActivity() {

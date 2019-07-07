@@ -1,4 +1,4 @@
-package com.example.ehu.animeckecker
+package com.example.ehu.animeckecker.repository
 
 import com.example.ehu.animeckecker.remote.AcceseTokenModel
 import com.example.ehu.animeckecker.remote.LoginSevise
