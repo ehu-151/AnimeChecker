@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         // fragmentのset
         val maneger = supportFragmentManager
         val transition = maneger.beginTransaction()
-        transition.replace(binding.container.id, ThisSeasenFragment())
+        transition.replace(binding.container.id, ThisSeasonFragment())
         transition.commit()
     }
 }

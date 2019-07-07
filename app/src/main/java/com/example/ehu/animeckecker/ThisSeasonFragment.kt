@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.ehu.animeckecker.databinding.FragmentThisSeasenBinding
 import com.example.ehu.animeckecker.util.AppSharedPreferences
 
-class ThisSeasenFragment : Fragment() {
+class ThisSeasonFragment : Fragment() {
 
     lateinit var binding: FragmentThisSeasenBinding
     lateinit var token: String
