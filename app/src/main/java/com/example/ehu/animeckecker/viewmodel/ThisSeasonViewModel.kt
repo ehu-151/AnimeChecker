@@ -9,7 +9,8 @@ import com.example.ehu.animeckecker.util.Status
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class ThisSeasonViewModel(private val repository: ThisSeasonRepositoty) : ViewModel() {
+class ThisSeasonViewModel : ViewModel() {
+    private val repository = ThisSeasonRepositoty()
     private val _workData: MutableLiveData<Status<AnnictWorksModel>> = MutableLiveData()
     val workData: LiveData<Status<AnnictWorksModel>> = _workData
 
@@ -17,7 +18,7 @@ class ThisSeasonViewModel(private val repository: ThisSeasonRepositoty) : ViewMo
         _workData.value = Status.Logging
 
         GlobalScope.launch {
-            val response = ThisSeasonRepositoty().getWorks("2014-autumn", token)
+            val response = repository.getWorks("2014-autumn", token)
             if (response.code() == 200) {
                 _workData.postValue(Status.Success(response.body()!!))
             } else {

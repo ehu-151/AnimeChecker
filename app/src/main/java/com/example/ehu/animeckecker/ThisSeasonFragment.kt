@@ -9,8 +9,8 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.example.ehu.animeckecker.databinding.FragmentThisSeasenBinding
-import com.example.ehu.animeckecker.repository.ThisSeasonRepositoty
 import com.example.ehu.animeckecker.util.AppSharedPreferences
 import com.example.ehu.animeckecker.util.Status
 import com.example.ehu.animeckecker.viewmodel.ThisSeasonViewModel
@@ -36,10 +36,8 @@ class ThisSeasonFragment : Fragment() {
         token = AppSharedPreferences(context!!).getToken()
 
         //ViewModel初期化
-//        viewModel = ViewModelProviders.of(this.activity!!)
-//            .get(ThisSeasonViewModel(ThisSeasonRepositoty())::class.java)
-        viewModel = ThisSeasonViewModel(ThisSeasonRepositoty())
-
+        viewModel = ViewModelProviders.of(this.activity!!)
+            .get(ThisSeasonViewModel::class.java)
         viewModel.loadWorks(token)
         viewModel.workData.observe(this, Observer {
             when (it) {
