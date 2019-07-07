@@ -4,7 +4,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface AnnictWorksServise {
+interface AnnictWorksService {
     companion object {
         const val baseUri = "https://api.annict.com/"
     }

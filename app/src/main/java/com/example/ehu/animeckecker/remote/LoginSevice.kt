@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-interface LoginSevise {
+interface LoginSevice {
     companion object {
         const val baseUri = "https://api.annict.com/"
     }

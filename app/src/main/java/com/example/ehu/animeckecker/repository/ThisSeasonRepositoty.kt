@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 class ThisSeasonRepositoty() {
-    private var servise: AnnictWorksServise
+    private var servise: AnnictWorksService
 
     init {
         //okhttpのclient作成
@@ -27,11 +27,11 @@ class ThisSeasonRepositoty() {
         //クライアント生成
 
         var retrofit = Retrofit.Builder()
-            .baseUrl(AnnictWorksServise.baseUri)
+            .baseUrl(AnnictWorksService.baseUri)
             .addConverterFactory(MoshiConverterFactory.create())
             .client(client)
             .build()
-        servise = retrofit.create(AnnictWorksServise::class.java)
+        servise = retrofit.create(AnnictWorksService::class.java)
     }
 
     fun getWorks(filterSeason: String, accessToken: String): Response<AnnictWorksModel> {

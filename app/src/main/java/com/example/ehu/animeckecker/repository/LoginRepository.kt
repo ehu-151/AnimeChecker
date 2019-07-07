@@ -1,7 +1,7 @@
 package com.example.ehu.animeckecker.repository
 
 import com.example.ehu.animeckecker.remote.AcceseTokenModel
-import com.example.ehu.animeckecker.remote.LoginSevise
+import com.example.ehu.animeckecker.remote.LoginSevice
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -10,7 +10,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class LoginRepository {
     //Retrofitインターフェース
-    private var servise: LoginSevise
+    private var servise: LoginSevice
 
     init {
         //okhttpのclient作成
@@ -21,11 +21,11 @@ class LoginRepository {
         //クライアント生成
 
         var retrofit = Retrofit.Builder()
-            .baseUrl(LoginSevise.baseUri)
+            .baseUrl(LoginSevice.baseUri)
             .addConverterFactory(MoshiConverterFactory.create())
             .client(client)
             .build()
-        servise = retrofit.create(LoginSevise::class.java)
+        servise = retrofit.create(LoginSevice::class.java)
     }
 
     fun getAccessToken(
