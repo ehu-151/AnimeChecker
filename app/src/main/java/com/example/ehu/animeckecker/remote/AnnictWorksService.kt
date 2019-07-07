@@ -12,7 +12,7 @@ interface AnnictWorksService {
 
     @GET("/v1/works")
     fun getWorks(
-        @Query("filter_season") filterSeason: String,
+        @Query("filter_season") filterSeason: String?,
         @Query("access_token") accessToken: String
     ): Call<AnnictWorksModel>
 }

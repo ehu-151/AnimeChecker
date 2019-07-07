@@ -14,11 +14,11 @@ class ThisSeasonViewModel : ViewModel() {
     private val _workData: MutableLiveData<Status<AnnictWorksModel>> = MutableLiveData()
     val workData: LiveData<Status<AnnictWorksModel>> = _workData
 
-    fun loadWorks(token: String) {
+    fun loadWorks(token: String, filterSeason: String? = null) {
         _workData.value = Status.Logging
 
         GlobalScope.launch {
-            val response = repository.getWorks("2014-autumn", token)
+            val response = repository.getWorks(filterSeason, token)
             if (response.code() == 200) {
                 _workData.postValue(Status.Success(response.body()!!))
             } else {

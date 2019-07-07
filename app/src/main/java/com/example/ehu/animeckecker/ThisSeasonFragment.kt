@@ -1,7 +1,6 @@
 package com.example.ehu.animeckecker
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.example.ehu.animeckecker.databinding.FragmentThisSeasenBinding
 import com.example.ehu.animeckecker.util.AppSharedPreferences
 import com.example.ehu.animeckecker.util.Status
 import com.example.ehu.animeckecker.viewmodel.ThisSeasonViewModel
+import java.util.*
 
 class ThisSeasonFragment : Fragment() {
 
@@ -38,19 +38,29 @@ class ThisSeasonFragment : Fragment() {
         //ViewModel初期化
         viewModel = ViewModelProviders.of(this.activity!!)
             .get(ThisSeasonViewModel::class.java)
-        viewModel.loadWorks(token)
+        viewModel.loadWorks(token, getThisSeason())
         viewModel.workData.observe(this, Observer {
             when (it) {
                 is Status.Logging -> {
 
                 }
                 is Status.Success -> {
-                    Log.d("APPC", it.data.toString())
+                    binding.listView.adapter = ThisSeasonListAdapter(context!!, it.data.works)
                 }
                 is Status.Failure -> {
                     Toast.makeText(this.context, "ロードに失敗しました", Toast.LENGTH_SHORT).show()
                 }
             }
         })
+    }
+
+    private fun getThisSeason(): String {
+        val c = Calendar.getInstance()
+        c.timeZone = TimeZone.getTimeZone("Asia/Tokyo")
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val seasonList = listOf("winter", "spring", "summer", "autumn")
+        val thisSeason = seasonList.get(((month + 1) - 1) / 3)
+        return "$year-$thisSeason"
     }
 }
