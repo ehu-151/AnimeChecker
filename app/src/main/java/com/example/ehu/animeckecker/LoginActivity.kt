@@ -32,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
+        // loginしているなら、main画面へintent
         loginCheck()
 
         binding.launchAuthorize.setOnClickListener { launchBrowser() }
@@ -64,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
 
                 }
                 is Status.Success -> {
-                    setTokenToPrefer(it.data.accessToken)
+                    setLoginInfoToPrefer(it.data.accessToken)
                     intentMain()
                 }
                 is Status.Failure -> {
@@ -75,12 +76,16 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun setTokenToPrefer(token: String) {
+    private fun setLoginInfoToPrefer(token: String) {
         AppSharedPreferences(this).setToken(token)
+        AppSharedPreferences(this).setIsLogin(true)
     }
 
     private fun loginCheck() {
-
+        isLogin = AppSharedPreferences(this).getIsLogin()
+        if (isLogin) {
+            intentMain()
+        }
     }
 
     private fun intentMain() {

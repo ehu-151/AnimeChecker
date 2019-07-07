@@ -5,11 +5,11 @@ import android.content.SharedPreferences
 
 class AppSharedPreferences(context: Context) {
     private val APP = "anime_checker"
+    private var preferences: SharedPreferences
 
     // data
     private val ACCESS_TOKEN = "access_token"
-
-    private var preferences: SharedPreferences
+    private val IS_LOGIN = "is_login"
 
     init {
         preferences = context.getSharedPreferences(APP, Context.MODE_PRIVATE)
@@ -22,5 +22,13 @@ class AppSharedPreferences(context: Context) {
 
     fun getToken(): String {
         return preferences.getString(ACCESS_TOKEN, "")
+    }
+
+    fun setIsLogin(token: Boolean) {
+        preferences.edit().putBoolean(IS_LOGIN, token).apply()
+    }
+
+    fun getIsLogin(): Boolean {
+        return preferences.getBoolean(IS_LOGIN, false)
     }
 }
