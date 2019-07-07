@@ -3,7 +3,6 @@ package com.example.ehu.animeckecker
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation.findNavController
 import com.example.ehu.animeckecker.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -11,7 +10,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-    }
 
-    override fun onSupportNavigateUp() = findNavController(this, R.id.my_nav_host_fragment).navigateUp()
+        // fragmentのset
+        val maneger = supportFragmentManager
+        val transition = maneger.beginTransaction()
+        transition.replace(binding.container.id, ThisSeasonFragment())
+        transition.commit()
+    }
 }
