@@ -1,7 +1,6 @@
 package com.example.ehu.animeckecker
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +44,7 @@ class ThisSeasonFragment : Fragment() {
 
                 }
                 is Status.Success -> {
-                    Log.d("APPC", it.data.toString())
+                    binding.listView.adapter = ThisSeasonListAdapter(context!!, it.data.works)
                 }
                 is Status.Failure -> {
                     Toast.makeText(this.context, "ロードに失敗しました", Toast.LENGTH_SHORT).show()
