@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/nav_graph" app:startDestination="@id/myNotificationFragment">
+
+    <fragment android:id="@+id/myNotificationFragment"
+              android:name="com.example.ehu.animeckecker.MyNotificationFragment"
+              android:label="MyNotificationFragment">
+        <action android:id="@+id/action_myNotificationFragment_to_thisSeasonFragment"
+                app:destination="@id/thisSeasonFragment"/>
+    </fragment>
+    <fragment android:id="@+id/thisSeasonFragment" android:name="com.example.ehu.animeckecker.ThisSeasonFragment"
+              android:label="ThisSeasonFragment"/>
+</navigation>
