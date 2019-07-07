@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.ehu.animeckecker.databinding.ActivityMainBinding
-import com.example.ehu.animeckecker.util.AppSharedPreferences
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -12,6 +11,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        val token = AppSharedPreferences(this).getToken()
+        // fragmentのset
+        val maneger = supportFragmentManager
+        val transition = maneger.beginTransaction()
+        transition.replace(binding.container.id, ThisSeasonFragment())
+        transition.commit()
     }
 }
