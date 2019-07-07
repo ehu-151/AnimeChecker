@@ -39,8 +39,6 @@ dependencies {
     //room
     implementation "android.arch.persistence.room:runtime:1.1.1"
     kapt "android.arch.persistence.room:compiler:1.1.1"
-    // gson
-    implementation 'com.google.code.gson:gson:2.8.5'
     // kotlin coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
@@ -50,4 +48,9 @@ dependencies {
     //retorofit
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0'
     implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
+    //okhhtp3
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
+    //moshi
+    implementation 'com.squareup.moshi:moshi:1.5.0'
+    implementation "com.squareup.moshi:moshi-kotlin:1.5.0"
 }
