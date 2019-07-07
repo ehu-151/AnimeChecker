@@ -3,7 +3,7 @@ package com.example.ehu.animeckecker
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -50,10 +50,24 @@ class LoginActivity : AppCompatActivity() {
     private fun login() {
         val code = binding.codeText.text.toString()
         val viewModel = LoginViewModel(LoginRepository())
-        viewModel.getAccesToken(clientId, clientSecret, redirectUrl, code).observe(this, Observer {
-            Log.d("LoginActivityTAG", "TOKEN:\t" + it.accessToken)
-            setTokenToPrefer(it.accessToken)
-            intentMain()
+
+        viewModel.loadAccesToken(clientId, clientSecret, redirectUrl, code)
+
+        viewModel.tokenData.observe(this, Observer {
+
+            when (it) {
+                is Status.Logging -> {
+
+                }
+                is Status.Success -> {
+                    setTokenToPrefer(it.data.accessToken)
+                    intentMain()
+                }
+                is Status.Failure -> {
+                    Toast.makeText(this, "ログインに失敗しました", Toast.LENGTH_SHORT).show()
+                }
+            }
+
         })
     }
 

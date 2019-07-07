@@ -28,7 +28,7 @@ class LoginRepository {
         servise = retrofit.create(LoginSevise::class.java)
     }
 
-    suspend fun getAccesToken(
+    fun getAccessToken(
         clientId: String,
         clientSecret: String,
         redirectUrl: String,
