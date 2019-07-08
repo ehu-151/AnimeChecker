@@ -16,18 +16,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5分"
+                    android:tag="5"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
             <com.google.android.material.chip.Chip
                     android:id="@+id/minute_10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10分"
+                    android:tag="10"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
             <com.google.android.material.chip.Chip
                     android:id="@+id/minute_30"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="30分"
+                    android:tag="30"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
         </com.google.android.material.chip.ChipGroup>
         <com.google.android.material.chip.ChipGroup
@@ -40,30 +43,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1時間"
+                    android:tag="60"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
             <com.google.android.material.chip.Chip
                     android:id="@+id/hour_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2時間"
+                    android:tag="120"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
             <com.google.android.material.chip.Chip
                     android:id="@+id/hour_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3時間"
+                    android:tag="180"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
             <com.google.android.material.chip.Chip
                     android:id="@+id/hour_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4時間"
+                    android:tag="240"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
             <com.google.android.material.chip.Chip
                     android:id="@+id/hour_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5時間"
+                    android:tag="300"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
         </com.google.android.material.chip.ChipGroup>
         <Button
