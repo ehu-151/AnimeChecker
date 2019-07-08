@@ -44,7 +44,11 @@ data class Works(
     @field:Json(name = "episodes_count")
     val episodesCount: Int,
     @field:Json(name = "watchers_count")
-    val watchersCount: Int
+    val watchersCount: Int,
+    @field:Json(name = "reviews_count")
+    val reviewsCount: Int,
+    @field:Json(name = "no_episodes")
+    val noEpisodes: Boolean
 )
 
 data class ImageList(
