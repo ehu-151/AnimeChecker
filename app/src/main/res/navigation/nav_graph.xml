@@ -16,5 +16,11 @@
     </fragment>
     <fragment android:id="@+id/notificationEditFragment"
               android:name="com.example.ehu.animeckecker.NotificationEditFragment"
-              android:label="NotificationEditFragment"/>
+              android:label="NotificationEditFragment">
+        <action android:id="@+id/action_global_notificationEditFragment" app:destination="@id/myNotificationFragment"
+                app:popUpTo="@id/myNotificationFragment" app:popUpToInclusive="true"/>
+        <action android:id="@+id/action_notificationEditFragment_to_thisSeasonFragment"
+                app:destination="@id/thisSeasonFragment" app:popUpTo="@id/thisSeasonFragment"
+                app:popUpToInclusive="true"/>
+    </fragment>
 </navigation>
