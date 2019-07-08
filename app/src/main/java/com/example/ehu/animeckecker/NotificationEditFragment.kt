@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.ehu.animeckecker.databinding.FragmentNotificationEditBinding
 import com.example.ehu.animeckecker.util.AnimeAlarmReceiver
+import com.google.android.material.chip.Chip
 import java.util.*
 
 
@@ -27,7 +28,8 @@ class NotificationEditFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_edit, container, false)
         binding.create.setOnClickListener {
 
-            registerNotificationAlerm("ポケモン", 3)
+            setAlarm()
+            registerNotificationAlarm("ポケモン", 3)
 
             Navigation.findNavController(it).navigate(R.id.action_global_notificationEditFragment)
         }
@@ -37,7 +39,21 @@ class NotificationEditFragment : Fragment() {
         return binding.root
     }
 
-    private fun registerNotificationAlerm(animeTitle: String, second: Int) {
+    private fun setAlarm(){
+        // chipから時間を取得
+        val notificationTime= mutableListOf<Int>()
+        for (i in 0 until binding.chipGroup.childCount) {
+            val chip = binding.chipGroup.getChildAt(i) as Chip
+            notificationTime.add(chip.tag.toString().toInt())
+        }
+        for (i in 0 until binding.chipGroup2.childCount) {
+            val chip = binding.chipGroup2.getChildAt(i) as Chip
+            notificationTime.add(chip.tag.toString().toInt())
+        }
+        // alarmをセット
+    }
+
+    private fun registerNotificationAlarm(animeTitle: String, second: Int) {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis()
         calendar.add(Calendar.SECOND, second)
@@ -46,12 +62,12 @@ class NotificationEditFragment : Fragment() {
 
     private fun scheduleNotification(animeTitle: String, time: String, calendar: Calendar) {
         // intent
-        val notficationIntent = Intent(context, AnimeAlarmReceiver::class.java).apply {
+        val notificationIntent = Intent(context, AnimeAlarmReceiver::class.java).apply {
             putExtra(AnimeAlarmReceiver.ANIME_TITLE, animeTitle)
             putExtra(AnimeAlarmReceiver.NOTIFICATION_TIME, time)
         }
         //pendingIntent
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, notficationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         //alarm
         val alarmManager = context?.getSystemService(ALARM_SERVICE) as AlarmManager?
         alarmManager!!.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
