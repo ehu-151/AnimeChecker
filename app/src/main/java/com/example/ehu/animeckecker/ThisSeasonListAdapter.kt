@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import com.example.ehu.animeckecker.databinding.RowThisSeasonBinding
 import com.example.ehu.animeckecker.remote.Works
 
@@ -17,6 +18,9 @@ class ThisSeasonListAdapter(private val context: Context, private val works: Lis
         val inflater = LayoutInflater.from(context)
         binding = DataBindingUtil.inflate(inflater, R.layout.row_this_season, parent, false)
         binding.model = getItem(position)
+        binding.title.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_thisSeasonFragment_to_notificationEditFragment)
+        }
         return binding.root
     }
 
