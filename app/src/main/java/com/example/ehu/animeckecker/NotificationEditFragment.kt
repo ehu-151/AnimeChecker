@@ -26,11 +26,8 @@ class NotificationEditFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_edit, container, false)
         binding.create.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = System.currentTimeMillis()
-            calendar.add(Calendar.SECOND, 2)
 
-            scheduleNotification("2秒後に届く通知です", calendar)
+            registerNotoficationAlerm("ポケモン", 3)
 
             Navigation.findNavController(it).navigate(R.id.action_global_notificationEditFragment)
         }
@@ -40,12 +37,19 @@ class NotificationEditFragment : Fragment() {
         return binding.root
     }
 
+    private fun registerNotoficationAlerm(animeTitle: String, second: Int) {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = System.currentTimeMillis()
+        calendar.add(Calendar.SECOND, second)
+        scheduleNotification(animeTitle, second.toString() + "秒", calendar)
+    }
 
-    private fun scheduleNotification(content: String, calendar: Calendar) {
+
+    private fun scheduleNotification(animeTitle: String, time: String, calendar: Calendar) {
         // intent
         val notficationIntent = Intent(context, AnimeAlarmReceiver::class.java).apply {
-            putExtra(AnimeAlarmReceiver.NOTIFICATION_ID, 1)
-            putExtra(AnimeAlarmReceiver.NOTIFICATION_CONTENT, content)
+            putExtra(AnimeAlarmReceiver.ANIME_TITLE, animeTitle)
+            putExtra(AnimeAlarmReceiver.NOTIFICATION_TIME, time)
         }
         //pendingIntent
         val pendingIntent = PendingIntent.getBroadcast(context, 0, notficationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
