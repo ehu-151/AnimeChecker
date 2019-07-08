@@ -18,6 +18,7 @@ interface AnnictApiService {
 
     @GET("/v1/episodes")
     fun getEpisodes(
+        @Query("access_token") accessToken: String,
         @Query("filter_work_id") filterWorkId: Int?,
         @Query("page") page: Int?,
         @Query("sort_id") sortId: String?
