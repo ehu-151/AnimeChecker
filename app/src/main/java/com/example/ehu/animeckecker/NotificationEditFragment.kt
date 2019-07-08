@@ -27,7 +27,7 @@ class NotificationEditFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_edit, container, false)
         binding.create.setOnClickListener {
 
-            registerNotoficationAlerm("ポケモン", 3)
+            registerNotificationAlerm("ポケモン", 3)
 
             Navigation.findNavController(it).navigate(R.id.action_global_notificationEditFragment)
         }
@@ -37,13 +37,12 @@ class NotificationEditFragment : Fragment() {
         return binding.root
     }
 
-    private fun registerNotoficationAlerm(animeTitle: String, second: Int) {
+    private fun registerNotificationAlerm(animeTitle: String, second: Int) {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis()
         calendar.add(Calendar.SECOND, second)
         scheduleNotification(animeTitle, second.toString() + "秒", calendar)
     }
-
 
     private fun scheduleNotification(animeTitle: String, time: String, calendar: Calendar) {
         // intent
