@@ -4,7 +4,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface AnnictWorksService {
+interface AnnictApiService {
     companion object {
         const val baseUri = "https://api.annict.com/"
     }
@@ -15,4 +15,11 @@ interface AnnictWorksService {
         @Query("filter_season") filterSeason: String?,
         @Query("access_token") accessToken: String
     ): Call<AnnictWorksModel>
+
+    @GET("/v1/episodes")
+    fun getEpisodes(
+        @Query("filter_work_id") filterWorkId: Int?,
+        @Query("page") page: Int?,
+        @Query("sort_id") sortId: String?
+    ): Call<AnnictEpisodesModel>
 }
