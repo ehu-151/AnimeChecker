@@ -2,11 +2,15 @@ package com.example.ehu.animeckecker.util
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import java.util.*
 
-class AnimeAlarmManager(private val context: Context) {
+class AnimeAlarmManager(private val context: Context): BroadcastReceiver() {
+    override fun onReceive(context: Context?, intent: Intent?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     /**
      * 「分/時間前」の通知を表示します。
