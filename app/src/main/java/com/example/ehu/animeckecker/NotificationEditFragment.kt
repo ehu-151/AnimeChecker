@@ -64,6 +64,9 @@ class NotificationEditFragment : Fragment() {
         scheduleNotification(animeTitle, beforeSecond.toString() + "秒", startedAt)
     }
 
+    /**
+     * calendar.getTime()で表示される時間に通知する。
+     */
     private fun scheduleNotification(animeTitle: String, time: String, calendar: Calendar) {
         // intent
         val notificationIntent = Intent(context, AnimeAlarmReceiver::class.java).apply {
