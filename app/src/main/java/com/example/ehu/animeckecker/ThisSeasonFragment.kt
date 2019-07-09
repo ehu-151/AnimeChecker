@@ -1,7 +1,6 @@
 package com.example.ehu.animeckecker
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,20 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.ehu.animeckecker.databinding.FragmentThisSeasenBinding
-import com.example.ehu.animeckecker.remote.AnnictApiService
-import com.example.ehu.animeckecker.remote.Facebook
-import com.example.ehu.animeckecker.remote.ImageList
-import com.example.ehu.animeckecker.remote.Twitter
 import com.example.ehu.animeckecker.util.AppSharedPreferences
 import com.example.ehu.animeckecker.util.Status
 import com.example.ehu.animeckecker.viewmodel.ThisSeasonViewModel
-import com.squareup.moshi.Types
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.*
 
 class ThisSeasonFragment : Fragment() {
