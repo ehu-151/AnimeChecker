@@ -38,7 +38,6 @@ class ThisSeasonFragment : Fragment() {
         //ViewModel初期化
         viewModel = ViewModelProviders.of(this.activity!!)
             .get(ThisSeasonViewModel::class.java)
-
         viewModel.loadWorks(token, getThisSeason())
         viewModel.workData.observe(this, Observer {
             when (it) {
