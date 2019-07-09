@@ -80,13 +80,19 @@ class NotificationEditFragment : Fragment() {
         val notificationTime = mutableListOf<Int>()
         for (i in 0 until binding.chipGroupSecound.childCount) {
             val chip = binding.chipGroupSecound.getChildAt(i) as Chip
-            if (chip.isChecked) notificationTime.add(chip.tag.toString().toInt())
+            if (chip.isChecked) {
+                val startedAt = Calendar.getInstance()
+                startedAt.timeInMillis = System.currentTimeMillis()
+//                AnimeAlarmManager(context!!).registerNotificationAlarm(
+//                    "ポケモン",
+//                    startedAt,
+//                    chip.tag.toString().toInt(),
+//                    chip.text.toString()
+//                )
+            }
         }
-        val startedAt = Calendar.getInstance()
-        startedAt.timeInMillis = System.currentTimeMillis()
-        startedAt.add(Calendar.SECOND, notificationTime[0])
-        // alarmをセット
-//        scheduleNotification("ポケモン", notificationTime[0].toString() + "秒", startedAt)
+
+
     }
 
 }
