@@ -6,13 +6,15 @@ import android.content.Intent
 
 class AnimeAlarmReceiver : BroadcastReceiver() {
     companion object {
+        /** アニメのタイトル */
         const val ANIME_TITLE = "notification_id"
-        const val NOTIFICATION_TIME = "notification_time"
+        /**【放送[BEFORE_TIME_TEXT]前】用テキスト */
+        const val BEFORE_TIME_TEXT = "notification_time"
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         val animeTitle = intent.getStringExtra(ANIME_TITLE)
-        val time = intent.getStringExtra(NOTIFICATION_TIME)
-        AnimeNotification(context).notifyThisSeasonBroadcast(animeTitle, time)
+        val beforeTimeText = intent.getStringExtra(BEFORE_TIME_TEXT)
+        AnimeNotification(context).notifyThisSeasonBroadcast(animeTitle, beforeTimeText)
     }
 }
