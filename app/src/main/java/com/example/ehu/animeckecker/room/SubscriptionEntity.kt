@@ -7,8 +7,16 @@ import java.util.*
 @Entity
 data class SubscriptionEntity(
     @PrimaryKey
+    val id: Int,
     val animeId: Int,
     val animeTitle: String,
-    val startAt: Date,
-    val notifyAt: List<Date>
+    val dayOfWeek: Int,
+    val dayOfWeekText: String,
+    val startAt: Calendar,
+    val startAtText: String,
+    val beforeSecond: Int,
+    val beforeTimeText: String,
+
+    val episodeNumberText: String?,
+    val episodeTitle: String?
 )

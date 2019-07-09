@@ -1,13 +1,15 @@
 package com.example.ehu.animeckecker.room
 
+import android.annotation.SuppressLint
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
+import java.text.SimpleDateFormat
 import java.util.*
 
 @Database(entities = arrayOf(SubscriptionEntity::class), version = 1)
-@TypeConverters(DateTimeConverter::class, ListDateConverter::class)
+@TypeConverters(CalenderConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     companion object {
         const val DB_NAME = "anime-database-0.1"
@@ -19,36 +21,21 @@ abstract class AppDatabase : RoomDatabase() {
 }
 
 
-class DateTimeConverter {
+class CalenderConverter {
+    @SuppressLint("SimpleDateFormat")
+    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX")
+
     @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
+    fun toCalender(str: String): Calendar {
+        val c = Calendar.getInstance()
+        val date = sdf.parse(str)
+        c.setTime(date)
+        return c
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
-    }
-}
-
-class ListDateConverter {
-
-    // String(,で区切られている)
-    // List<String>
-    // List<Long>
-    // List<Date>
-    @TypeConverter
-    fun fromString(value: String): List<Date> {
-        val longList = value.split(",").map { it.toLong() }
-        return longList.map { Date(it) }
-    }
-
-    // List<Date>
-    // List<Long>
-    // String(,で区切る)
-    @TypeConverter
-    fun listToString(list: List<Date>): String {
-        val longList = list.map { it.time.toLong() }
-        return longList.joinToString { "," }
+    fun fromCalender(cal: Calendar): String {
+        val str = sdf.format(cal.getTime())
+        return str
     }
 }
