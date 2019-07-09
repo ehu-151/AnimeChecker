@@ -34,8 +34,8 @@ class ThisSeasonRepositoty() {
         servise = retrofit.create(AnnictApiService::class.java)
     }
 
-    fun getWorks(accessToken: String,filterSeason: String?): Response<AnnictWorksModel> {
-        val response = servise.getWorks(accessToken,filterSeason).execute()
+    fun getWorks(accessToken: String, filterSeason: String?): Response<AnnictWorksModel> {
+        val response = servise.getWorks(accessToken, filterSeason).execute()
         if (response == null) {
             throw Exception("responseがnull")
         } else {
