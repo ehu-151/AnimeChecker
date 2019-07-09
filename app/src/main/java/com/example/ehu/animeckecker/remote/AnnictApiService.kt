@@ -12,8 +12,8 @@ interface AnnictApiService {
 
     @GET("/v1/works")
     fun getWorks(
-        @Query("filter_season") filterSeason: String?,
-        @Query("access_token") accessToken: String
+        @Query("access_token") accessToken: String,
+        @Query("filter_season") filterSeason: String?
     ): Call<AnnictWorksModel>
 
     @GET("/v1/episodes")

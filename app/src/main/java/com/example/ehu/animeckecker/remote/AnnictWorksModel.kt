@@ -3,7 +3,7 @@ package com.example.ehu.animeckecker.remote
 import com.squareup.moshi.Json
 
 data class AnnictWorksModel(
-    val works: List<Works>,
+    val works: MutableList<Works>,
     @field:Json(name = "total_count")
     val totalCount: Int,
     @field:Json(name = "next_page")
