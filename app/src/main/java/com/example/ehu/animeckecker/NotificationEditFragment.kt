@@ -2,7 +2,6 @@ package com.example.ehu.animeckecker
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,17 +40,13 @@ class NotificationEditFragment : Fragment() {
         // 放送時刻を取得
         val (hour, minute) = binding.editText.text.toString().split(":").map { it.toInt() }
         val startedAt = Calendar.getInstance()
-        Log.d("startedAt", startedAt.getTime().toString())
         startedAt.set(Calendar.HOUR_OF_DAY, hour)
         startedAt.set(Calendar.MINUTE, minute)
         startedAt.set(Calendar.SECOND, 0)
-        Log.d("startedAt", startedAt.getTime().toString())
         // chipから時間を取得
-        val notificationMutute = mutableListOf<Int>()
         for (i in 0 until binding.chipGroupMinute.childCount) {
             val chip = binding.chipGroupMinute.getChildAt(i) as Chip
             if (chip.isChecked) {
-                Log.d("startedAt", startedAt.getTime().toString())
                 // alarmをセット
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
                     "ポケモン",
@@ -91,8 +86,5 @@ class NotificationEditFragment : Fragment() {
 //                )
             }
         }
-
-
     }
-
 }

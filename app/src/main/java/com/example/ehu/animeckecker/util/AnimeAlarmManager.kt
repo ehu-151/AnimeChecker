@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import java.util.*
 
 class AnimeAlarmManager(private val context: Context) {
@@ -16,7 +15,6 @@ class AnimeAlarmManager(private val context: Context) {
      */
     fun registerNotificationAlarm(animeTitle: String, startedAt: Calendar, beforeSecond: Int, beforeTimeText: String) {
         startedAt.add(Calendar.SECOND, -beforeSecond)
-        Log.d("startedAt", startedAt.getTime().toString())
         scheduleNotification(animeTitle, beforeTimeText, startedAt)
     }
 
