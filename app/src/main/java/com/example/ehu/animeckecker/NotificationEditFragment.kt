@@ -48,13 +48,11 @@ class NotificationEditFragment : Fragment() {
             notificationTime.add(chip.tag.toString().toInt())
         }
         // 放送時刻を取得
-
         val (hour, minute) = binding.editText.text.toString().split(":").map { it.toInt() }
         val startedAt = Calendar.getInstance()
         startedAt.set(Calendar.HOUR_OF_DAY, hour)
         startedAt.set(Calendar.MINUTE, minute)
         startedAt.set(Calendar.MINUTE, 0)
-
         // alarmをセット
         registerNotificationAlarm("ポケモン", 60, startedAt)
     }
