@@ -45,11 +45,11 @@ class NotificationEditFragment : Fragment() {
         val notificationTime = mutableListOf<Int>()
         for (i in 0 until binding.chipGroupMinute.childCount) {
             val chip = binding.chipGroupMinute.getChildAt(i) as Chip
-            notificationTime.add(chip.tag.toString().toInt())
+            if (chip.isChecked) notificationTime.add(chip.tag.toString().toInt())
         }
         for (i in 0 until binding.chipGroupHour.childCount) {
             val chip = binding.chipGroupHour.getChildAt(i) as Chip
-            notificationTime.add(chip.tag.toString().toInt())
+            if (chip.isChecked) notificationTime.add(chip.tag.toString().toInt())
         }
         // 放送時刻を取得
         val (hour, minute) = binding.editText.text.toString().split(":").map { it.toInt() }
@@ -65,7 +65,7 @@ class NotificationEditFragment : Fragment() {
         val notificationTime = mutableListOf<Int>()
         for (i in 0 until binding.chipGroupSecound.childCount) {
             val chip = binding.chipGroupSecound.getChildAt(i) as Chip
-            notificationTime.add(chip.tag.toString().toInt())
+            if (chip.isChecked) notificationTime.add(chip.tag.toString().toInt())
         }
         val startedAt = Calendar.getInstance()
         startedAt.timeInMillis = System.currentTimeMillis()
