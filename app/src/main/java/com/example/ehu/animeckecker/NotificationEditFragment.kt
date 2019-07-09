@@ -15,7 +15,6 @@ import androidx.navigation.Navigation
 import com.example.ehu.animeckecker.databinding.FragmentNotificationEditBinding
 import com.example.ehu.animeckecker.util.AnimeAlarmReceiver
 import com.google.android.material.chip.Chip
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -28,10 +27,7 @@ class NotificationEditFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_edit, container, false)
         binding.create.setOnClickListener {
-
             setAlarm()
-            registerNotificationAlarm("ポケモン", 3)
-
             Navigation.findNavController(it).navigate(R.id.action_global_notificationEditFragment)
         }
         binding.cancel.setOnClickListener {
@@ -54,18 +50,18 @@ class NotificationEditFragment : Fragment() {
         // 放送時刻を取得
 
         val (hour, minute) = binding.editText.text.toString().split(":").map { it.toInt() }
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, hour)
-        calendar.set(Calendar.MINUTE, minute)
+        val startedAt = Calendar.getInstance()
+        startedAt.set(Calendar.HOUR_OF_DAY, hour)
+        startedAt.set(Calendar.MINUTE, minute)
+        startedAt.set(Calendar.MINUTE, 0)
 
         // alarmをセット
+        registerNotificationAlarm("ポケモン", 60, startedAt)
     }
 
-    private fun registerNotificationAlarm(animeTitle: String, second: Int) {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = System.currentTimeMillis()
-        calendar.add(Calendar.SECOND, second)
-        scheduleNotification(animeTitle, second.toString() + "秒", calendar)
+    private fun registerNotificationAlarm(animeTitle: String, beforeSecond: Int, startedAt: Calendar) {
+        startedAt.add(Calendar.SECOND, -beforeSecond)
+        scheduleNotification(animeTitle, beforeSecond.toString() + "秒", startedAt)
     }
 
     private fun scheduleNotification(animeTitle: String, time: String, calendar: Calendar) {
