@@ -15,6 +15,7 @@ import androidx.navigation.Navigation
 import com.example.ehu.animeckecker.databinding.FragmentNotificationEditBinding
 import com.example.ehu.animeckecker.util.AnimeAlarmReceiver
 import com.google.android.material.chip.Chip
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -39,9 +40,9 @@ class NotificationEditFragment : Fragment() {
         return binding.root
     }
 
-    private fun setAlarm(){
+    private fun setAlarm() {
         // chipから時間を取得
-        val notificationTime= mutableListOf<Int>()
+        val notificationTime = mutableListOf<Int>()
         for (i in 0 until binding.chipGroup.childCount) {
             val chip = binding.chipGroup.getChildAt(i) as Chip
             notificationTime.add(chip.tag.toString().toInt())
@@ -50,6 +51,13 @@ class NotificationEditFragment : Fragment() {
             val chip = binding.chipGroup2.getChildAt(i) as Chip
             notificationTime.add(chip.tag.toString().toInt())
         }
+        // 放送時刻を取得
+
+        val (hour, minute) = binding.editText.text.toString().split(":").map { it.toInt() }
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, hour)
+        calendar.set(Calendar.MINUTE, minute)
+
         // alarmをセット
     }
 
@@ -67,7 +75,8 @@ class NotificationEditFragment : Fragment() {
             putExtra(AnimeAlarmReceiver.NOTIFICATION_TIME, time)
         }
         //pendingIntent
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent =
+            PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         //alarm
         val alarmManager = context?.getSystemService(ALARM_SERVICE) as AlarmManager?
         alarmManager!!.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
