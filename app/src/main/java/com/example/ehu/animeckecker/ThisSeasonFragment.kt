@@ -51,29 +51,6 @@ class ThisSeasonFragment : Fragment() {
         viewModel = ViewModelProviders.of(this.activity!!)
             .get(ThisSeasonViewModel::class.java)
 
-
-
-
-        //okhttpのclient作成
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-
-        //クライアント生成
-
-        var retrofit = Retrofit.Builder()
-            .baseUrl(AnnictApiService.baseUri)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .client(client)
-            .build()
-        var servise: AnnictApiService = retrofit.create(AnnictApiService::class.java)
-        GlobalScope.launch {
-            val response=servise.getEpisodes(token,null, null, null).execute().body()
-            Log.d("aaaaaaaaaaa",response.toString())
-
-        }
-
-
         viewModel.loadWorks(token, getThisSeason())
         viewModel.workData.observe(this, Observer {
             when (it) {

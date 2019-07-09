@@ -23,4 +23,9 @@ interface AnnictApiService {
         @Query("page") page: Int?,
         @Query("sort_id") sortId: String?
     ): Call<AnnictEpisodesModel>
+
+//    @GET("/v1/me/programs")
+//    fun getMePrograms(
+//        @Query("access_token") accessToken: String
+//    ): Call<AnnictEpisodesModel>
 }
