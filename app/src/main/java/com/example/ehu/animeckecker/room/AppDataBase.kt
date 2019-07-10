@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Database(entities = arrayOf(SubscriptionEntity::class), version = 1)
+@Database(entities = arrayOf(NotificationAlarmEntity::class), version = 1)
 @TypeConverters(CalenderConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     companion object {
