@@ -5,26 +5,26 @@ import android.util.Log
 import androidx.room.Room
 import com.example.ehu.animeckecker.room.AppDatabase
 import com.example.ehu.animeckecker.room.DatabaseDao
-import com.example.ehu.animeckecker.room.SubscriptionEntity
+import com.example.ehu.animeckecker.room.NotificationAlarmEntity
 import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 
-class SubscriptionRepository(private val context: Context) {
+class NorificationAlarmRepository(private val context: Context) {
 
-    fun setSubscription(entity: SubscriptionEntity) {
+    fun setNotificationAlarm(entity: NotificationAlarmEntity) {
         runBlocking {
             thread {
-                val result = getDao().insert(entity)
+                val result = getDao().insertNotificationAlarm(entity)
                 Log.d("db_info_insert", result.toString())
             }
         }
     }
 
-    fun getAllSubsctiption(): List<SubscriptionEntity> {
-        var result: List<SubscriptionEntity> = mutableListOf()
+    fun getAllNotificationAlarm(): List<NotificationAlarmEntity> {
+        var result: List<NotificationAlarmEntity> = mutableListOf()
         runBlocking {
             thread {
-                result = getDao().getAll()
+                result = getDao().getAllNotificationAlarm()
                 Log.d("db_info_get", result.toString())
 
             }

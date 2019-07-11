@@ -6,9 +6,22 @@ import androidx.room.Query
 
 @Dao
 interface DatabaseDao {
-    @Query(value = "SELECT * FROM subscriptionentity")
-    fun getAll(): List<SubscriptionEntity>
+    @Query(value = "SELECT * FROM notificationalarmentity")
+    fun getAllNotificationAlarm(): List<NotificationAlarmEntity>
 
     @Insert
-    fun insert(entity: SubscriptionEntity)
+    fun insertNotificationAlarm(entity: NotificationAlarmEntity)
+
+    @Query("DELETE FROM notificationalarmentity WHERE id = :id")
+    fun deleteNotificationAlarmByid(id: Int)
+
+    @Query(value = "SELECT * FROM animeworkentity")
+    fun getAllAnimeWork(): List<AnimeWorkEntity>
+
+    @Insert
+    fun insertAnimeWork(entity: AnimeWorkEntity)
+
+    @Query("DELETE FROM AnimeWorkEntity WHERE id = :id")
+    fun deleteAnimeWorkById(id: Int)
+
 }
