@@ -20,8 +20,8 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
      */
     fun registerNotificationAlarm(animeTitle: String, startedAt: Calendar, beforeSecond: Int, beforeTimeText: String) {
         startedAt.add(Calendar.SECOND, -beforeSecond)
-        scheduleNotification(animeTitle, beforeTimeText, startedAt)
         saveNotificationAlarm(Random().nextInt(), 11, 30, "te", 0, "月", 8, 0, 0)
+        scheduleNotification(animeTitle, beforeTimeText, startedAt)
     }
 
     /**
