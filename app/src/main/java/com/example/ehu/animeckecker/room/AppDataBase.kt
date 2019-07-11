@@ -12,7 +12,7 @@ import java.util.*
 @TypeConverters(CalenderConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     companion object {
-        const val DB_NAME = "anime-database-0.1"
+        const val DB_NAME = "anime-database-0.03"
 
     }
 

@@ -5,9 +5,10 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.example.ehu.animeckecker.viewmodel.NotificationAlarmViewModel
 import java.util.*
 
-class AnimeAlarmManager(private val context: Context): BroadcastReceiver() {
+class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -19,6 +20,7 @@ class AnimeAlarmManager(private val context: Context): BroadcastReceiver() {
      */
     fun registerNotificationAlarm(animeTitle: String, startedAt: Calendar, beforeSecond: Int, beforeTimeText: String) {
         startedAt.add(Calendar.SECOND, -beforeSecond)
+        saveNotificationAlarm(Random().nextInt(), 11, 30, "te", 0, "月", 8, 0, 0)
         scheduleNotification(animeTitle, beforeTimeText, startedAt)
     }
 
@@ -37,5 +39,29 @@ class AnimeAlarmManager(private val context: Context): BroadcastReceiver() {
         //alarm
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
         alarmManager!!.setExact(AlarmManager.RTC_WAKEUP, startedAt.timeInMillis, pendingIntent)
+    }
+
+    private fun saveNotificationAlarm(
+        notificatioId: Int,
+        animeId: Int,
+        beforeSecond: Int,
+        beforeTimeText: String,
+        dayOfWeek: Int,
+        dayOfWeekText: String,
+        hour: Int,
+        minute: Int,
+        second: Int
+    ) {
+        NotificationAlarmViewModel(context).insertNotificationAlarm(
+            notificatioId,
+            animeId,
+            beforeSecond,
+            beforeTimeText,
+            dayOfWeek,
+            dayOfWeekText,
+            hour,
+            minute,
+            second
+        )
     }
 }
