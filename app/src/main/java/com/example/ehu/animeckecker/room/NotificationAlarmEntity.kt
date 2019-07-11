@@ -5,13 +5,13 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    foreignKeys = arrayOf(
-        ForeignKey(
-            entity = AnimeWorkEntity::class,
-            parentColumns = arrayOf("id"),
-            childColumns = arrayOf("animeId")
-        )
-    )
+//    foreignKeys = arrayOf(
+//        ForeignKey(
+//            entity = AnimeWorkEntity::class,
+//            parentColumns = arrayOf("id"),
+//            childColumns = arrayOf("animeId")
+//        )
+//    )
 )
 data class NotificationAlarmEntity(
     @PrimaryKey
