@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.ehu.animeckecker.repository.NorificationAlarmRepository
+import com.example.ehu.animeckecker.repository.NotificationAlarmRepository
 import com.example.ehu.animeckecker.room.NotificationAlarmEntity
 
 class NotificationAlarmViewModel(private val context: Context) : ViewModel() {
-    private val repository = NorificationAlarmRepository(context)
+    private val repository = NotificationAlarmRepository(context)
     private val _notificationAlarm: MutableLiveData<List<NotificationAlarmEntity>> = MutableLiveData()
     val notificatioAlarm: LiveData<List<NotificationAlarmEntity>> = _notificationAlarm
 

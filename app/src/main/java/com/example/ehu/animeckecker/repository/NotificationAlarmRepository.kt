@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 
-class NorificationAlarmRepository(private val context: Context) {
+class NotificationAlarmRepository(private val context: Context) {
 
     fun insertNotificationAlarm(
         notificatioId: Int,
