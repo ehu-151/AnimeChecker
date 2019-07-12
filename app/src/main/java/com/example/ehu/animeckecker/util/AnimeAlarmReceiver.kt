@@ -16,7 +16,7 @@ class AnimeAlarmReceiver : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        val notificationId = intent.getIntExtra(ANIME_TITLE, 0)
+        val notificationId = intent.getIntExtra(NOTIFICATION_ID, 0)
         val animeTitle = intent.getStringExtra(ANIME_TITLE)
         val beforeTimeText = intent.getStringExtra(BEFORE_TIME_TEXT)
         AnimeNotification(context).notifyThisSeasonBroadcast(animeTitle, beforeTimeText)
