@@ -3,6 +3,7 @@ package com.example.ehu.animeckecker.repository
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
+import com.example.ehu.animeckecker.room.AnimeWorkEntity
 import com.example.ehu.animeckecker.room.AppDatabase
 import com.example.ehu.animeckecker.room.DatabaseDao
 import com.example.ehu.animeckecker.room.NotificationAlarmEntity
@@ -23,9 +24,7 @@ class NorificationAlarmRepository(private val context: Context) {
             val entity = NotificationAlarmEntity(
                 notificatioId, animeId, beforeSecond, beforeTimeText
             )
-            val result = getDao().insertNotificationAlarm(entity)
-            Log.d("db_info_insert", result.toString())
-
+            getDao().insertNotificationAlarm(entity)
         }
     }
 
@@ -39,6 +38,38 @@ class NorificationAlarmRepository(private val context: Context) {
             }
         }
         return result
+    }
+
+    fun insertAnimeWork(
+        id: Int, title: String, dayOfWeek: Int,
+        hour: Int, minute: Int, second: Int
+    ) {
+        GlobalScope.launch {
+            val entity = AnimeWorkEntity(
+                id, title, dayOfWeek,
+                hour, minute, second
+            )
+            getDao().insertAnimeWork(entity)
+        }
+    }
+
+    fun getAllAniemWork(): List<AnimeWorkEntity> {
+        var result: List<AnimeWorkEntity> = mutableListOf()
+        runBlocking {
+            thread {
+                result = getDao().getAllAnimeWork()
+                Log.d("db_info_get", result.toString())
+            }
+        }
+        return result
+    }
+
+    fun deleteAniemWorkById(notificatioId: Int) {
+        runBlocking {
+            thread {
+                getDao().deleteAnimeWorkById(notificatioId)
+            }
+        }
     }
 
 

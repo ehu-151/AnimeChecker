@@ -20,7 +20,7 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
      * 【放送[beforeTimeText]前】 [animeTitle]
      */
     fun registerNotificationAlarm(
-        notificatioId: Int, animeId: Int, animeTitle: String,
+        notificationId: Int, animeId: Int, animeTitle: String,
         dayOfWeek: Int, hour: Int, minute: Int, second: Int,
         beforeSecond: Int, beforeTimeText: String
     ) {
@@ -32,14 +32,35 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
         }
         Log.d("AnimeAlarmManager_time", notificationStartedAt.getTime().toString())
 
-//        saveNotificationAlarm(Random().nextInt(), 11, 30, "te", 0, "月", 8, 0, 0)
-//        scheduleNotification(animeTitle, beforeTimeText, notificationStartedAt)
+        // dbに保存する
+        NotificationAlarmViewModel(context).insertNotificationAlarm(
+            notificationId, animeId, animeTitle,
+            dayOfWeek, hour, minute, second,
+            beforeSecond, beforeTimeText
+        )
+
+        scheduleAlarm(notificationId, animeTitle, beforeTimeText, notificationStartedAt)
     }
 
     /**
      * startedAt.getTime()で表示される時間に通知する。
      */
-    private fun scheduleNotification(animeTitle: String, beforeTimeText: String, startedAt: Calendar) {
+    private fun scheduleAlarm(notificatioId: Int, animeTitle: String, beforeTimeText: String, startedAt: Calendar) {
+        // intent
+        val notificationIntent = Intent(context, AnimeAlarmReceiver::class.java).apply {
+            putExtra(AnimeAlarmReceiver.NOTIFICATION_ID, notificatioId)
+            putExtra(AnimeAlarmReceiver.ANIME_TITLE, animeTitle)
+            putExtra(AnimeAlarmReceiver.BEFORE_TIME_TEXT, beforeTimeText)
+        }
+        //pendingIntent
+        val pendingIntent =
+            PendingIntent.getBroadcast(context, notificatioId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        //alarm
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
+        alarmManager!!.setExact(AlarmManager.RTC_WAKEUP, startedAt.timeInMillis, pendingIntent)
+    }
+
+    private fun cancelAlarm(notificatioId: Int, animeTitle: String, beforeTimeText: String) {
         // intent
         val notificationIntent = Intent(context, AnimeAlarmReceiver::class.java).apply {
             putExtra(AnimeAlarmReceiver.ANIME_TITLE, animeTitle)
@@ -47,34 +68,11 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
         }
         //pendingIntent
         val pendingIntent =
-            PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context, notificatioId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        pendingIntent.cancel()
         //alarm
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
-        alarmManager!!.setExact(AlarmManager.RTC_WAKEUP, startedAt.timeInMillis, pendingIntent)
-    }
-
-    private fun saveNotificationAlarm(
-        notificatioId: Int,
-        animeId: Int,
-        beforeSecond: Int,
-        beforeTimeText: String,
-        dayOfWeek: Int,
-        dayOfWeekText: String,
-        hour: Int,
-        minute: Int,
-        second: Int
-    ) {
-        NotificationAlarmViewModel(context).insertNotificationAlarm(
-            notificatioId,
-            animeId,
-            beforeSecond,
-            beforeTimeText,
-            dayOfWeek,
-            dayOfWeekText,
-            hour,
-            minute,
-            second
-        )
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
     }
 
     private fun toCalendar(dayOfWeek: Int, hour: Int, minute: Int, second: Int): Calendar {
