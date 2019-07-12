@@ -78,11 +78,17 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
     }
 
     private fun toCalendar(dayOfWeek: Int, hour: Int, minute: Int, second: Int): Calendar {
-        return Calendar.getInstance().apply {
+        val c = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, hour)
             set(Calendar.MINUTE, minute)
             set(Calendar.SECOND, second)
             set(Calendar.DAY_OF_WEEK, dayOfWeek)
         }
+        // 直近の曜日にする
+        val now = Calendar.getInstance()
+        if (now.timeInMillis - c.timeInMillis > 0) {
+            c.add(Calendar.DATE, 7)
+        }
+        return c
     }
 }

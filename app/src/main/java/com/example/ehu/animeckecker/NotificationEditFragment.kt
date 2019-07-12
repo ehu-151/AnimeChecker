@@ -38,6 +38,15 @@ class NotificationEditFragment : Fragment() {
     private fun setAlarm() {
         // 放送時刻を取得
         val (hour, minute) = binding.editText.text.toString().split(":").map { it.toInt() }
+        // chipから曜日を取得
+        var dayOfWeek = 0
+        for (i in 0 until binding.dayOfWeek.childCount) {
+            val chip = binding.dayOfWeek.getChildAt(i) as Chip
+            if (chip.isChecked) {
+                dayOfWeek = chip.tag.toString().toInt()
+                break
+            }
+        }
         // chipから時間を取得
         for (i in 0 until binding.chipGroupMinute.childCount) {
             val chip = binding.chipGroupMinute.getChildAt(i) as Chip
@@ -45,7 +54,7 @@ class NotificationEditFragment : Fragment() {
                 // alarmをセット
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
                     1, 1, "ポケモン",
-                    0, hour, minute, 0,
+                    dayOfWeek, hour, minute, 0,
                     chip.tag.toString().toInt(), chip.text.toString()
                 )
             }
@@ -57,7 +66,7 @@ class NotificationEditFragment : Fragment() {
                 // alarmをセット
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
                     1, 1, "ポケモン",
-                    Calendar.SATURDAY, hour, minute, 0,
+                    dayOfWeek, hour, minute, 0,
                     chip.tag.toString().toInt(), chip.text.toString()
                 )
             }
