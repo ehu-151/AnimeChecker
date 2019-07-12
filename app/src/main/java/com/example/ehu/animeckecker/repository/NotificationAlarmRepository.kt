@@ -11,7 +11,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlin.concurrent.thread
 
 class NotificationAlarmRepository(private val context: Context) {
 
@@ -41,6 +40,12 @@ class NotificationAlarmRepository(private val context: Context) {
         return result
     }
 
+    fun deleteNotificationAlarmById(notificatioId: Int) {
+        GlobalScope.launch {
+            getDao().deleteNotificationAlarmByid(notificatioId)
+        }
+    }
+
     fun insertAnimeWork(
         id: Int, title: String, dayOfWeek: Int,
         hour: Int, minute: Int, second: Int
@@ -57,19 +62,17 @@ class NotificationAlarmRepository(private val context: Context) {
     fun getAllAniemWork(): List<AnimeWorkEntity> {
         var result: List<AnimeWorkEntity> = mutableListOf()
         runBlocking {
-            thread {
+            GlobalScope.async {
                 result = getDao().getAllAnimeWork()
                 Log.d("db_info_get", result.toString())
-            }
+            }.await()
         }
         return result
     }
 
-    fun deleteAniemWorkById(notificatioId: Int) {
-        runBlocking {
-            thread {
-                getDao().deleteAnimeWorkById(notificatioId)
-            }
+    fun deleteAniemWorkById(id: Int) {
+        GlobalScope.launch {
+            getDao().deleteAnimeWorkById(id)
         }
     }
 

@@ -36,6 +36,6 @@ class NotificationAlarmViewModel(private val context: Context) : ViewModel() {
      * をdeleteします。
      */
     fun deleteNotificatioAlarm(notificatioId: Int) {
-        repository.deleteAniemWorkById(notificatioId)
+        repository.deleteNotificationAlarmById(notificatioId)
     }
 }
