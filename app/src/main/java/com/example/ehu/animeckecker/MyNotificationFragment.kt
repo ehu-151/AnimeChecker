@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.ehu.animeckecker.databinding.FragmentMyNotificationBinding
@@ -30,6 +31,9 @@ class MyNotificationFragment : Fragment() {
         //ViewModel初期化
         viewModel = ViewModelProviders.of(this.activity!!)
             .get(MyNotificationViewModel::class.java)
+        viewModel.loadNotifyInfo(context!!)
+        viewModel.notifyInfo.observe(this, Observer {
 
+        })
     }
 }
