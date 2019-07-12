@@ -18,16 +18,11 @@ class NotificationAlarmViewModel(private val context: Context) : ViewModel() {
     }
 
     fun insertNotificationAlarm(
-        notificatioId: Int,
-        animeId: Int,
-        beforeSecond: Int,
-        beforeTimeText: String,
-        dayOfWeek: Int,
-        dayOfWeekText: String,
-        hour: Int,
-        minute: Int,
-        second: Int
+        notificatioId: Int, animeId: Int, animeTitle: String,
+        dayOfWeek: Int, hour: Int, minute: Int, second: Int,
+        beforeSecond: Int, beforeTimeText: String
     ) {
         repository.insertNotificationAlarm(notificatioId, animeId, beforeSecond, beforeTimeText)
+        repository.insertAnimeWork(animeId, animeTitle, dayOfWeek, hour, minute, second)
     }
 }

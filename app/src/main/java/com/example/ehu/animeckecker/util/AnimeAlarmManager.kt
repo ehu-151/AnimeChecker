@@ -32,8 +32,14 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
         }
         Log.d("AnimeAlarmManager_time", notificationStartedAt.getTime().toString())
 
-//        saveNotificationAlarm(Random().nextInt(), 11, 30, "te", 0, "月", 8, 0, 0)
-//        scheduleNotification(animeTitle, beforeTimeText, notificationStartedAt)
+        // dbに保存する
+        NotificationAlarmViewModel(context).insertNotificationAlarm(
+            notificatioId, animeId, animeTitle,
+            dayOfWeek, hour, minute, second,
+            beforeSecond, beforeTimeText
+        )
+
+        scheduleNotification(animeTitle, beforeTimeText, notificationStartedAt)
     }
 
     /**
@@ -51,30 +57,6 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
         //alarm
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
         alarmManager!!.setExact(AlarmManager.RTC_WAKEUP, startedAt.timeInMillis, pendingIntent)
-    }
-
-    private fun saveNotificationAlarm(
-        notificatioId: Int,
-        animeId: Int,
-        beforeSecond: Int,
-        beforeTimeText: String,
-        dayOfWeek: Int,
-        dayOfWeekText: String,
-        hour: Int,
-        minute: Int,
-        second: Int
-    ) {
-        NotificationAlarmViewModel(context).insertNotificationAlarm(
-            notificatioId,
-            animeId,
-            beforeSecond,
-            beforeTimeText,
-            dayOfWeek,
-            dayOfWeekText,
-            hour,
-            minute,
-            second
-        )
     }
 
     private fun toCalendar(dayOfWeek: Int, hour: Int, minute: Int, second: Int): Calendar {

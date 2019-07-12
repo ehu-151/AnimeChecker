@@ -12,7 +12,6 @@ data class AnimeWorkEntity(
     val id: Int,
     val Title: String,
     val dayOfWeek: Int,
-    val dayOfWeekText: String,
     val hour: Int,
     val minute: Int,
     val second: Int
