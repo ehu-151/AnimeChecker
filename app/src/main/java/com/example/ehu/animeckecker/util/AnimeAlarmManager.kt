@@ -39,13 +39,13 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
             beforeSecond, beforeTimeText
         )
 
-        scheduleNotification(animeTitle, beforeTimeText, notificationStartedAt)
+        scheduleAlarm(notificatioId, animeTitle, beforeTimeText, notificationStartedAt)
     }
 
     /**
      * startedAt.getTime()で表示される時間に通知する。
      */
-    private fun scheduleNotification(animeTitle: String, beforeTimeText: String, startedAt: Calendar) {
+    private fun scheduleAlarm(notificatioId: Int, animeTitle: String, beforeTimeText: String, startedAt: Calendar) {
         // intent
         val notificationIntent = Intent(context, AnimeAlarmReceiver::class.java).apply {
             putExtra(AnimeAlarmReceiver.ANIME_TITLE, animeTitle)
@@ -53,10 +53,25 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
         }
         //pendingIntent
         val pendingIntent =
-            PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context, notificatioId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         //alarm
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
         alarmManager!!.setExact(AlarmManager.RTC_WAKEUP, startedAt.timeInMillis, pendingIntent)
+    }
+
+    private fun cancelAlarm(notificatioId: Int, animeTitle: String, beforeTimeText: String) {
+        // intent
+        val notificationIntent = Intent(context, AnimeAlarmReceiver::class.java).apply {
+            putExtra(AnimeAlarmReceiver.ANIME_TITLE, animeTitle)
+            putExtra(AnimeAlarmReceiver.BEFORE_TIME_TEXT, beforeTimeText)
+        }
+        //pendingIntent
+        val pendingIntent =
+            PendingIntent.getBroadcast(context, notificatioId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        pendingIntent.cancel()
+        //alarm
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
     }
 
     private fun toCalendar(dayOfWeek: Int, hour: Int, minute: Int, second: Int): Calendar {

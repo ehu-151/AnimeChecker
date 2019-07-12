@@ -53,7 +53,7 @@ class NotificationEditFragment : Fragment() {
             if (chip.isChecked) {
                 // alarmをセット
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
-                    1, 1, "ポケモン",
+                    Random().nextInt(), Random().nextInt(), "ポケモン",
                     dayOfWeek, hour, minute, 0,
                     chip.tag.toString().toInt(), chip.text.toString()
                 )
@@ -65,7 +65,7 @@ class NotificationEditFragment : Fragment() {
             if (chip.isChecked) {
                 // alarmをセット
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
-                    1, 1, "ポケモン",
+                    Random().nextInt(), Random().nextInt(), "ポケモン",
                     dayOfWeek, hour, minute, 0,
                     chip.tag.toString().toInt(), chip.text.toString()
                 )
