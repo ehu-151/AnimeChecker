@@ -64,6 +64,14 @@ class NorificationAlarmRepository(private val context: Context) {
         return result
     }
 
+    fun deleteAniemWorkById(notificatioId: Int) {
+        runBlocking {
+            thread {
+                getDao().deleteAnimeWorkById(notificatioId)
+            }
+        }
+    }
+
 
     private fun getDao(): DatabaseDao {
         return Room.databaseBuilder(context, AppDatabase::class.java, AppDatabase.DB_NAME)

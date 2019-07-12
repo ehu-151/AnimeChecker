@@ -20,7 +20,7 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
      * 【放送[beforeTimeText]前】 [animeTitle]
      */
     fun registerNotificationAlarm(
-        notificatioId: Int, animeId: Int, animeTitle: String,
+        notificationId: Int, animeId: Int, animeTitle: String,
         dayOfWeek: Int, hour: Int, minute: Int, second: Int,
         beforeSecond: Int, beforeTimeText: String
     ) {
@@ -34,12 +34,12 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
 
         // dbに保存する
         NotificationAlarmViewModel(context).insertNotificationAlarm(
-            notificatioId, animeId, animeTitle,
+            notificationId, animeId, animeTitle,
             dayOfWeek, hour, minute, second,
             beforeSecond, beforeTimeText
         )
 
-        scheduleAlarm(notificatioId, animeTitle, beforeTimeText, notificationStartedAt)
+        scheduleAlarm(notificationId, animeTitle, beforeTimeText, notificationStartedAt)
     }
 
     /**
@@ -48,6 +48,7 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
     private fun scheduleAlarm(notificatioId: Int, animeTitle: String, beforeTimeText: String, startedAt: Calendar) {
         // intent
         val notificationIntent = Intent(context, AnimeAlarmReceiver::class.java).apply {
+            putExtra(AnimeAlarmReceiver.NOTIFICATION_ID, notificatioId)
             putExtra(AnimeAlarmReceiver.ANIME_TITLE, animeTitle)
             putExtra(AnimeAlarmReceiver.BEFORE_TIME_TEXT, beforeTimeText)
         }

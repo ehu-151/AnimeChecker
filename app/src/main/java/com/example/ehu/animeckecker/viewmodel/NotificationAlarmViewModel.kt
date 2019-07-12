@@ -17,6 +17,11 @@ class NotificationAlarmViewModel(private val context: Context) : ViewModel() {
         return _notificationAlarm
     }
 
+    /**
+     * NotificationAlarmEntity
+     * AnimeWorkEntity
+     * をinsertします。
+     */
     fun insertNotificationAlarm(
         notificatioId: Int, animeId: Int, animeTitle: String,
         dayOfWeek: Int, hour: Int, minute: Int, second: Int,
@@ -24,5 +29,13 @@ class NotificationAlarmViewModel(private val context: Context) : ViewModel() {
     ) {
         repository.insertNotificationAlarm(notificatioId, animeId, beforeSecond, beforeTimeText)
         repository.insertAnimeWork(animeId, animeTitle, dayOfWeek, hour, minute, second)
+    }
+
+    /**
+     * NotificationAlarmEntity
+     * をdeleteします。
+     */
+    fun deleteNotificatioAlarm(notificatioId: Int) {
+        repository.deleteAniemWorkById(notificatioId)
     }
 }
