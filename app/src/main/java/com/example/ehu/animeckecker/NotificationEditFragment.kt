@@ -39,20 +39,15 @@ class NotificationEditFragment : Fragment() {
     private fun setAlarm() {
         // 放送時刻を取得
         val (hour, minute) = binding.editText.text.toString().split(":").map { it.toInt() }
-        val startedAt = Calendar.getInstance()
-        startedAt.set(Calendar.HOUR_OF_DAY, hour)
-        startedAt.set(Calendar.MINUTE, minute)
-        startedAt.set(Calendar.SECOND, 0)
         // chipから時間を取得
         for (i in 0 until binding.chipGroupMinute.childCount) {
             val chip = binding.chipGroupMinute.getChildAt(i) as Chip
             if (chip.isChecked) {
                 // alarmをセット
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
-                    "ポケモン",
-                    startedAt,
-                    chip.tag.toString().toInt(),
-                    chip.text.toString()
+                    1, 1, "ポケモン",
+                    0, hour, minute, 0,
+                    chip.tag.toString().toInt(), chip.text.toString()
                 )
             }
         }
@@ -62,10 +57,9 @@ class NotificationEditFragment : Fragment() {
             if (chip.isChecked) {
                 // alarmをセット
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
-                    "ポケモン",
-                    startedAt,
-                    chip.tag.toString().toInt(),
-                    chip.text.toString()
+                    1, 1, "ポケモン",
+                    Calendar.SATURDAY, hour, minute, 0,
+                    chip.tag.toString().toInt(), chip.text.toString()
                 )
             }
         }

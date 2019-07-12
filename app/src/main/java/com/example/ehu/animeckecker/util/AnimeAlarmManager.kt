@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.example.ehu.animeckecker.viewmodel.NotificationAlarmViewModel
 import java.util.*
 
@@ -18,10 +19,21 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
      * 【放送？前】 タイトル
      * 【放送[beforeTimeText]前】 [animeTitle]
      */
-    fun registerNotificationAlarm(animeTitle: String, startedAt: Calendar, beforeSecond: Int, beforeTimeText: String) {
-        startedAt.add(Calendar.SECOND, -beforeSecond)
-        saveNotificationAlarm(Random().nextInt(), 11, 30, "te", 0, "月", 8, 0, 0)
-        scheduleNotification(animeTitle, beforeTimeText, startedAt)
+    fun registerNotificationAlarm(
+        notificatioId: Int, animeId: Int, animeTitle: String,
+        dayOfWeek: Int, hour: Int, minute: Int, second: Int,
+        beforeSecond: Int, beforeTimeText: String
+    ) {
+        //  dayOfWeek, hour, minute, second をCalendarに変換
+        val startedAt = toCalendar(dayOfWeek, hour, minute, second)
+        Log.d("AnimeAlarmManager_time", startedAt.getTime().toString())
+        val notificationStartedAt = toCalendar(dayOfWeek, hour, minute, second).apply {
+            add(Calendar.SECOND, -beforeSecond)
+        }
+        Log.d("AnimeAlarmManager_time", notificationStartedAt.getTime().toString())
+
+//        saveNotificationAlarm(Random().nextInt(), 11, 30, "te", 0, "月", 8, 0, 0)
+//        scheduleNotification(animeTitle, beforeTimeText, notificationStartedAt)
     }
 
     /**
@@ -63,5 +75,14 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
             minute,
             second
         )
+    }
+
+    private fun toCalendar(dayOfWeek: Int, hour: Int, minute: Int, second: Int): Calendar {
+        return Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, hour)
+            set(Calendar.MINUTE, minute)
+            set(Calendar.SECOND, second)
+            set(Calendar.DAY_OF_WEEK, dayOfWeek)
+        }
     }
 }
