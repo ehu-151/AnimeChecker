@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.ehu.animeckecker.databinding.FragmentNotificationEditBinding
@@ -21,7 +20,7 @@ class NotificationEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_edit, container, false)
+        binding = FragmentNotificationEditBinding.inflate(inflater, container, false)
         binding.create.setOnClickListener {
             setAlarm()
             Navigation.findNavController(it).navigate(R.id.action_global_notificationEditFragment)
@@ -39,20 +38,24 @@ class NotificationEditFragment : Fragment() {
     private fun setAlarm() {
         // 放送時刻を取得
         val (hour, minute) = binding.editText.text.toString().split(":").map { it.toInt() }
-        val startedAt = Calendar.getInstance()
-        startedAt.set(Calendar.HOUR_OF_DAY, hour)
-        startedAt.set(Calendar.MINUTE, minute)
-        startedAt.set(Calendar.SECOND, 0)
+        // chipから曜日を取得
+        var dayOfWeek = 0
+        for (i in 0 until binding.dayOfWeek.childCount) {
+            val chip = binding.dayOfWeek.getChildAt(i) as Chip
+            if (chip.isChecked) {
+                dayOfWeek = chip.tag.toString().toInt()
+                break
+            }
+        }
         // chipから時間を取得
         for (i in 0 until binding.chipGroupMinute.childCount) {
             val chip = binding.chipGroupMinute.getChildAt(i) as Chip
             if (chip.isChecked) {
                 // alarmをセット
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
-                    "ポケモン",
-                    startedAt,
-                    chip.tag.toString().toInt(),
-                    chip.text.toString()
+                    1, 1, "ポケモン",
+                    dayOfWeek, hour, minute, 0,
+                    chip.tag.toString().toInt(), chip.text.toString()
                 )
             }
         }
@@ -62,10 +65,9 @@ class NotificationEditFragment : Fragment() {
             if (chip.isChecked) {
                 // alarmをセット
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
-                    "ポケモン",
-                    startedAt,
-                    chip.tag.toString().toInt(),
-                    chip.text.toString()
+                    1, 1, "ポケモン",
+                    dayOfWeek, hour, minute, 0,
+                    chip.tag.toString().toInt(), chip.text.toString()
                 )
             }
         }
