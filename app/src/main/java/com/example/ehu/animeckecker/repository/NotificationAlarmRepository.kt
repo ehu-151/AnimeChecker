@@ -8,6 +8,7 @@ import com.example.ehu.animeckecker.room.AppDatabase
 import com.example.ehu.animeckecker.room.DatabaseDao
 import com.example.ehu.animeckecker.room.NotificationAlarmEntity
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
@@ -31,12 +32,12 @@ class NotificationAlarmRepository(private val context: Context) {
     fun getAllNotificationAlarm(): List<NotificationAlarmEntity> {
         var result: List<NotificationAlarmEntity> = mutableListOf()
         runBlocking {
-            thread {
+            GlobalScope.async {
                 result = getDao().getAllNotificationAlarm()
                 Log.d("db_info_get", result.toString())
-
-            }
+            }.await()
         }
+
         return result
     }
 
