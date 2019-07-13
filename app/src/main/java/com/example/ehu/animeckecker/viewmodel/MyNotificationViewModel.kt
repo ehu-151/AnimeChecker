@@ -28,7 +28,7 @@ class MyNotificationViewModel() : ViewModel() {
     private fun toTime(hour: Int, minute: Int, second: Int): String {
         var time = "${hour.zeroFill()}:${minute.zeroFill()}"
         if (second != 0) {
-            time += second.zeroFill()
+            time += ":${second.zeroFill()}"
         }
         return time
     }
