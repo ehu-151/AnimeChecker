@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ehu.animeckecker.MyNotificationRow
 import com.example.ehu.animeckecker.repository.NotificationAlarmRepository
+import com.example.ehu.animeckecker.room.NotificationAlarmEntity
 import java.util.*
 
 class MyNotificationViewModel() : ViewModel() {
@@ -19,26 +20,42 @@ class MyNotificationViewModel() : ViewModel() {
             // 空の場合
             _row?.value = null
         } else {
-            setRow(context)
+            setRow(context, alarms)
         }
 
     }
 
-    private fun setRow(context: Context) {
-        NotificationAlarmRepository(context).getAllNotificationAlarm().forEach { alarm ->
+    private fun setRow(context: Context, alarms: List<NotificationAlarmEntity>) {
+        // 表示用配列
+        val notificationalarm: MutableList<MyNotificationRow> = mutableListOf()
 
-            val time = mapOf(alarm.beforeSecond to alarm.beforeTimeText)
-            _row?.postValue(
-                NotificationAlarmRepository(context).getAniemWorkById(alarm.animeId).map { anime ->
+        // animeIdでグループ化
+        alarms.groupBy { it.animeId }.map {
+            val animeId= it.value[0].animeId
+            val id=it.value[0].id
+            // animeIdごとにWorkを取得
+            NotificationAlarmRepository(context).getAniemWorkById(animeId).map { anime ->
+                // timeの配列
+                var time: MutableMap<Int, String> = mutableMapOf()
+                for(alarm in it.value){
+                    time.put(alarm.beforeSecond, alarm.beforeTimeText)
+                }
+                // 表示用配列のadd
+                notificationalarm.add(
                     MyNotificationRow(
-                        id = alarm.id, animeId = alarm.animeId, animeTitle = anime.Title,
+                        id = id, animeId = animeId, animeTitle = anime.Title,
                         dayOfWeek = anime.dayOfWeek, dayOdWeekText = anime.dayOfWeek.toString(),
                         hour = anime.hour, minute = anime.minute, second = anime.second,
                         startAtText = toTime(anime.dayOfWeek, anime.hour, anime.minute, anime.second),
                         time = time
                     )
-                })
+                )
+            }
+
+
         }
+        _row?.postValue(notificationalarm)
+
     }
 
     private fun toTime(dayOfWeek: Int, hour: Int, minute: Int, second: Int): String {
