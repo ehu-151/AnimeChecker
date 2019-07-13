@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.example.ehu.animeckecker.databinding.RowMyNotificationBinding
-import com.example.ehu.animeckecker.room.NotificationAlarmEntity
 
 
-class MyNotificationAdapter(private val context: Context, private val entity: List<NotificationAlarmEntity>) :
+class MyNotificationAdapter(private val context: Context, private val entity: List<MyNotificationRow>) :
     BaseAdapter() {
     lateinit var binding: RowMyNotificationBinding
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -20,7 +19,7 @@ class MyNotificationAdapter(private val context: Context, private val entity: Li
         return binding.root
     }
 
-    override fun getItem(position: Int): NotificationAlarmEntity {
+    override fun getItem(position: Int): MyNotificationRow {
         return entity[position]
     }
 

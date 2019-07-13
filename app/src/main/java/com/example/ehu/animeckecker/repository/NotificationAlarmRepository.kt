@@ -59,16 +59,17 @@ class NotificationAlarmRepository(private val context: Context) {
         }
     }
 
-    fun getAllAniemWork(): List<AnimeWorkEntity> {
+    fun getAniemWorkById(animeId: Int): List<AnimeWorkEntity> {
         var result: List<AnimeWorkEntity> = mutableListOf()
         runBlocking {
             GlobalScope.async {
-                result = getDao().getAllAnimeWork()
+                result = getDao().getAllAnimeWorkById(animeId)
                 Log.d("db_info_get", result.toString())
             }.await()
         }
         return result
     }
+
 
     fun deleteAniemWorkById(id: Int) {
         GlobalScope.launch {

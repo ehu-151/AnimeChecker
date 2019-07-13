@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="model" type="com.example.ehu.animeckecker.room.NotificationAlarmEntity"/>
+        <variable name="model" type="com.example.ehu.animeckecker.MyNotificationRow"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:orientation="vertical"
@@ -9,14 +9,14 @@
             android:layout_height="100dp">
 
         <TextView
-                android:text="tes"
+                android:text="@{model.animeTitle}"
                 android:layout_width="wrap_content"
                 android:textAppearance="@android:style/TextAppearance.Material.Title"
                 android:layout_height="wrap_content" android:id="@+id/animeTitle"
                 app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
         />
         <TextView
-                android:text="tes"
+                android:text="@{model.startAtText}"
                 android:textAppearance="@android:style/TextAppearance.Material.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
