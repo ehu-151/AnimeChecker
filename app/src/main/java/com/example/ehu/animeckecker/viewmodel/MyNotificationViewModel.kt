@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.ehu.animeckecker.MyNotificationRow
 import com.example.ehu.animeckecker.repository.NotificationAlarmRepository
+import java.util.*
 
 class MyNotificationViewModel() : ViewModel() {
     private val _row: MutableLiveData<List<MyNotificationRow>> = MutableLiveData()
@@ -20,7 +21,7 @@ class MyNotificationViewModel() : ViewModel() {
                     id = alarm.id, animeId = alarm.animeId, animeTitle = anime.Title,
                     dayOfWeek = anime.dayOfWeek, dayOdWeekText = anime.dayOfWeek.toString(),
                     hour = anime.hour, minute = anime.minute, second = anime.second,
-                    startAtText = toTime(anime.hour, anime.minute, anime.second),
+                    startAtText = toTime(anime.dayOfWeek, anime.hour, anime.minute, anime.second),
                     time = time
                 )
             })
@@ -29,8 +30,19 @@ class MyNotificationViewModel() : ViewModel() {
         }
     }
 
-    private fun toTime(hour: Int, minute: Int, second: Int): String {
-        var time = "${hour.zeroFill()}:${minute.zeroFill()}"
+    private fun toTime(dayOfWeek: Int, hour: Int, minute: Int, second: Int): String {
+        val week = when (dayOfWeek) {
+            Calendar.MONDAY -> "月"
+            Calendar.TUESDAY -> "火"
+            Calendar.WEDNESDAY -> "水"
+            Calendar.THURSDAY -> "木"
+            Calendar.FRIDAY -> "金"
+            Calendar.SATURDAY -> "土"
+            Calendar.SUNDAY -> "日"
+            else -> ""
+        }
+        var time = "$week/${hour.zeroFill()}:${minute.zeroFill()}"
+
         if (second != 0) {
             time += ":${second.zeroFill()}"
         }
