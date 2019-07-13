@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import com.example.ehu.animeckecker.databinding.RowThisSeasonBinding
 import com.example.ehu.animeckecker.remote.Works
@@ -18,7 +19,9 @@ class ThisSeasonListAdapter(private val context: Context, private val works: Lis
         binding = RowThisSeasonBinding.inflate(inflater, parent, false)
         binding.model = getItem(position)
         binding.title.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_thisSeasonFragment_to_notificationEditFragment)
+            val bundle = bundleOf("animeId" to works[position].id)
+            Navigation.findNavController(it)
+                .navigate(R.id.action_thisSeasonFragment_to_notificationEditFragment, bundle)
         }
         return binding.root
     }

@@ -20,6 +20,7 @@ class NotificationEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val animeId = arguments?.getInt("animeId")
         binding = FragmentNotificationEditBinding.inflate(inflater, container, false)
         binding.create.setOnClickListener {
             setAlarm()
