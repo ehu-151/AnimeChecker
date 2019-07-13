@@ -24,7 +24,7 @@ class NotificationEditFragment : Fragment() {
         val animeTitle = arguments?.getString("anime_title")
         binding = FragmentNotificationEditBinding.inflate(inflater, container, false)
         binding.create.setOnClickListener {
-            setAlarm()
+            setAlarm(animeId!!, animeTitle!!)
             Navigation.findNavController(it).navigate(R.id.action_global_notificationEditFragment)
         }
         binding.cancel.setOnClickListener {
@@ -37,7 +37,7 @@ class NotificationEditFragment : Fragment() {
         return binding.root
     }
 
-    private fun setAlarm() {
+    private fun setAlarm(animeId: Int, animeTiele: String) {
         // 放送時刻を取得
         val (hour, minute) = binding.editText.text.toString().split(":").map { it.toInt() }
         // chipから曜日を取得
@@ -55,7 +55,7 @@ class NotificationEditFragment : Fragment() {
             if (chip.isChecked) {
                 // alarmをセット
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
-                    Random().nextInt(), Random().nextInt(), "ポケモン",
+                    Random().nextInt(), animeId, animeTiele,
                     dayOfWeek, hour, minute, 0,
                     chip.tag.toString().toInt(), chip.text.toString()
                 )
@@ -67,7 +67,7 @@ class NotificationEditFragment : Fragment() {
             if (chip.isChecked) {
                 // alarmをセット
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
-                    Random().nextInt(), Random().nextInt(), "ポケモン",
+                    Random().nextInt(), animeId, animeTiele,
                     dayOfWeek, hour, minute, 0,
                     chip.tag.toString().toInt(), chip.text.toString()
                 )
