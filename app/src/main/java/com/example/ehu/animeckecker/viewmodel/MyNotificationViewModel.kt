@@ -26,14 +26,21 @@ class MyNotificationViewModel() : ViewModel() {
     }
 
     private fun setRow(context: Context, alarms: List<NotificationAlarmEntity>) {
-        val notificationalarm: MutableList<MyNotificationRow> = mutableListOf()
-        for (alarm in alarms) {
 
-            val time = mapOf(alarm.beforeSecond to alarm.beforeTimeText)
-            NotificationAlarmRepository(context).getAniemWorkById(alarm.animeId).map { anime ->
+        var time: MutableMap<Int, String> = mutableMapOf()
+        for (alarm in alarms) {
+            time.put(alarm.beforeSecond, alarm.beforeTimeText)
+        }
+
+        val notificationalarm: MutableList<MyNotificationRow> = mutableListOf()
+        alarms.groupBy { it.animeId }.map {
+            val list= it.value
+            val animeId= it.value[0].animeId
+            val id=it.value[0].id
+            NotificationAlarmRepository(context).getAniemWorkById(animeId).map { anime ->
                 notificationalarm.add(
                     MyNotificationRow(
-                        id = alarm.id, animeId = alarm.animeId, animeTitle = anime.Title,
+                        id = id, animeId = animeId, animeTitle = anime.Title,
                         dayOfWeek = anime.dayOfWeek, dayOdWeekText = anime.dayOfWeek.toString(),
                         hour = anime.hour, minute = anime.minute, second = anime.second,
                         startAtText = toTime(anime.dayOfWeek, anime.hour, anime.minute, anime.second),
@@ -41,6 +48,7 @@ class MyNotificationViewModel() : ViewModel() {
                     )
                 )
             }
+
 
         }
         _row?.postValue(notificationalarm)
