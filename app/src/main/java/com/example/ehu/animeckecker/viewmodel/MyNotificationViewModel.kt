@@ -13,15 +13,19 @@ class MyNotificationViewModel() : ViewModel() {
 
     fun loadNotifyInfo(context: Context) {
         NotificationAlarmRepository(context).getAllNotificationAlarm().forEach { alarm ->
+
+            val time = mapOf(alarm.beforeSecond to alarm.beforeTimeText)
             _row.postValue(NotificationAlarmRepository(context).getAniemWorkById(alarm.animeId).map { anime ->
                 MyNotificationRow(
-                    id = alarm.id, animeId = alarm.animeId,
+                    id = alarm.id, animeId = alarm.animeId, animeTitle = anime.Title,
                     dayOfWeek = anime.dayOfWeek, dayOdWeekText = anime.dayOfWeek.toString(),
                     hour = anime.hour, minute = anime.minute, second = anime.second,
                     startAtText = toTime(anime.hour, anime.minute, anime.second),
-                    animeTitle = anime.Title, beforeSecond = alarm.beforeSecond, beforeTimeText = alarm.beforeTimeText
+                    time = time
                 )
             })
+
+
         }
     }
 
