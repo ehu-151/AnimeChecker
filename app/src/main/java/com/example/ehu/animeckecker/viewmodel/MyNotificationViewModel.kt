@@ -9,24 +9,35 @@ import com.example.ehu.animeckecker.repository.NotificationAlarmRepository
 import java.util.*
 
 class MyNotificationViewModel() : ViewModel() {
-    private val _row: MutableLiveData<List<MyNotificationRow>> = MutableLiveData()
-    val row: LiveData<List<MyNotificationRow>> = _row
+    private val _row: MutableLiveData<List<MyNotificationRow>>? = MutableLiveData()
+    val row: LiveData<List<MyNotificationRow>>? = _row
 
     fun loadNotifyInfo(context: Context) {
+        val alarms = NotificationAlarmRepository(context).getAllNotificationAlarm()
+
+        if (alarms.isEmpty()) {
+            // 空の場合
+            _row?.value = null
+        } else {
+            setRow(context)
+        }
+
+    }
+
+    private fun setRow(context: Context) {
         NotificationAlarmRepository(context).getAllNotificationAlarm().forEach { alarm ->
 
             val time = mapOf(alarm.beforeSecond to alarm.beforeTimeText)
-            _row.postValue(NotificationAlarmRepository(context).getAniemWorkById(alarm.animeId).map { anime ->
-                MyNotificationRow(
-                    id = alarm.id, animeId = alarm.animeId, animeTitle = anime.Title,
-                    dayOfWeek = anime.dayOfWeek, dayOdWeekText = anime.dayOfWeek.toString(),
-                    hour = anime.hour, minute = anime.minute, second = anime.second,
-                    startAtText = toTime(anime.dayOfWeek, anime.hour, anime.minute, anime.second),
-                    time = time
-                )
-            })
-
-
+            _row?.postValue(
+                NotificationAlarmRepository(context).getAniemWorkById(alarm.animeId).map { anime ->
+                    MyNotificationRow(
+                        id = alarm.id, animeId = alarm.animeId, animeTitle = anime.Title,
+                        dayOfWeek = anime.dayOfWeek, dayOdWeekText = anime.dayOfWeek.toString(),
+                        hour = anime.hour, minute = anime.minute, second = anime.second,
+                        startAtText = toTime(anime.dayOfWeek, anime.hour, anime.minute, anime.second),
+                        time = time
+                    )
+                })
         }
     }
 

@@ -32,8 +32,15 @@ class MyNotificationFragment : Fragment() {
         viewModel = ViewModelProviders.of(this.activity!!)
             .get(MyNotificationViewModel::class.java)
         viewModel.loadNotifyInfo(context!!)
-        viewModel.row.observe(this, Observer {
-            binding.listView.adapter = MyNotificationAdapter(context!!, it)
+        viewModel.row?.observe(this, Observer {
+            if (it == null) {
+                binding.listView.visibility = View.GONE
+                binding.warning.visibility = View.VISIBLE
+            } else {
+                binding.listView.visibility = View.VISIBLE
+                binding.warning.visibility = View.GONE
+                binding.listView.adapter = MyNotificationAdapter(context!!, it)
+            }
         })
     }
 }
