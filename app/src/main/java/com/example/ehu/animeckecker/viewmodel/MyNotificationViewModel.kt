@@ -14,5 +14,4 @@ class MyNotificationViewModel() : ViewModel() {
     fun loadNotifyInfo(context: Context) {
         _notificationAlarm.postValue(NotificationAlarmRepository(context).getAllNotificationAlarm())
     }
-
 }
