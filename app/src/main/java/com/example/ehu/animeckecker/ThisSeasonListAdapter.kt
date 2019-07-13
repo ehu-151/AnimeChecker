@@ -19,7 +19,7 @@ class ThisSeasonListAdapter(private val context: Context, private val works: Lis
         binding = RowThisSeasonBinding.inflate(inflater, parent, false)
         binding.model = getItem(position)
         binding.title.setOnClickListener {
-            val bundle = bundleOf("animeId" to works[position].id)
+            val bundle = bundleOf("anime_id" to works[position].id,"anime_title" to works[position].title)
             Navigation.findNavController(it)
                 .navigate(R.id.action_thisSeasonFragment_to_notificationEditFragment, bundle)
         }

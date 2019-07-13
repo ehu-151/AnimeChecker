@@ -22,6 +22,7 @@
         <action android:id="@+id/action_notificationEditFragment_to_thisSeasonFragment"
                 app:destination="@id/thisSeasonFragment" app:popUpTo="@id/thisSeasonFragment"
                 app:popUpToInclusive="true"/>
-        <argument android:name="animeId" app:argType="integer"/>
+        <argument android:name="anime_id" app:argType="integer"/>
+        <argument android:name="anime_title" app:argType="string"/>
     </fragment>
 </navigation>
