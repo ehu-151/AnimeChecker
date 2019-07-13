@@ -15,8 +15,8 @@ interface DatabaseDao {
     @Query("DELETE FROM notificationalarmentity WHERE id = :id")
     fun deleteNotificationAlarmByid(id: Int)
 
-    @Query(value = "SELECT * FROM animeworkentity")
-    fun getAllAnimeWork(): List<AnimeWorkEntity>
+    @Query(value = "SELECT * FROM animeworkentity WHERE id =:animeId")
+    fun getAllAnimeWorkById(animeId: Int): List<AnimeWorkEntity>
 
     @Insert
     fun insertAnimeWork(entity: AnimeWorkEntity)

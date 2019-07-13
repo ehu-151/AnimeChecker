@@ -32,7 +32,7 @@ class MyNotificationFragment : Fragment() {
         viewModel = ViewModelProviders.of(this.activity!!)
             .get(MyNotificationViewModel::class.java)
         viewModel.loadNotifyInfo(context!!)
-        viewModel.notificationAlarm.observe(this, Observer {
+        viewModel.row.observe(this, Observer {
             binding.listView.adapter = MyNotificationAdapter(context!!, it)
         })
     }
