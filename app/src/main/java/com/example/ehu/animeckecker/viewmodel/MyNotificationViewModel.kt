@@ -54,6 +54,7 @@ class MyNotificationViewModel() : ViewModel() {
 
 
         }
+        notificationalarm.sortBy { it.dayOfWeek }
         _row?.postValue(notificationalarm)
 
     }

@@ -32,7 +32,7 @@ class ThisSeasonFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         // argumentsの取得
-        val rejectAnimeIds = arguments?.getIntegerArrayList("reject_anime_ids")!!
+        val rejectAnimeIds = arguments?.getIntArray("reject_anime_ids")
         // tokenの取得
         token = AppSharedPreferences(context!!).getToken()
 
@@ -47,8 +47,8 @@ class ThisSeasonFragment : Fragment() {
                 }
                 is Status.Success -> {
                     var work = it.data.works
-                    rejectAnimeIds.forEach { rejectId ->
-                        work = it.data.works.filterNot { rejectId == id }.toMutableList()
+                    rejectAnimeIds?.forEach { rejectId ->
+                        work = it.data.works.filterNot { rejectId == it.id }.toMutableList()
                     }
                     binding.listView.adapter = ThisSeasonListAdapter(context!!, work)
                 }
