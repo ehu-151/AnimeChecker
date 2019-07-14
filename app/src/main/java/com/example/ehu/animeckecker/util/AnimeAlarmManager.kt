@@ -39,7 +39,9 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
             beforeSecond, beforeTimeText
         )
         // AlarmManagerに登録
-        scheduleAlarm(notificationId, animeTitle, beforeTimeText, notificationStartedAt)
+        scheduleAlarm(false, notificationId, animeTitle, beforeTimeText, notificationStartedAt)
+        // 放送開始時も登録
+        scheduleAlarm(true, animeId, animeTitle, beforeTimeText, startedAt)
     }
 
     fun deleteNotificationAlarm(notificationId: Int, animeId: Int, animeTitle: String, beforeTimeText: String) {
@@ -52,11 +54,18 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
     /**
      * startedAt.getTime()で表示される時間に通知する。
      */
-    private fun scheduleAlarm(notificatioId: Int, animeTitle: String, beforeTimeText: String, startedAt: Calendar) {
+    private fun scheduleAlarm(
+        isEnd: Boolean,
+        notificatioId: Int,
+        animeTitle: String,
+        beforeTimeText: String,
+        startedAt: Calendar
+    ) {
         // intent
         val notificationIntent = Intent(context, AnimeAlarmReceiver::class.java).apply {
             putExtra(AnimeAlarmReceiver.NOTIFICATION_ID, notificatioId)
             putExtra(AnimeAlarmReceiver.ANIME_TITLE, animeTitle)
+            putExtra(AnimeAlarmReceiver.BEFORE_TIME_TEXT, beforeTimeText)
             putExtra(AnimeAlarmReceiver.BEFORE_TIME_TEXT, beforeTimeText)
         }
         //pendingIntent
