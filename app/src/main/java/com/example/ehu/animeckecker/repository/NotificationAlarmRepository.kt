@@ -25,6 +25,7 @@ class NotificationAlarmRepository(private val context: Context) {
                 notificatioId, animeId, beforeSecond, beforeTimeText
             )
             getDao().insertNotificationAlarm(entity)
+            Log.d("app_db_insert", entity.toString())
         }
     }
 
@@ -33,7 +34,7 @@ class NotificationAlarmRepository(private val context: Context) {
         runBlocking {
             GlobalScope.async {
                 result = getDao().getAllNotificationAlarm()
-                Log.d("db_info_get", result.toString())
+                Log.d("app_db_get", result.toString())
             }.await()
         }
 
@@ -43,6 +44,7 @@ class NotificationAlarmRepository(private val context: Context) {
     fun deleteNotificationAlarmById(notificatioId: Int) {
         GlobalScope.launch {
             getDao().deleteNotificationAlarmByid(notificatioId)
+            Log.d("app_db_delete", notificatioId.toString())
         }
     }
 
@@ -56,6 +58,7 @@ class NotificationAlarmRepository(private val context: Context) {
                 hour, minute, second
             )
             getDao().insertAnimeWork(entity)
+            Log.d("app_db_insert", entity.toString())
         }
     }
 
@@ -64,7 +67,7 @@ class NotificationAlarmRepository(private val context: Context) {
         runBlocking {
             GlobalScope.async {
                 result = getDao().getAllAnimeWorkById(animeId)
-                Log.d("db_info_get", result.toString())
+                Log.d("app_db_get", result.toString())
             }.await()
         }
         return result
@@ -74,6 +77,7 @@ class NotificationAlarmRepository(private val context: Context) {
     fun deleteAniemWorkById(id: Int) {
         GlobalScope.launch {
             getDao().deleteAnimeWorkById(id)
+            Log.d("app_db_delete", id.toString())
         }
     }
 
