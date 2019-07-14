@@ -88,12 +88,12 @@ class NotificationEditFragment : Fragment() {
             // timeを取り出す。
             var beforeSecond = mutableListOf<Int>()
             var beforeSecondText = mutableListOf<String>()
-            this.row.time?.forEach {
+            this.row.time.forEach {
                 beforeSecond.add(it.key)
                 beforeSecondText.add(it.value)
             }
             // idごとに、alarmをセット
-            this.row.id?.forEachIndexed { index, id ->
+            this.row.id.forEachIndexed { index, id ->
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
                     id, this.row.animeId, this.row.animeTitle,
                     this.row.dayOfWeek!!, this.row.hour!!, this.row.minute!!, this.row.second!!,
@@ -108,8 +108,8 @@ class NotificationEditFragment : Fragment() {
         }
         binding.delete.setOnClickListener {
             // このアニメの通知をすべて削除する。
-            val beforeTimeText = this.row.time?.values?.toList()!!
-            this.row.id?.forEachIndexed { index, i ->
+            val beforeTimeText = this.row.time.values.toList()
+            this.row.id.forEachIndexed { index, i ->
                 AnimeAlarmManager(context!!).deleteNotificationAlarm(id, this.row.animeTitle, beforeTimeText[index])
             }
         }
@@ -135,14 +135,14 @@ class NotificationEditFragment : Fragment() {
         // chipのセット
         for (i in 0 until binding.chipGroupMinute.childCount) {
             val chip = binding.chipGroupMinute.getChildAt(i) as Chip
-            this.row.time?.forEach {
+            this.row.time.forEach {
                 if (chip.tag.toString().toInt() == it.key) chip.isChecked = true
             }
         }
 
         for (i in 0 until binding.chipGroupHour.childCount) {
             val chip = binding.chipGroupHour.getChildAt(i) as Chip
-            this.row.time?.forEach {
+            this.row.time.forEach {
                 if (chip.tag.toString().toInt() == it.key) chip.isChecked = true
             }
         }
@@ -154,12 +154,12 @@ class NotificationEditFragment : Fragment() {
             // timeを取り出す。
             var beforeSecond = mutableListOf<Int>()
             var beforeSecondText = mutableListOf<String>()
-            this.row.time?.forEach {
+            this.row.time.forEach {
                 beforeSecond.add(it.key)
                 beforeSecondText.add(it.value)
             }
             // idごとに、alarmをセット
-            this.row.id?.forEachIndexed { index, id ->
+            this.row.id.forEachIndexed { index, id ->
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
                     id, this.row.animeId, this.row.animeTitle,
                     this.row.dayOfWeek!!, this.row.hour!!, this.row.minute!!, this.row.second!!,
