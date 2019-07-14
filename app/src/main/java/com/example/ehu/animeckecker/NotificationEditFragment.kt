@@ -19,6 +19,8 @@ class NotificationEditFragment : Fragment() {
     var container: ViewGroup? = null
     lateinit var row: MyNotificationRow
 
+    lateinit var beforeEditRow: MyNotificationRow
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,6 +36,7 @@ class NotificationEditFragment : Fragment() {
 
         // isEditによって、入力データ、遷移を分ける
         if (isEdit) {
+            beforeEditRow = row.copy()
             setUpAgainEdit()
         } else {
             setUpFirstEdit()
@@ -57,6 +60,8 @@ class NotificationEditFragment : Fragment() {
                 break
             }
         }
+        this.row.id.clear()
+        this.row.time.clear()
         // chipから時間を取得
         for (i in 0 until binding.chipGroupMinute.childCount) {
             val chip = binding.chipGroupMinute.getChildAt(i) as Chip
@@ -88,6 +93,17 @@ class NotificationEditFragment : Fragment() {
 
         binding.create.setOnClickListener {
             setConfigToRow(row.animeId, row.animeTitle)
+
+            // 一旦全削除,前のidで回す。
+            beforeEditRow.id.forEachIndexed { index, id ->
+                AnimeAlarmManager(context!!).deleteNotificationAlarm(
+                    id,
+                    this.row.animeId,
+                    this.row.animeTitle,
+                    beforeEditRow.time.values.toList()[index]
+                )
+            }
+
             // timeを取り出す。
             val beforeSecond = mutableListOf<Int>()
             val beforeSecondText = mutableListOf<String>()
@@ -95,10 +111,9 @@ class NotificationEditFragment : Fragment() {
                 beforeSecond.add(it.key)
                 beforeSecondText.add(it.value)
             }
-
             // idごとに、alarmをセット
             this.row.id.forEachIndexed { index, id ->
-                AnimeAlarmManager(context!!).updateNotificationAlarm(
+                AnimeAlarmManager(context!!).registerNotificationAlarm(
                     id, this.row.animeId, this.row.animeTitle,
                     this.row.dayOfWeek!!, this.row.hour!!, this.row.minute!!, this.row.second!!,
                     beforeSecond[index], beforeSecondText[index]

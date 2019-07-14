@@ -49,14 +49,6 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
         cancelAlarm(notificationId, animeTitle, beforeTimeText)
     }
 
-    fun updateNotificationAlarm(
-        notificationId: Int, animeId: Int, animeTitle: String,
-        dayOfWeek: Int, hour: Int, minute: Int, second: Int,
-        beforeSecond: Int, beforeTimeText: String
-    ) {
-
-    }
-
     /**
      * startedAt.getTime()で表示される時間に通知する。
      */
