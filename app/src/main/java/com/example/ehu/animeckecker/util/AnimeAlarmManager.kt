@@ -26,11 +26,11 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
     ) {
         //  dayOfWeek, hour, minute, second をCalendarに変換
         val startedAt = toCalendar(dayOfWeek, hour, minute, second)
-        Log.d("AnimeAlarmManager_time", startedAt.getTime().toString())
+        Log.d("app_alarm_start", startedAt.getTime().toString())
         val notificationStartedAt = toCalendar(dayOfWeek, hour, minute, second).apply {
             add(Calendar.SECOND, -beforeSecond)
         }
-        Log.d("AnimeAlarmManager_time", notificationStartedAt.getTime().toString())
+        Log.d("app_alarm_start_no", notificationStartedAt.getTime().toString())
 
         // dbに保存する
         NotificationAlarmViewModel(context).insertNotificationAlarm(
@@ -38,8 +38,15 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
             dayOfWeek, hour, minute, second,
             beforeSecond, beforeTimeText
         )
-
+        // AlarmManagerに登録
         scheduleAlarm(notificationId, animeTitle, beforeTimeText, notificationStartedAt)
+    }
+
+    fun deleteNotificationAlarm(notificationId: Int, animeTitle: String, beforeTimeText: String) {
+        // dbから削除
+        NotificationAlarmViewModel(context).deleteNotificatioAlarm(notificationId)
+        // AlarmManagerから削除
+        cancelAlarm(notificationId, animeTitle, beforeTimeText)
     }
 
     /**
@@ -60,7 +67,7 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
         alarmManager!!.setExact(AlarmManager.RTC_WAKEUP, startedAt.timeInMillis, pendingIntent)
     }
 
-    private fun cancelAlarm(notificatioId: Int, animeTitle: String, beforeTimeText: String) {
+    private fun cancelAlarm(notificationId: Int, animeTitle: String, beforeTimeText: String) {
         // intent
         val notificationIntent = Intent(context, AnimeAlarmReceiver::class.java).apply {
             putExtra(AnimeAlarmReceiver.ANIME_TITLE, animeTitle)
@@ -68,7 +75,7 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
         }
         //pendingIntent
         val pendingIntent =
-            PendingIntent.getBroadcast(context, notificatioId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context, notificationId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         pendingIntent.cancel()
         //alarm
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

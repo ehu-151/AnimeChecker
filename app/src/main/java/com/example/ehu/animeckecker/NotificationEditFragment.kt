@@ -43,7 +43,7 @@ class NotificationEditFragment : Fragment() {
         return binding.root
     }
 
-    private fun setAlarm(animeId: Int, animeTiele: String) {
+    private fun setConfigToRow(animeId: Int, animeTiele: String) {
         // 放送時刻をセット
         val (hour, minute) = binding.editText.text.toString().split(":").map { it.toInt() }
         this.row.hour = hour
@@ -62,9 +62,9 @@ class NotificationEditFragment : Fragment() {
             val chip = binding.chipGroupMinute.getChildAt(i) as Chip
             if (chip.isChecked) {
                 // idは、animeIdとbeforeSecondを連結させたInt
-                val sId = "${this.row.animeId}${chip.tag.toString().toInt()}"
-                this.row.id?.add(sId.toInt())
-                this.row.time?.put(chip.tag.toString().toInt(), chip.text.toString())
+                val sId = "${animeId}${chip.tag.toString().toInt()}"
+                this.row.id.add(sId.toInt())
+                this.row.time.put(chip.tag.toString().toInt(), chip.text.toString())
             }
         }
 
@@ -72,25 +72,28 @@ class NotificationEditFragment : Fragment() {
             val chip = binding.chipGroupHour.getChildAt(i) as Chip
             if (chip.isChecked) {
                 val sId = "${this.row.animeId}${chip.tag.toString().toInt()}"
-                this.row.id?.add(sId.toInt())
-                this.row.time?.put(chip.tag.toString().toInt(), chip.text.toString())
+                this.row.id.add(sId.toInt())
+                this.row.time.put(chip.tag.toString().toInt(), chip.text.toString())
             }
         }
     }
 
     private fun setUpAgainEdit() {
+        // Deleteボタンの表示
+        binding.delete.visibility = View.VISIBLE
+        // 既知データを表示(セット)
         setUpConfig()
         binding.create.setOnClickListener {
-            setAlarm(row.animeId, row.animeTitle)
+            setConfigToRow(row.animeId, row.animeTitle)
             // timeを取り出す。
-            var beforeSecond = mutableListOf<Int>()
-            var beforeSecondText = mutableListOf<String>()
-            this.row.time?.forEach {
+            val beforeSecond = mutableListOf<Int>()
+            val beforeSecondText = mutableListOf<String>()
+            this.row.time.forEach {
                 beforeSecond.add(it.key)
                 beforeSecondText.add(it.value)
             }
             // idごとに、alarmをセット
-            this.row.id?.forEachIndexed { index, id ->
+            this.row.id.forEachIndexed { index, id ->
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
                     id, this.row.animeId, this.row.animeTitle,
                     this.row.dayOfWeek!!, this.row.hour!!, this.row.minute!!, this.row.second!!,
@@ -103,6 +106,15 @@ class NotificationEditFragment : Fragment() {
         binding.cancel.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_no_stack_to_myNotificationFragment)
         }
+        binding.delete.setOnClickListener {
+            // このアニメの通知をすべて削除する。
+            val beforeTimeText = this.row.time.values.toList()
+            this.row.id.forEachIndexed { index, id ->
+                AnimeAlarmManager(context!!).deleteNotificationAlarm(id, this.row.animeTitle, beforeTimeText[index])
+            }
+            Navigation.findNavController(it).navigate(R.id.action_no_stack_to_myNotificationFragment)
+        }
+
     }
 
     /**
@@ -124,14 +136,14 @@ class NotificationEditFragment : Fragment() {
         // chipのセット
         for (i in 0 until binding.chipGroupMinute.childCount) {
             val chip = binding.chipGroupMinute.getChildAt(i) as Chip
-            this.row.time?.forEach {
+            this.row.time.forEach {
                 if (chip.tag.toString().toInt() == it.key) chip.isChecked = true
             }
         }
 
         for (i in 0 until binding.chipGroupHour.childCount) {
             val chip = binding.chipGroupHour.getChildAt(i) as Chip
-            this.row.time?.forEach {
+            this.row.time.forEach {
                 if (chip.tag.toString().toInt() == it.key) chip.isChecked = true
             }
         }
@@ -139,16 +151,16 @@ class NotificationEditFragment : Fragment() {
 
     private fun setUpFirstEdit() {
         binding.create.setOnClickListener {
-            setAlarm(row.animeId, row.animeTitle)
+            setConfigToRow(row.animeId, row.animeTitle)
             // timeを取り出す。
-            var beforeSecond = mutableListOf<Int>()
-            var beforeSecondText = mutableListOf<String>()
-            this.row.time?.forEach {
+            val beforeSecond = mutableListOf<Int>()
+            val beforeSecondText = mutableListOf<String>()
+            this.row.time.forEach {
                 beforeSecond.add(it.key)
                 beforeSecondText.add(it.value)
             }
             // idごとに、alarmをセット
-            this.row.id?.forEachIndexed { index, id ->
+            this.row.id.forEachIndexed { index, id ->
                 AnimeAlarmManager(context!!).registerNotificationAlarm(
                     id, this.row.animeId, this.row.animeTitle,
                     this.row.dayOfWeek!!, this.row.hour!!, this.row.minute!!, this.row.second!!,
