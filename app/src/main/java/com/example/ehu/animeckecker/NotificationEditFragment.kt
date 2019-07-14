@@ -109,9 +109,10 @@ class NotificationEditFragment : Fragment() {
         binding.delete.setOnClickListener {
             // このアニメの通知をすべて削除する。
             val beforeTimeText = this.row.time.values.toList()
-            this.row.id.forEachIndexed { index, i ->
+            this.row.id.forEachIndexed { index, id ->
                 AnimeAlarmManager(context!!).deleteNotificationAlarm(id, this.row.animeTitle, beforeTimeText[index])
             }
+            Navigation.findNavController(it).navigate(R.id.action_no_stack_to_myNotificationFragment)
         }
 
     }
