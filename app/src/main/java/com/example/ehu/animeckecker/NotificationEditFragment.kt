@@ -19,6 +19,8 @@ class NotificationEditFragment : Fragment() {
     var container: ViewGroup? = null
     lateinit var row: MyNotificationRow
 
+    lateinit var beforeEditRow: MyNotificationRow
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,6 +36,7 @@ class NotificationEditFragment : Fragment() {
 
         // isEditによって、入力データ、遷移を分ける
         if (isEdit) {
+            beforeEditRow = row.copy()
             setUpAgainEdit()
         } else {
             setUpFirstEdit()
@@ -57,6 +60,8 @@ class NotificationEditFragment : Fragment() {
                 break
             }
         }
+        this.row.id.clear()
+        this.row.time.clear()
         // chipから時間を取得
         for (i in 0 until binding.chipGroupMinute.childCount) {
             val chip = binding.chipGroupMinute.getChildAt(i) as Chip
@@ -82,9 +87,23 @@ class NotificationEditFragment : Fragment() {
         // Deleteボタンの表示
         binding.delete.visibility = View.VISIBLE
         // 既知データを表示(セット)
-        setUpConfig()
+        setUpComponent()
+        // createボタンの表示を変える
+        binding.create.text = "通知を再設定"
+
         binding.create.setOnClickListener {
             setConfigToRow(row.animeId, row.animeTitle)
+
+            // 一旦全削除,前のidで回す。
+            beforeEditRow.id.forEachIndexed { index, id ->
+                AnimeAlarmManager(context!!).deleteNotificationAlarm(
+                    id,
+                    this.row.animeId,
+                    this.row.animeTitle,
+                    beforeEditRow.time.values.toList()[index]
+                )
+            }
+
             // timeを取り出す。
             val beforeSecond = mutableListOf<Int>()
             val beforeSecondText = mutableListOf<String>()
@@ -110,7 +129,12 @@ class NotificationEditFragment : Fragment() {
             // このアニメの通知をすべて削除する。
             val beforeTimeText = this.row.time.values.toList()
             this.row.id.forEachIndexed { index, id ->
-                AnimeAlarmManager(context!!).deleteNotificationAlarm(id, this.row.animeTitle, beforeTimeText[index])
+                AnimeAlarmManager(context!!).deleteNotificationAlarm(
+                    id,
+                    this.row.animeId,
+                    this.row.animeTitle,
+                    beforeTimeText[index]
+                )
             }
             Navigation.findNavController(it).navigate(R.id.action_no_stack_to_myNotificationFragment)
         }
@@ -120,7 +144,7 @@ class NotificationEditFragment : Fragment() {
     /**
      * isEdit=true時に、放送開始時間,曜日,chip,を入力状態にする
      */
-    private fun setUpConfig() {
+    private fun setUpComponent() {
         // 放送開始時間のセット
         val timeText = "${this.row.hour?.zeroFill()}:${this.row.minute?.zeroFill()}"
         binding.editText.setText(timeText)

@@ -38,4 +38,12 @@ class NotificationAlarmViewModel(private val context: Context) : ViewModel() {
     fun deleteNotificatioAlarm(notificatioId: Int) {
         repository.deleteNotificationAlarmById(notificatioId)
     }
+
+    /**
+     * animeIdごとアラームを削除します。
+     */
+    fun deleteNotificatioAlarmByAnimeId(notificatioId: Int, animeId: Int) {
+        repository.deleteNotificationAlarmById(notificatioId)
+        repository.deleteAniemWorkById(animeId)
+    }
 }
