@@ -95,9 +95,10 @@ class NotificationEditFragment : Fragment() {
                 beforeSecond.add(it.key)
                 beforeSecondText.add(it.value)
             }
+
             // idごとに、alarmをセット
             this.row.id.forEachIndexed { index, id ->
-                AnimeAlarmManager(context!!).registerNotificationAlarm(
+                AnimeAlarmManager(context!!).updateNotificationAlarm(
                     id, this.row.animeId, this.row.animeTitle,
                     this.row.dayOfWeek!!, this.row.hour!!, this.row.minute!!, this.row.second!!,
                     beforeSecond[index], beforeSecondText[index]
