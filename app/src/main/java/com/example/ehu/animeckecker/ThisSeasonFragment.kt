@@ -48,7 +48,7 @@ class ThisSeasonFragment : Fragment() {
                 is Status.Success -> {
                     var work = it.data.works
                     rejectAnimeIds?.forEach { rejectId ->
-                        work = it.data.works.filterNot { rejectId == id }.toMutableList()
+                        work = it.data.works.filterNot { rejectId == it.id }.toMutableList()
                     }
                     binding.listView.adapter = ThisSeasonListAdapter(context!!, work)
                 }
