@@ -106,9 +106,12 @@ class NotificationEditFragment : Fragment() {
     }
 
     /**
-     * isEdit=true時に、曜日,chip,放送開始時間,を入力状態にする
+     * isEdit=true時に、放送開始時間,曜日,chip,を入力状態にする
      */
     private fun setUpConfig() {
+        // 放送開始時間のセット
+        val timeText = "${this.row.hour?.zeroFill()}:${this.row.minute?.zeroFill()}"
+        binding.editText.setText(timeText)
         // 曜日のセット
         binding.mon.isChecked = false
         for (i in 0 until binding.dayOfWeek.childCount) {
@@ -158,6 +161,10 @@ class NotificationEditFragment : Fragment() {
         binding.cancel.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_edit_first_cancel)
         }
+    }
+
+    fun Int.zeroFill(): String {
+        return String.format("%02d", this)
     }
 
     private fun setAlarmDebug() {
