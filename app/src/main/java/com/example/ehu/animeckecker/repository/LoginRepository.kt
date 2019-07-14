@@ -1,7 +1,10 @@
 package com.example.ehu.animeckecker.repository
 
+import android.util.Log
 import com.example.ehu.animeckecker.remote.AcceseTokenModel
 import com.example.ehu.animeckecker.remote.LoginSevice
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -44,6 +47,13 @@ class LoginRepository {
             throw Exception("responseがnull")
         } else {
             return response
+        }
+    }
+
+    fun logout(accessToken: String) {
+        GlobalScope.launch {
+            val result = servise.revokeToken(accessToken).execute()
+            if (result.isSuccessful) Log.d("app_oauth_logout", "ok")
         }
     }
 }
