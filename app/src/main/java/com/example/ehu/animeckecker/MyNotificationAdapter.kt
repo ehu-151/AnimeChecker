@@ -19,7 +19,7 @@ class MyNotificationAdapter(private val context: Context, private val entity: Li
         binding.model = getItem(position)
 
         // chipを表示
-        entity[position].time.map { (second, text) ->
+        entity[position].time?.map { (second, text) ->
             binding.notificationGroup.addView(setUpChip(second.toString(), text))
         }
         // onClick

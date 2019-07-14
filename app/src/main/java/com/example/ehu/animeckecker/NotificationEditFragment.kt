@@ -20,11 +20,11 @@ class NotificationEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val animeId = arguments?.getInt("anime_id")
-        val animeTitle = arguments?.getString("anime_title")
+        val isEdit = arguments?.getBoolean("is_edit")
+        val myNotificationRow = arguments?.getSerializable("my_notification_row") as MyNotificationRow
         binding = FragmentNotificationEditBinding.inflate(inflater, container, false)
         binding.create.setOnClickListener {
-            setAlarm(animeId!!, animeTitle!!)
+            setAlarm(myNotificationRow.animeId, myNotificationRow.animeTitle)
             Navigation.findNavController(it).navigate(R.id.action_global_notificationEditFragment)
         }
         binding.cancel.setOnClickListener {
