@@ -41,6 +41,18 @@ class NotificationAlarmRepository(private val context: Context) {
         return result
     }
 
+    fun getAllNotificationAlarmByAnimeId(animeId: Int): List<NotificationAlarmEntity> {
+        var result: List<NotificationAlarmEntity> = mutableListOf()
+        runBlocking {
+            GlobalScope.async {
+                result = getDao().getAllNotificationAlarmByAnimeId(animeId)
+                Log.d("app_db_get", result.toString())
+            }.await()
+        }
+
+        return result
+    }
+
     fun deleteNotificationAlarmById(notificatioId: Int) {
         GlobalScope.launch {
             getDao().deleteNotificationAlarmByid(notificatioId)

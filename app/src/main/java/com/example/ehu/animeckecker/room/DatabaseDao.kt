@@ -10,6 +10,9 @@ interface DatabaseDao {
     @Query(value = "SELECT * FROM notificationalarmentity")
     fun getAllNotificationAlarm(): List<NotificationAlarmEntity>
 
+    @Query(value = "SELECT * FROM notificationalarmentity WHERE animeId=:animeId")
+    fun getAllNotificationAlarmByAnimeId(animeId: Int): List<NotificationAlarmEntity>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertNotificationAlarm(entity: NotificationAlarmEntity)
 
