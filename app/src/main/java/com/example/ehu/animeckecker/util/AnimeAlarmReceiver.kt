@@ -24,15 +24,24 @@ class AnimeAlarmReceiver : BroadcastReceiver() {
         val animeTitle = intent.getStringExtra(ANIME_TITLE)
         val beforeTimeText = intent.getStringExtra(BEFORE_TIME_TEXT)
         val is_end = intent.getBooleanExtra(IS_END_ALL_NOTIFICATION, false)
-        // Notificationを通知する
-        AnimeNotification(context).notifyThisSeasonBroadcast(animeTitle, beforeTimeText)
-        // 今週のそのアニメの通知が終わったので、Alarmを再登録
-        if (is_end) {
+
+        if (!is_end) {
+            // Notificationを通知する
+            AnimeNotification(context).notifyThisSeasonBroadcast(animeTitle, beforeTimeText)
+        } else {
+            // 今週のそのアニメの通知が終わったので、Alarmを再登録
             val animeId = intent.getIntExtra(ANIME_ID, 0)
             // dbから、そのアニメのAlarmを取得
-            NotificationAlarmRepository(context).getAllNotificationAlarmByAnimeId(animeId)
+            val alarm = NotificationAlarmRepository(context).getAllNotificationAlarmByAnimeId(animeId)
+            val work = NotificationAlarmRepository(context).getAniemWorkById(animeId)[0]
             // alarmを登録
-
+            alarm.forEach {
+                AnimeAlarmManager(context).registerNotificationAlarm(
+                    it.id, work.id, work.title,
+                    work.dayOfWeek, work.hour, work.minute, work.second,
+                    it.beforeSecond, it.beforeTimeText
+                )
+            }
         }
     }
 }

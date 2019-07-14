@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
 data class AnimeWorkEntity(
     @PrimaryKey
     val id: Int,
-    val Title: String,
+    val title: String,
     val dayOfWeek: Int,
     val hour: Int,
     val minute: Int,

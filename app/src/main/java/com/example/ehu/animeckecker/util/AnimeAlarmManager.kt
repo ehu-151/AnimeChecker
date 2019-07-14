@@ -39,9 +39,19 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
             beforeSecond, beforeTimeText
         )
         // AlarmManagerに登録
-        scheduleAlarm(false, notificationId, animeTitle, beforeTimeText, notificationStartedAt)
+        var intent = Intent(context, AnimeAlarmReceiver::class.java).apply {
+            putExtra(AnimeAlarmReceiver.ANIME_TITLE, animeTitle)
+            putExtra(AnimeAlarmReceiver.BEFORE_TIME_TEXT, beforeTimeText)
+            putExtra(AnimeAlarmReceiver.BEFORE_TIME_TEXT, beforeTimeText)
+        }
+        scheduleAlarm(notificationId, notificationStartedAt, intent)
+
         // 放送開始時も登録
-        scheduleAlarm(true, animeId, animeTitle, beforeTimeText, startedAt)
+        intent = Intent(context, AnimeAlarmReceiver::class.java).apply {
+            putExtra(AnimeAlarmReceiver.IS_END_ALL_NOTIFICATION, true)
+            putExtra(AnimeAlarmReceiver.ANIME_ID, animeId)
+        }
+        scheduleAlarm(animeId, startedAt, intent)
     }
 
     fun deleteNotificationAlarm(notificationId: Int, animeId: Int, animeTitle: String, beforeTimeText: String) {
@@ -55,22 +65,14 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
      * startedAt.getTime()で表示される時間に通知する。
      */
     private fun scheduleAlarm(
-        isEnd: Boolean,
         notificatioId: Int,
-        animeTitle: String,
-        beforeTimeText: String,
-        startedAt: Calendar
+        startedAt: Calendar,
+        intent: Intent
     ) {
-        // intent
-        val notificationIntent = Intent(context, AnimeAlarmReceiver::class.java).apply {
-            putExtra(AnimeAlarmReceiver.NOTIFICATION_ID, notificatioId)
-            putExtra(AnimeAlarmReceiver.ANIME_TITLE, animeTitle)
-            putExtra(AnimeAlarmReceiver.BEFORE_TIME_TEXT, beforeTimeText)
-            putExtra(AnimeAlarmReceiver.BEFORE_TIME_TEXT, beforeTimeText)
-        }
+
         //pendingIntent
         val pendingIntent =
-            PendingIntent.getBroadcast(context, notificatioId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context, notificatioId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         //alarm
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
         alarmManager!!.setExact(AlarmManager.RTC_WAKEUP, startedAt.timeInMillis, pendingIntent)
