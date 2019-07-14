@@ -15,6 +15,7 @@
               android:label="ThisSeasonFragment">
         <action android:id="@+id/action_first_edit_to"
                 app:destination="@id/notificationEditFragment"/>
+        <argument android:name="reject_anime_ids" app:argType="integer[]"/>
     </fragment>
     <fragment android:id="@+id/notificationEditFragment"
               android:name="com.example.ehu.animeckecker.NotificationEditFragment"
