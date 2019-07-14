@@ -31,20 +31,20 @@ class MyNotificationViewModel() : ViewModel() {
 
         // animeIdでグループ化
         alarms.groupBy { it.animeId }.map {
-            val animeId= it.value[0].animeId
-            val id=it.value[0].id
+            val animeId = it.value[0].animeId
+            val id = it.value.map { it.id }
             // animeIdごとにWorkを取得
             NotificationAlarmRepository(context).getAniemWorkById(animeId).map { anime ->
                 // timeの配列
                 var time: MutableMap<Int, String> = mutableMapOf()
-                for(alarm in it.value){
+                for (alarm in it.value) {
                     time.put(alarm.beforeSecond, alarm.beforeTimeText)
                 }
                 // 表示用配列のadd
                 notificationalarm.add(
                     MyNotificationRow(
                         id = id, animeId = animeId, animeTitle = anime.Title,
-                        dayOfWeek = anime.dayOfWeek, dayOdWeekText = anime.dayOfWeek.toString(),
+                        dayOfWeek = anime.dayOfWeek, dayOfWeekText = anime.dayOfWeek.toString(),
                         hour = anime.hour, minute = anime.minute, second = anime.second,
                         startAtText = toTime(anime.dayOfWeek, anime.hour, anime.minute, anime.second),
                         time = time

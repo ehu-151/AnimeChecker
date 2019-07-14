@@ -8,6 +8,8 @@
               android:label="MyNotificationFragment">
         <action android:id="@+id/action_myNotificationFragment_to_thisSeasonFragment"
                 app:destination="@id/thisSeasonFragment"/>
+        <action android:id="@+id/action_edit_again"
+                app:destination="@id/notificationEditFragment"/>
     </fragment>
     <fragment android:id="@+id/thisSeasonFragment" android:name="com.example.ehu.animeckecker.ThisSeasonFragment"
               android:label="ThisSeasonFragment">

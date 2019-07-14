@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import androidx.core.os.bundleOf
 import com.example.ehu.animeckecker.databinding.RowMyNotificationBinding
 import com.google.android.material.chip.Chip
 
@@ -17,8 +18,15 @@ class MyNotificationAdapter(private val context: Context, private val entity: Li
         binding = RowMyNotificationBinding.inflate(inflater, parent, false)
         binding.model = getItem(position)
 
+        // chipを表示
         entity[position].time.map { (second, text) ->
             binding.notificationGroup.addView(setUpChip(second.toString(), text))
+        }
+        // onClick
+        binding.animeAlarm.setOnClickListener {
+            // 画面遷移：
+            // 再編に必要なmap(notificationId,beforeSecond), dayOfWeek, hour, minute, secondを渡す。
+
         }
 
         return binding.root

@@ -1,11 +1,11 @@
 package com.example.ehu.animeckecker
 
 data class MyNotificationRow(
-    val id: Int,
+    val id: List<Int>,
     val animeId: Int,
     val animeTitle: String,
     val dayOfWeek: Int,
-    val dayOdWeekText: String,
+    val dayOfWeekText: String,
     val hour: Int,
     val minute: Int,
     val second: Int,
