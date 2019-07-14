@@ -17,7 +17,7 @@ class MyNotificationFragment : Fragment() {
     lateinit var binding: FragmentMyNotificationBinding
     lateinit var viewModel: MyNotificationViewModel
     // ThisSeasonに渡す、既に設定したanimeId
-    val rejecteAnimeIds: MutableList<Int> = mutableListOf()
+    var rejecteAnimeIds: IntArray = IntArray(0)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +42,10 @@ class MyNotificationFragment : Fragment() {
                 binding.listView.visibility = View.GONE
                 binding.warning.visibility = View.VISIBLE
             } else {
-                rejecteAnimeIds.addAll(it.map { it.animeId })
+                rejecteAnimeIds = intArrayOf(it.size)
+                it.forEachIndexed { index, myNotificationRow ->
+                    rejecteAnimeIds.set(index, myNotificationRow.animeId)
+                }
                 binding.listView.visibility = View.VISIBLE
                 binding.warning.visibility = View.GONE
                 binding.listView.adapter = MyNotificationAdapter(context!!, it)
