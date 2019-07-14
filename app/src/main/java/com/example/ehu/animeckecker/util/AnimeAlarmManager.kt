@@ -42,9 +42,9 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
         scheduleAlarm(notificationId, animeTitle, beforeTimeText, notificationStartedAt)
     }
 
-    fun deleteNotificationAlarm(notificationId: Int, animeTitle: String, beforeTimeText: String) {
+    fun deleteNotificationAlarm(notificationId: Int, animeId: Int, animeTitle: String, beforeTimeText: String) {
         // dbから削除
-        NotificationAlarmViewModel(context).deleteNotificatioAlarm(notificationId)
+        NotificationAlarmViewModel(context).deleteNotificatioAlarmByAnimeId(notificationId, animeId)
         // AlarmManagerから削除
         cancelAlarm(notificationId, animeTitle, beforeTimeText)
     }
