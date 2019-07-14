@@ -31,6 +31,8 @@ class ThisSeasonFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        // argumentsの取得
+        val rejectAnimeIds = arguments?.getIntegerArrayList("reject_anime_ids")!!
         // tokenの取得
         token = AppSharedPreferences(context!!).getToken()
 
@@ -44,7 +46,11 @@ class ThisSeasonFragment : Fragment() {
 
                 }
                 is Status.Success -> {
-                    binding.listView.adapter = ThisSeasonListAdapter(context!!, it.data.works)
+                    var work = it.data.works
+                    rejectAnimeIds.forEach { rejectId ->
+                        work = it.data.works.filterNot { rejectId == id }.toMutableList()
+                    }
+                    binding.listView.adapter = ThisSeasonListAdapter(context!!, work)
                 }
                 is Status.Failure -> {
                     Toast.makeText(this.context, "ロードに失敗しました", Toast.LENGTH_SHORT).show()
