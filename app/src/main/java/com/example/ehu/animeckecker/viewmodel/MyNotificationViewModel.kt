@@ -43,7 +43,7 @@ class MyNotificationViewModel() : ViewModel() {
                 // 表示用配列のadd
                 notificationalarm.add(
                     MyNotificationRow(
-                        id = id, animeId = animeId, animeTitle = anime.Title,
+                        id = id.toMutableList(), animeId = animeId, animeTitle = anime.Title,
                         dayOfWeek = anime.dayOfWeek, dayOfWeekText = anime.dayOfWeek.toString(),
                         hour = anime.hour, minute = anime.minute, second = anime.second,
                         startAtText = toTime(anime.dayOfWeek, anime.hour, anime.minute, anime.second),
