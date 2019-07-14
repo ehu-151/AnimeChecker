@@ -25,7 +25,7 @@ class ThisSeasonListAdapter(private val context: Context, private val works: Lis
             )
             val bundle = bundleOf("is_edit" to false, "my_notification_row" to myNotificationRow)
             Navigation.findNavController(it)
-                .navigate(R.id.action_thisSeasonFragment_to_notificationEditFragment, bundle)
+                .navigate(R.id.action_first_edit_to, bundle)
         }
         return binding.root
     }

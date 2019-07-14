@@ -15,25 +15,31 @@ import java.util.*
 
 class NotificationEditFragment : Fragment() {
     lateinit var binding: FragmentNotificationEditBinding
+    lateinit var inflater: LayoutInflater
+    var container: ViewGroup? = null
+    lateinit var row: MyNotificationRow
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val isEdit = arguments?.getBoolean("is_edit")
-        val myNotificationRow = arguments?.getSerializable("my_notification_row") as MyNotificationRow
+        this.inflater = inflater
+        this.container = container
+        // argumentの受け取り
+        val isEdit = arguments?.getBoolean("is_edit")!!
+        this.row = arguments?.getSerializable("my_notification_row") as MyNotificationRow
+
+        // isEdit共通
         binding = FragmentNotificationEditBinding.inflate(inflater, container, false)
-        binding.create.setOnClickListener {
-            setAlarm(myNotificationRow.animeId, myNotificationRow.animeTitle)
-            Navigation.findNavController(it).navigate(R.id.action_global_notificationEditFragment)
+
+        // isEditによって、入力データ、遷移を分ける
+        if (isEdit) {
+            setUpAgainEdit()
+        } else {
+            setUpFirstEdit()
         }
-        binding.cancel.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_notificationEditFragment_to_thisSeasonFragment)
-        }
-        binding.createDebug.setOnClickListener {
-            setAlarmDebug()
-            Navigation.findNavController(it).navigate(R.id.action_global_notificationEditFragment)
-        }
+
+
         return binding.root
     }
 
@@ -72,6 +78,42 @@ class NotificationEditFragment : Fragment() {
                     chip.tag.toString().toInt(), chip.text.toString()
                 )
             }
+        }
+    }
+
+    private fun setUpAgainEdit() {
+        setUpConfig()
+        binding.create.setOnClickListener {
+            setAlarm(row.animeId, row.animeTitle)
+            Navigation.findNavController(it).navigate(R.id.action_no_stack_to_myNotificationFragment)
+        }
+        binding.cancel.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_no_stack_to_myNotificationFragment)
+        }
+    }
+
+    /**
+     * isEdit=true時に、曜日,chip,放送開始時間,を入力状態にする
+     */
+    private fun setUpConfig() {
+        // 曜日のセット
+        binding.mon.isChecked = false
+        for (i in 0 until binding.dayOfWeek.childCount) {
+            val chip = binding.dayOfWeek.getChildAt(i) as Chip
+            if (chip.tag.toString().toInt() == row.dayOfWeek) {
+                chip.isChecked = true
+                break
+            }
+        }
+    }
+
+    private fun setUpFirstEdit() {
+        binding.create.setOnClickListener {
+            setAlarm(row.animeId, row.animeTitle)
+            Navigation.findNavController(it).navigate(R.id.action_no_stack_to_myNotificationFragment)
+        }
+        binding.cancel.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_edit_first_cancel)
         }
     }
 

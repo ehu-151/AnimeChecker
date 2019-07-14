@@ -13,15 +13,15 @@
     </fragment>
     <fragment android:id="@+id/thisSeasonFragment" android:name="com.example.ehu.animeckecker.ThisSeasonFragment"
               android:label="ThisSeasonFragment">
-        <action android:id="@+id/action_thisSeasonFragment_to_notificationEditFragment"
+        <action android:id="@+id/action_first_edit_to"
                 app:destination="@id/notificationEditFragment"/>
     </fragment>
     <fragment android:id="@+id/notificationEditFragment"
               android:name="com.example.ehu.animeckecker.NotificationEditFragment"
               android:label="NotificationEditFragment">
-        <action android:id="@+id/action_global_notificationEditFragment" app:destination="@id/myNotificationFragment"
+        <action android:id="@+id/action_no_stack_to_myNotificationFragment" app:destination="@id/myNotificationFragment"
                 app:popUpTo="@id/myNotificationFragment" app:popUpToInclusive="true"/>
-        <action android:id="@+id/action_notificationEditFragment_to_thisSeasonFragment"
+        <action android:id="@+id/action_edit_first_cancel"
                 app:destination="@id/thisSeasonFragment" app:popUpTo="@id/thisSeasonFragment"
                 app:popUpToInclusive="true"/>
         <argument android:name="is_edit" app:argType="boolean" android:defaultValue="false"/>
