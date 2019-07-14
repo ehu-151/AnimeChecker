@@ -42,7 +42,7 @@ class MyNotificationFragment : Fragment() {
                 binding.listView.visibility = View.GONE
                 binding.warning.visibility = View.VISIBLE
             } else {
-                rejecteAnimeIds = intArrayOf(it.size)
+                rejecteAnimeIds = IntArray(it.size)
                 it.forEachIndexed { index, myNotificationRow ->
                     rejecteAnimeIds.set(index, myNotificationRow.animeId)
                 }
