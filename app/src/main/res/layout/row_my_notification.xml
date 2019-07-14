@@ -4,6 +4,7 @@
         <variable name="model" type="com.example.ehu.animeckecker.MyNotificationRow"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/anime_alarm"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

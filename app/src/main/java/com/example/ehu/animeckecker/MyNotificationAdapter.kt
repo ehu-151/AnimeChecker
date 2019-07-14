@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import androidx.core.os.bundleOf
+import androidx.navigation.Navigation
 import com.example.ehu.animeckecker.databinding.RowMyNotificationBinding
 import com.google.android.material.chip.Chip
 
@@ -17,8 +19,17 @@ class MyNotificationAdapter(private val context: Context, private val entity: Li
         binding = RowMyNotificationBinding.inflate(inflater, parent, false)
         binding.model = getItem(position)
 
-        entity[position].time.map { (second, text) ->
+        // chipを表示
+        entity[position].time?.map { (second, text) ->
             binding.notificationGroup.addView(setUpChip(second.toString(), text))
+        }
+        // onClick
+        binding.animeAlarm.setOnClickListener {
+            // 画面遷移：
+            // 再編に必要なisEdit, MyNotificationRowを渡す。
+            val bundle = bundleOf("is_edit" to true, "my_notification_row" to getItem(position))
+            Navigation.findNavController(it)
+                .navigate(R.id.action_edit_again, bundle)
         }
 
         return binding.root

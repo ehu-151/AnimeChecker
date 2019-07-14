@@ -1,14 +1,16 @@
 package com.example.ehu.animeckecker
 
+import java.io.Serializable
+
 data class MyNotificationRow(
-    val id: Int,
+    var id: MutableList<Int>? = null,
     val animeId: Int,
     val animeTitle: String,
-    val dayOfWeek: Int,
-    val dayOdWeekText: String,
-    val hour: Int,
-    val minute: Int,
-    val second: Int,
-    val startAtText: String,
-    val time: Map<Int, String>
-)
+    var dayOfWeek: Int? = null,
+    var dayOfWeekText: String? = null,
+    var hour: Int? = null,
+    var minute: Int? = null,
+    var second: Int? = null,
+    var startAtText: String? = null,
+    var time: MutableMap<Int, String>? = null
+) : Serializable
