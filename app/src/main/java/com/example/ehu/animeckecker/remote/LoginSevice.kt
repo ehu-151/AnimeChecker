@@ -22,5 +22,5 @@ interface LoginSevice {
     @POST("/oauth/revoke")
     fun revokeToken(
         @Query("token") token: String
-    ): Call<String>
+    ): Call<Void>
 }
