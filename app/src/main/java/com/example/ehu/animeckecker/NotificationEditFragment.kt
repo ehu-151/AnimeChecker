@@ -79,6 +79,9 @@ class NotificationEditFragment : Fragment() {
     }
 
     private fun setUpAgainEdit() {
+        // Deleteボタンの表示
+        binding.delete.visibility = View.VISIBLE
+        // 既知データを表示(セット)
         setUpConfig()
         binding.create.setOnClickListener {
             setAlarm(row.animeId, row.animeTitle)
