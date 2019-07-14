@@ -46,4 +46,8 @@ class LoginRepository {
             return response
         }
     }
+
+    fun logout(accessToken: String) {
+        servise.revokeToken(accessToken)
+    }
 }
