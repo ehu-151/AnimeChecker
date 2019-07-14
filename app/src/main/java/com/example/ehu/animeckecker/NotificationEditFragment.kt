@@ -86,8 +86,8 @@ class NotificationEditFragment : Fragment() {
         binding.create.setOnClickListener {
             setConfigToRow(row.animeId, row.animeTitle)
             // timeを取り出す。
-            var beforeSecond = mutableListOf<Int>()
-            var beforeSecondText = mutableListOf<String>()
+            val beforeSecond = mutableListOf<Int>()
+            val beforeSecondText = mutableListOf<String>()
             this.row.time.forEach {
                 beforeSecond.add(it.key)
                 beforeSecondText.add(it.value)
@@ -152,8 +152,8 @@ class NotificationEditFragment : Fragment() {
         binding.create.setOnClickListener {
             setConfigToRow(row.animeId, row.animeTitle)
             // timeを取り出す。
-            var beforeSecond = mutableListOf<Int>()
-            var beforeSecondText = mutableListOf<String>()
+            val beforeSecond = mutableListOf<Int>()
+            val beforeSecondText = mutableListOf<String>()
             this.row.time.forEach {
                 beforeSecond.add(it.key)
                 beforeSecondText.add(it.value)
