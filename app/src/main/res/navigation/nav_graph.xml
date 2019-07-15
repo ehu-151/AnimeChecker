@@ -9,7 +9,7 @@
 
         <fragment android:id="@+id/loginFragment"
                   android:name="com.example.ehu.animeckecker.LoginFragment"
-                  android:label="login_fragment">
+                  android:label="@string/login_fragment">
             <action
                     android:id="@+id/action_login_go_back"
                     app:destination="@+id/nav_graph"
@@ -19,7 +19,7 @@
     </navigation>
     <fragment android:id="@+id/myNotificationFragment"
               android:name="com.example.ehu.animeckecker.MyNotificationFragment"
-              android:label="MyNotificationFragment">
+              android:label="@string/my_notification_fragment">
         <action android:id="@+id/action_myNotificationFragment_to_thisSeasonFragment"
                 app:destination="@id/thisSeasonFragment"/>
         <action android:id="@+id/action_edit_again"
@@ -31,14 +31,14 @@
                 app:popUpToInclusive="true"/>
     </fragment>
     <fragment android:id="@+id/thisSeasonFragment" android:name="com.example.ehu.animeckecker.ThisSeasonFragment"
-              android:label="ThisSeasonFragment">
+              android:label="@string/this_season_fragment">
         <action android:id="@+id/action_first_edit_to"
                 app:destination="@id/notificationEditFragment"/>
         <argument android:name="reject_anime_ids" app:argType="integer[]"/>
     </fragment>
     <fragment android:id="@+id/notificationEditFragment"
               android:name="com.example.ehu.animeckecker.NotificationEditFragment"
-              android:label="NotificationEditFragment">
+              android:label="@string/notification_edit_fragment">
         <action android:id="@+id/action_no_stack_to_myNotificationFragment" app:destination="@id/myNotificationFragment"
                 app:popUpTo="@id/myNotificationFragment" app:popUpToInclusive="true"/>
         <action android:id="@+id/action_edit_first_cancel"
