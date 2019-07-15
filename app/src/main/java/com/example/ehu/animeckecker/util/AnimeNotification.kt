@@ -5,11 +5,12 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import com.example.ehu.animeckecker.R
 
 class AnimeNotification(private val context: Context) {
     private val CHANNEL_ID = "this_season_notification"
     private val NOTIFICATION_TEXT_ID = 1
-    private val icon_res = android.R.drawable.sym_def_app_icon
+    private val icon_res = R.drawable.ic_alarm_notify
 
     // カテゴリー名（通知設定画面に表示される情報）
     private val channelName = "今期のアニメ"
