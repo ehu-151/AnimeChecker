@@ -1,9 +1,11 @@
 package com.example.ehu.animeckecker
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavAction
+import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import com.example.ehu.animeckecker.databinding.ActivityMainBinding
 import com.example.ehu.animeckecker.repository.LoginRepository
@@ -16,12 +18,32 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.toolbar.inflateMenu(R.menu.menu_main)
+
         binding.toolbar.setOnMenuItemClickListener {
             when (it.getItemId()) {
                 R.id.action_logout -> logout()
             }
             true
         }
+        Navigation.findNavController(this, R.id.my_nav_host_fragment)
+            .addOnDestinationChangedListener { controller, destination, arguments ->
+                Log.d("app_fragment", destination.label.toString())
+                binding.toolbar.title = destination.label.toString()
+                when (destination.label.toString()) {
+                    getString(R.string.login_fragment) -> {
+                        binding.toolbar.menu.setGroupVisible(0, false)
+                    }
+                    getString(R.string.my_notification_fragment) -> {
+                        binding.toolbar.menu.setGroupVisible(0, true)
+                    }
+                    getString(R.string.this_season_fragment) -> {
+
+                    }
+                    getString(R.string.notification_edit_fragment) -> {
+
+                    }
+                }
+            }
     }
 
     private fun logout() {
@@ -29,13 +51,8 @@ class MainActivity : AppCompatActivity() {
         LoginRepository().logout(token)
         AppSharedPreferences(this).setIsLogin(false)
         AppSharedPreferences(this).setToken("")
-        intentLogin()
-    }
-
-    private fun intentLogin() {
-        val intent = Intent(this@MainActivity, LoginActivity::class.java)
-            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
+        val nav = NavAction(R.id.nav_graph).destinationId
+        Navigation.findNavController(this, R.id.my_nav_host_fragment).navigate(nav)
     }
 
     override fun onSupportNavigateUp() = findNavController(this, R.id.my_nav_host_fragment).navigateUp()

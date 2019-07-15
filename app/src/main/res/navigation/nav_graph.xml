@@ -3,23 +3,42 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/nav_graph" app:startDestination="@id/myNotificationFragment">
 
+    <navigation
+            android:id="@+id/loginNavigation"
+            app:startDestination="@id/loginFragment">
+
+        <fragment android:id="@+id/loginFragment"
+                  android:name="com.example.ehu.animeckecker.LoginFragment"
+                  android:label="@string/login_fragment">
+            <action
+                    android:id="@+id/action_login_go_back"
+                    app:destination="@+id/nav_graph"
+                    app:popUpTo="@id/loginNavigation"
+                    app:popUpToInclusive="true"/>
+        </fragment>
+    </navigation>
     <fragment android:id="@+id/myNotificationFragment"
               android:name="com.example.ehu.animeckecker.MyNotificationFragment"
-              android:label="MyNotificationFragment">
+              android:label="@string/my_notification_fragment">
         <action android:id="@+id/action_myNotificationFragment_to_thisSeasonFragment"
                 app:destination="@id/thisSeasonFragment"/>
         <action android:id="@+id/action_edit_again"
                 app:destination="@id/notificationEditFragment"/>
+        <action
+                android:id="@+id/action_main_go_login"
+                app:destination="@+id/loginNavigation"
+                app:popUpTo="@+id/nav_graph"
+                app:popUpToInclusive="true"/>
     </fragment>
     <fragment android:id="@+id/thisSeasonFragment" android:name="com.example.ehu.animeckecker.ThisSeasonFragment"
-              android:label="ThisSeasonFragment">
+              android:label="@string/this_season_fragment">
         <action android:id="@+id/action_first_edit_to"
                 app:destination="@id/notificationEditFragment"/>
         <argument android:name="reject_anime_ids" app:argType="integer[]"/>
     </fragment>
     <fragment android:id="@+id/notificationEditFragment"
               android:name="com.example.ehu.animeckecker.NotificationEditFragment"
-              android:label="NotificationEditFragment">
+              android:label="@string/notification_edit_fragment">
         <action android:id="@+id/action_no_stack_to_myNotificationFragment" app:destination="@id/myNotificationFragment"
                 app:popUpTo="@id/myNotificationFragment" app:popUpToInclusive="true"/>
         <action android:id="@+id/action_edit_first_cancel"

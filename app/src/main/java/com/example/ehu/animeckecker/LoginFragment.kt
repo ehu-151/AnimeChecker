@@ -1,22 +1,24 @@
 package com.example.ehu.animeckecker
 
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.example.ehu.animeckecker.databinding.ActivityLoginBinding
+import androidx.navigation.Navigation
+import com.example.ehu.animeckecker.databinding.FragmentLoginBinding
 import com.example.ehu.animeckecker.repository.LoginRepository
 import com.example.ehu.animeckecker.util.AppSharedPreferences
 import com.example.ehu.animeckecker.util.Status
 import com.example.ehu.animeckecker.viewmodel.LoginViewModel
 
-
-class LoginActivity : AppCompatActivity() {
-
-    lateinit var binding: ActivityLoginBinding
+class LoginFragment : Fragment() {
+    lateinit var binding: FragmentLoginBinding
     val baseUrl = "https://annict.com/oauth/authorize"
     val clientId = "NqicoWdMY8vempcSSBVJ5K5Z8pN6HoIqKPBxB2DG6DM"
     val redirectUrl = "urn:ietf:wg:oauth:2.0:oob"
@@ -27,18 +29,24 @@ class LoginActivity : AppCompatActivity() {
     var isToken = false
     var isLogin = false
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // loginしているなら、main画面へintent
         loginCheck()
 
         binding.launchAuthorize.setOnClickListener { launchBrowser() }
         binding.login.setOnClickListener { login() }
-
     }
+
 
     private fun launchBrowser() {
         val uri = Uri.parse(
@@ -66,10 +74,10 @@ class LoginActivity : AppCompatActivity() {
                 }
                 is Status.Success -> {
                     setLoginInfoToPrefer(it.data.accessToken)
-                    intentMain()
+                    Navigation.findNavController(binding.root).navigate(R.id.action_login_go_back)
                 }
                 is Status.Failure -> {
-                    Toast.makeText(this, "ログインに失敗しました", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "ログインに失敗しました", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -77,20 +85,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setLoginInfoToPrefer(token: String) {
-        AppSharedPreferences(this).setToken(token)
-        AppSharedPreferences(this).setIsLogin(true)
+        AppSharedPreferences(context!!).setToken(token)
+        AppSharedPreferences(context!!).setIsLogin(true)
     }
 
     private fun loginCheck() {
-        isLogin = AppSharedPreferences(this).getIsLogin()
+        isLogin = AppSharedPreferences(context!!).getIsLogin()
         if (isLogin) {
-            intentMain()
+            Navigation.findNavController(binding.root).navigate(R.id.action_login_go_back)
         }
-    }
-
-    private fun intentMain() {
-        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
     }
 }

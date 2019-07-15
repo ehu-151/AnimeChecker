@@ -4,4 +4,10 @@
     <string name="authorize_open_button_text">認証画面を開く</string>
     <string name="authorize_code_edit_text">認証コードを入力してください</string>
     <string name="authorize_code_login">ログイン</string>
+
+    <!--ToolBarの画面名-->
+    <string name="login_fragment">ログイン</string>
+    <string name="my_notification_fragment">通知一覧</string>
+    <string name="this_season_fragment">今期のアニメ</string>
+    <string name="notification_edit_fragment">通知編集</string>
 </resources>

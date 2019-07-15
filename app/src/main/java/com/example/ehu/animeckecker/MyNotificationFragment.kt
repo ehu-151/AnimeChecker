@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.example.ehu.animeckecker.databinding.FragmentMyNotificationBinding
+import com.example.ehu.animeckecker.util.AppSharedPreferences
 import com.example.ehu.animeckecker.viewmodel.MyNotificationViewModel
 
 class MyNotificationFragment : Fragment() {
@@ -33,6 +34,8 @@ class MyNotificationFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (!loginCheck()) Navigation.findNavController(this.view!!).navigate(R.id.action_main_go_login)
+
         //ViewModel初期化
         viewModel = ViewModelProviders.of(this.activity!!)
             .get(MyNotificationViewModel::class.java)
@@ -51,5 +54,9 @@ class MyNotificationFragment : Fragment() {
                 binding.listView.adapter = MyNotificationAdapter(context!!, it)
             }
         })
+    }
+
+    private fun loginCheck(): Boolean {
+        return AppSharedPreferences(context!!).getIsLogin()
     }
 }
