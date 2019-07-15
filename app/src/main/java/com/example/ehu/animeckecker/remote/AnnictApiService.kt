@@ -13,6 +13,8 @@ interface AnnictApiService {
     @GET("/v1/works")
     fun getWorks(
         @Query("access_token") accessToken: String,
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int = 25,
         @Query("filter_season") filterSeason: String?
     ): Call<AnnictWorksModel>
 

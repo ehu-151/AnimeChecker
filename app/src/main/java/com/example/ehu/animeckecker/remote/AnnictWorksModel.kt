@@ -7,7 +7,7 @@ data class AnnictWorksModel(
     @field:Json(name = "total_count")
     val totalCount: Int,
     @field:Json(name = "next_page")
-    val nextPage: Int,
+    val nextPage: Int?,
     @field:Json(name = "prev_page")
     val prev_page: String?
 )
