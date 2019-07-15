@@ -16,7 +16,7 @@
                 android:layout_marginEnd="16dp" android:layout_marginTop="16dp"
                 app:layout_constraintTop_toTopOf="parent"/>
         <com.google.android.material.button.MaterialButton
-                android:text="タップして放送時間を指定"
+                android:text="@string/tagging_time"
                 android:elevation="20dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
