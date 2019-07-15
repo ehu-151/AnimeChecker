@@ -24,7 +24,7 @@ class AnimeAlarmManager() : BroadcastReceiver() {
         } else {
             context?.createDeviceProtectedStorageContext()!!
         }
-        rebootAlarmByBD(context)
+        rebootAlarmByBD(directBootContext)
     }
 
     /**
