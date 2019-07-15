@@ -1,6 +1,7 @@
 package com.example.ehu.animeckecker
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +55,7 @@ class MyNotificationAdapter(private val context: Context, private val entity: Li
             tag = chipTag
             isCheckedIconVisible = false
             isCheckable = false
+            isClickable = false
         }
         return chip
     }
