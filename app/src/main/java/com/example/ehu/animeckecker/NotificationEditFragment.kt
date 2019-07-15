@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -100,6 +101,7 @@ class NotificationEditFragment : Fragment() {
         binding.create.text = "通知を再設定"
 
         binding.create.setOnClickListener {
+            if (!isEnmpyComponent()) return@setOnClickListener
             setConfigToRow(row.animeId, row.animeTitle)
 
             // 一旦全削除,前のidで回す。
@@ -186,6 +188,7 @@ class NotificationEditFragment : Fragment() {
 
     private fun setUpFirstEdit() {
         binding.create.setOnClickListener {
+            if (!isEnmpyComponent()) return@setOnClickListener
             setConfigToRow(row.animeId, row.animeTitle)
             // timeを取り出す。
             val beforeSecond = mutableListOf<Int>()
@@ -235,5 +238,32 @@ class NotificationEditFragment : Fragment() {
             }
         }
         TimePickerFragment().show((activity as FragmentActivity).supportFragmentManager, "TAG")
+    }
+
+    // 入力されていない項目があるとToast
+    private fun isEnmpyComponent(): Boolean {
+        val isTime = binding.time.text.toString() != getString(R.string.tagging_time)
+        var isNotification = false
+        for (i in 0 until binding.chipGroupMinute.childCount) {
+            val chip = binding.chipGroupMinute.getChildAt(i) as Chip
+            if (chip.isChecked) isNotification = true
+        }
+
+        for (i in 0 until binding.chipGroupHour.childCount) {
+            val chip = binding.chipGroupHour.getChildAt(i) as Chip
+            if (chip.isChecked) isNotification = true
+        }
+
+        if (!isTime && !isNotification) {
+            Toast.makeText(context, "放送時間と通知時間を指定してください", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (!isTime) {
+            Toast.makeText(context, "放送時間を指定してください", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (!isNotification) {
+            Toast.makeText(context, "通知時間を指定してください", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
     }
 }

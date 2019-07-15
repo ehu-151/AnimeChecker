@@ -12,4 +12,5 @@
     <string name="notification_edit_fragment">通知編集</string>
     <string name="warning_no_notify">通知がありません</string>
     <string name="warning_no_create">通知を作成してください</string>
+    <string name="tagging_time">タップして放送時間を指定</string>
 </resources>
