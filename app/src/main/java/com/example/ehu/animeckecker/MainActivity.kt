@@ -1,9 +1,9 @@
 package com.example.ehu.animeckecker
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import com.example.ehu.animeckecker.databinding.ActivityMainBinding
 import com.example.ehu.animeckecker.repository.LoginRepository
@@ -29,13 +29,7 @@ class MainActivity : AppCompatActivity() {
         LoginRepository().logout(token)
         AppSharedPreferences(this).setIsLogin(false)
         AppSharedPreferences(this).setToken("")
-        intentLogin()
-    }
-
-    private fun intentLogin() {
-        val intent = Intent(this@MainActivity, LoginActivity::class.java)
-            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
+        Navigation.findNavController(binding.root).navigate(R.id.action_logout)
     }
 
     override fun onSupportNavigateUp() = findNavController(this, R.id.my_nav_host_fragment).navigateUp()
