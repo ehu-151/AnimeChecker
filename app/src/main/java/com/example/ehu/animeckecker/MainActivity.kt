@@ -1,9 +1,7 @@
 package com.example.ehu.animeckecker
 
-import android.content.Context
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavAction
@@ -28,10 +26,10 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-    }
-
-    override fun onCreateView(parent: View?, name: String, context: Context, attrs: AttributeSet): View? {
-        return super.onCreateView(parent, name, context, attrs)
+        Navigation.findNavController(this, R.id.my_nav_host_fragment)
+            .addOnDestinationChangedListener { controller, destination, arguments ->
+                Log.d("app_fragment", destination.label.toString())
+            }
     }
 
     private fun logout() {
