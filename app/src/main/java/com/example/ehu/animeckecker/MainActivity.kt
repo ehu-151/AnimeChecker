@@ -28,22 +28,18 @@ class MainActivity : AppCompatActivity() {
         Navigation.findNavController(this, R.id.my_nav_host_fragment)
             .addOnDestinationChangedListener { controller, destination, arguments ->
                 Log.d("app_fragment", destination.label.toString())
+                binding.toolbar.title = destination.label.toString()
                 when (destination.label.toString()) {
                     getString(R.string.login_fragment) -> {
                         binding.toolbar.menu.setGroupVisible(0, false)
-                        binding.toolbar.title = getString(R.string.login_fragment)
                     }
                     getString(R.string.my_notification_fragment) -> {
                         binding.toolbar.menu.setGroupVisible(0, true)
-                        binding.toolbar.title = getString(R.string.my_notification_fragment)
                     }
                     getString(R.string.this_season_fragment) -> {
-                        binding.toolbar.menu.setGroupVisible(0, true)
-                        binding.toolbar.title = getString(R.string.this_season_fragment)
+
                     }
                     getString(R.string.notification_edit_fragment) -> {
-                        binding.toolbar.menu.setGroupVisible(0, true)
-                        binding.toolbar.title = getString(R.string.notification_edit_fragment)
 
                     }
                 }
