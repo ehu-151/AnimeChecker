@@ -10,10 +10,12 @@ import com.example.ehu.animeckecker.util.AppSharedPreferences
 
 class LauncherActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityLauncherBinding
+    lateinit var option: ActivityOptions
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_launcher)
+        option = ActivityOptions.makeCustomAnimation(this, 0, android.R.anim.fade_out)
 
         val isLogin = AppSharedPreferences(this).getIsLogin()
         if (isLogin) {
@@ -23,18 +25,15 @@ class LauncherActivity : AppCompatActivity() {
         }
     }
 
-
     private fun intentLogin() {
         val intent = Intent(this@LauncherActivity, LoginActivity::class.java)
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        val option = ActivityOptions.makeScaleUpAnimation(binding.root, 10, 10, 100, 100)
         startActivity(intent, option.toBundle())
     }
 
     private fun intentMain() {
         val intent = Intent(this@LauncherActivity, MainActivity::class.java)
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        val option = ActivityOptions.makeScaleUpAnimation(binding.root, 10, 10, 100, 100)
         startActivity(intent, option.toBundle())
     }
 }
