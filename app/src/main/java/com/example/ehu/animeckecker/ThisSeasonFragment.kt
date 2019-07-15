@@ -1,16 +1,17 @@
 package com.example.ehu.animeckecker
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ehu.animeckecker.databinding.FragmentThisSeasenBinding
 import com.example.ehu.animeckecker.util.AppSharedPreferences
-import com.example.ehu.animeckecker.util.Status
 import com.example.ehu.animeckecker.viewmodel.ThisSeasonViewModel
 import java.util.*
 
@@ -19,6 +20,8 @@ class ThisSeasonFragment : Fragment() {
     lateinit var binding: FragmentThisSeasenBinding
     lateinit var token: String
     lateinit var viewModel: ThisSeasonViewModel
+
+    private val adapter = ThisSeasonListAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,23 +42,13 @@ class ThisSeasonFragment : Fragment() {
         //ViewModel初期化
         viewModel = ViewModelProviders.of(this.activity!!)
             .get(ThisSeasonViewModel::class.java)
-        viewModel.loadWorks(token, getThisSeason())
+        binding.recycler.layoutManager = LinearLayoutManager(context)
+        binding.recycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        binding.recycler.adapter = adapter
+        viewModel.loadWork(token, getThisSeason())
         viewModel.workData.observe(this, Observer {
-            when (it) {
-                is Status.Logging -> {
-
-                }
-                is Status.Success -> {
-                    var work = it.data.works
-                    rejectAnimeIds?.forEach { rejectId ->
-                        work = it.data.works.filterNot { rejectId == it.id }.toMutableList()
-                    }
-                    binding.listView.adapter = ThisSeasonListAdapter(context!!, work)
-                }
-                is Status.Failure -> {
-                    Toast.makeText(this.context, "ロードに失敗しました", Toast.LENGTH_SHORT).show()
-                }
-            }
+            Log.d("app_thisseason_work", it.toString())
+            adapter.submitList(it)
         })
     }
 

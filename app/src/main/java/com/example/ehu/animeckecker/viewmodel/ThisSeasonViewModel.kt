@@ -1,32 +1,48 @@
 package com.example.ehu.animeckecker.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.ehu.animeckecker.remote.AnnictWorksModel
-import com.example.ehu.animeckecker.repository.ThisSeasonRepositoty
-import com.example.ehu.animeckecker.util.Status
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.example.ehu.animeckecker.remote.AnnictApiService
+import com.example.ehu.animeckecker.remote.ThisSeasonDataSourceFactory
+import com.example.ehu.animeckecker.remote.Works
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 
-class ThisSeasonViewModel : ViewModel() {
-    private val repository = ThisSeasonRepositoty()
-    private val _workData: MutableLiveData<Status<AnnictWorksModel>> = MutableLiveData()
-    val workData: LiveData<Status<AnnictWorksModel>> = _workData
+class ThisSeasonViewModel() : ViewModel() {
+    val api: AnnictApiService
+    val config: PagedList.Config
+    lateinit var workData: LiveData<PagedList<Works>>
 
-    @Synchronized
-    fun loadWorks(token: String, filterSeason: String? = null) {
-        _workData.value = Status.Logging
+    fun loadWork(token: String, filterSeason: String) {
+        val factory = ThisSeasonDataSourceFactory(api, token, filterSeason)
+        workData = LivePagedListBuilder(factory, config).build()
+    }
 
-        GlobalScope.launch {
-            val response = repository.getWorks(token, filterSeason)
-            if (response.code() == 200) {
-                val model = response.body()!!
-                model.works.retainAll { it.media == "tv" || it.media == "web" }
-                _workData.postValue(Status.Success(model))
-            } else {
-                _workData.postValue(Status.Failure(Throwable(response.errorBody().toString())))
-            }
-        }
+    init {
+        //okhttpのclient作成
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+
+        var retrofit = Retrofit.Builder()
+            .baseUrl(AnnictApiService.baseUri)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .client(client)
+            .build()
+        api = retrofit.create(AnnictApiService::class.java)
+
+
+        config = PagedList.Config.Builder()
+            .setInitialLoadSizeHint(PAGE_SIZE)
+            .setPageSize(PAGE_SIZE)
+            .build()
+    }
+
+    companion object {
+        private const val PAGE_SIZE = 30
     }
 }
