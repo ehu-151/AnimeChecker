@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavAction
 import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -38,8 +39,7 @@ class MainActivity : AppCompatActivity() {
         LoginRepository().logout(token)
         AppSharedPreferences(this).setIsLogin(false)
         AppSharedPreferences(this).setToken("")
-        Navigation.findNavController(this, R.id.my_nav_host_fragment).navigate(R.id.action_main_go_login)
+        val nav = NavAction(R.id.nav_graph).destinationId
+        Navigation.findNavController(this, R.id.my_nav_host_fragment).navigate(nav)
     }
-
-//    override fun onSupportNavigateUp() = findNavController(this, R.id.my_nav_host_fragment).navigateUp()
 }
