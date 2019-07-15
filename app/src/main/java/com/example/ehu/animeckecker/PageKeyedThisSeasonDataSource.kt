@@ -1,9 +1,10 @@
 package com.example.ehu.animeckecker
 
 import androidx.paging.PageKeyedDataSource
+import com.example.ehu.animeckecker.remote.AnnictApiService
 import com.example.ehu.animeckecker.remote.AnnictWorksModel
 
-class PageKeyedThisSeasonDataSource() : PageKeyedDataSource<Int, AnnictWorksModel>() {
+class PageKeyedThisSeasonDataSource(private val api: AnnictApiService) : PageKeyedDataSource<Int, AnnictWorksModel>() {
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, AnnictWorksModel>) {
         // コールバックに結果と前のページ、次のページを渡す
 //        callback.onResult(result, null, 2)
