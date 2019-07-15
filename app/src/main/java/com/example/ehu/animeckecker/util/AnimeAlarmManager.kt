@@ -24,20 +24,7 @@ class AnimeAlarmManager() : BroadcastReceiver() {
         } else {
             context?.createDeviceProtectedStorageContext()!!
         }
-        // dbから、通知に必要な値を取得
-        val alarm = NotificationAlarmRepository(context).getAllNotificationAlarm()
-        val alarmGroup = alarm.groupBy { it.animeId }
-        for (alr in alarmGroup) {
-            // animeId Groupごと
-            alr.value.forEach {
-                val work = NotificationAlarmRepository(context).getAniemWorkById(it.animeId)[0]
-                registerNotificationAlarm(
-                    context, it.id, it.animeId, work.title,
-                    work.dayOfWeek, work.hour, work.minute, work.second,
-                    it.beforeSecond, it.beforeTimeText
-                )
-            }
-        }
+        rebootAlarmByBD(context)
     }
 
     /**
@@ -140,5 +127,22 @@ class AnimeAlarmManager() : BroadcastReceiver() {
             c.add(Calendar.DATE, 7)
         }
         return c
+    }
+
+    private fun rebootAlarmByBD(context: Context) {
+        // dbから、通知に必要な値を取得
+        val alarm = NotificationAlarmRepository(context).getAllNotificationAlarm()
+        val alarmGroup = alarm.groupBy { it.animeId }
+        for (alr in alarmGroup) {
+            // animeId Groupごと
+            alr.value.forEach {
+                val work = NotificationAlarmRepository(context).getAniemWorkById(it.animeId)[0]
+                registerNotificationAlarm(
+                    context, it.id, it.animeId, work.title,
+                    work.dayOfWeek, work.hour, work.minute, work.second,
+                    it.beforeSecond, it.beforeTimeText
+                )
+            }
+        }
     }
 }
