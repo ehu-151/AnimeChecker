@@ -7,7 +7,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavAction
 import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
 import com.example.ehu.animeckecker.databinding.ActivityMainBinding
 import com.example.ehu.animeckecker.repository.LoginRepository
 import com.example.ehu.animeckecker.util.AppSharedPreferences
@@ -19,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.toolbar.inflateMenu(R.menu.menu_main)
-        binding.toolbar.setupWithNavController(findNavController(this, R.id.my_nav_host_fragment))
+
         binding.toolbar.setOnMenuItemClickListener {
             when (it.getItemId()) {
                 R.id.action_logout -> logout()
@@ -32,9 +31,20 @@ class MainActivity : AppCompatActivity() {
                 when (destination.label.toString()) {
                     getString(R.string.login_fragment) -> {
                         binding.toolbar.menu.setGroupVisible(0, false)
+                        binding.toolbar.title = getString(R.string.login_fragment)
                     }
                     getString(R.string.my_notification_fragment) -> {
                         binding.toolbar.menu.setGroupVisible(0, true)
+                        binding.toolbar.title = getString(R.string.my_notification_fragment)
+                    }
+                    getString(R.string.this_season_fragment) -> {
+                        binding.toolbar.menu.setGroupVisible(0, true)
+                        binding.toolbar.title = getString(R.string.this_season_fragment)
+                    }
+                    getString(R.string.notification_edit_fragment) -> {
+                        binding.toolbar.menu.setGroupVisible(0, true)
+                        binding.toolbar.title = getString(R.string.notification_edit_fragment)
+
                     }
                 }
             }
@@ -48,4 +58,6 @@ class MainActivity : AppCompatActivity() {
         val nav = NavAction(R.id.nav_graph).destinationId
         Navigation.findNavController(this, R.id.my_nav_host_fragment).navigate(nav)
     }
+
+    override fun onSupportNavigateUp() = findNavController(this, R.id.my_nav_host_fragment).navigateUp()
 }
