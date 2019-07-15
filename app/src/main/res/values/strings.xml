@@ -10,4 +10,6 @@
     <string name="my_notification_fragment">通知一覧</string>
     <string name="this_season_fragment">今期のアニメ</string>
     <string name="notification_edit_fragment">通知編集</string>
+    <string name="warning_no_notify">通知がありません</string>
+    <string name="warning_no_create">通知を作成してください</string>
 </resources>
