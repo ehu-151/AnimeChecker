@@ -36,7 +36,8 @@ class AnimeAlarmReceiver : BroadcastReceiver() {
             val work = NotificationAlarmRepository(context).getAniemWorkById(animeId)[0]
             // alarmを登録
             alarm.forEach {
-                AnimeAlarmManager(context).registerNotificationAlarm(
+                AnimeAlarmManager().registerNotificationAlarm(
+                    context,
                     it.id, work.id, work.title,
                     work.dayOfWeek, work.hour, work.minute, work.second,
                     it.beforeSecond, it.beforeTimeText

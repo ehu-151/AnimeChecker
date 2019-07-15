@@ -96,7 +96,8 @@ class NotificationEditFragment : Fragment() {
 
             // 一旦全削除,前のidで回す。
             beforeEditRow.id.forEachIndexed { index, id ->
-                AnimeAlarmManager(context!!).deleteNotificationAlarm(
+                AnimeAlarmManager().deleteNotificationAlarm(
+                    context!!,
                     id,
                     this.row.animeId,
                     this.row.animeTitle,
@@ -113,7 +114,8 @@ class NotificationEditFragment : Fragment() {
             }
             // idごとに、alarmをセット
             this.row.id.forEachIndexed { index, id ->
-                AnimeAlarmManager(context!!).registerNotificationAlarm(
+                AnimeAlarmManager().registerNotificationAlarm(
+                    context!!,
                     id, this.row.animeId, this.row.animeTitle,
                     this.row.dayOfWeek!!, this.row.hour!!, this.row.minute!!, this.row.second!!,
                     beforeSecond[index], beforeSecondText[index]
@@ -129,7 +131,8 @@ class NotificationEditFragment : Fragment() {
             // このアニメの通知をすべて削除する。
             val beforeTimeText = this.row.time.values.toList()
             this.row.id.forEachIndexed { index, id ->
-                AnimeAlarmManager(context!!).deleteNotificationAlarm(
+                AnimeAlarmManager().deleteNotificationAlarm(
+                    context!!,
                     id,
                     this.row.animeId,
                     this.row.animeTitle,
@@ -185,7 +188,8 @@ class NotificationEditFragment : Fragment() {
             }
             // idごとに、alarmをセット
             this.row.id.forEachIndexed { index, id ->
-                AnimeAlarmManager(context!!).registerNotificationAlarm(
+                AnimeAlarmManager().registerNotificationAlarm(
+                    context!!,
                     id, this.row.animeId, this.row.animeTitle,
                     this.row.dayOfWeek!!, this.row.hour!!, this.row.minute!!, this.row.second!!,
                     beforeSecond[index], beforeSecondText[index]
@@ -201,22 +205,5 @@ class NotificationEditFragment : Fragment() {
 
     fun Int.zeroFill(): String {
         return String.format("%02d", this)
-    }
-
-    private fun setAlarmDebug() {
-        val notificationTime = mutableListOf<Int>()
-        for (i in 0 until binding.chipGroupSecound.childCount) {
-            val chip = binding.chipGroupSecound.getChildAt(i) as Chip
-            if (chip.isChecked) {
-                val startedAt = Calendar.getInstance()
-                startedAt.timeInMillis = System.currentTimeMillis()
-//                AnimeAlarmManager(context!!).registerNotificationAlarm(
-//                    "ポケモン",
-//                    startedAt,
-//                    chip.tag.toString().toInt(),
-//                    chip.text.toString()
-//                )
-            }
-        }
     }
 }

@@ -9,7 +9,7 @@ import android.util.Log
 import com.example.ehu.animeckecker.viewmodel.NotificationAlarmViewModel
 import java.util.*
 
-class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
+class AnimeAlarmManager() : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -20,6 +20,7 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
      * 【放送[beforeTimeText]前】 [animeTitle]
      */
     fun registerNotificationAlarm(
+        context: Context,
         notificationId: Int, animeId: Int, animeTitle: String,
         dayOfWeek: Int, hour: Int, minute: Int, second: Int,
         beforeSecond: Int, beforeTimeText: String
@@ -44,27 +45,34 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
             putExtra(AnimeAlarmReceiver.BEFORE_TIME_TEXT, beforeTimeText)
             putExtra(AnimeAlarmReceiver.BEFORE_TIME_TEXT, beforeTimeText)
         }
-        scheduleAlarm(notificationId, notificationStartedAt, intent)
+        scheduleAlarm(context, notificationId, notificationStartedAt, intent)
 
         // 放送開始時も登録
         intent = Intent(context, AnimeAlarmReceiver::class.java).apply {
             putExtra(AnimeAlarmReceiver.IS_END_ALL_NOTIFICATION, true)
             putExtra(AnimeAlarmReceiver.ANIME_ID, animeId)
         }
-        scheduleAlarm(animeId, startedAt, intent)
+        scheduleAlarm(context, animeId, startedAt, intent)
     }
 
-    fun deleteNotificationAlarm(notificationId: Int, animeId: Int, animeTitle: String, beforeTimeText: String) {
+    fun deleteNotificationAlarm(
+        context: Context,
+        notificationId: Int,
+        animeId: Int,
+        animeTitle: String,
+        beforeTimeText: String
+    ) {
         // dbから削除
         NotificationAlarmViewModel(context).deleteNotificatioAlarmByAnimeId(notificationId, animeId)
         // AlarmManagerから削除
-        cancelAlarm(notificationId, animeTitle, beforeTimeText)
+        cancelAlarm(context, notificationId, animeTitle, beforeTimeText)
     }
 
     /**
      * startedAt.getTime()で表示される時間に通知する。
      */
     private fun scheduleAlarm(
+        context: Context,
         notificatioId: Int,
         startedAt: Calendar,
         intent: Intent
@@ -78,7 +86,7 @@ class AnimeAlarmManager(private val context: Context) : BroadcastReceiver() {
         alarmManager!!.setExact(AlarmManager.RTC_WAKEUP, startedAt.timeInMillis, pendingIntent)
     }
 
-    private fun cancelAlarm(notificationId: Int, animeTitle: String, beforeTimeText: String) {
+    private fun cancelAlarm(context: Context, notificationId: Int, animeTitle: String, beforeTimeText: String) {
         // intent
         val notificationIntent = Intent(context, AnimeAlarmReceiver::class.java).apply {
             putExtra(AnimeAlarmReceiver.ANIME_TITLE, animeTitle)
