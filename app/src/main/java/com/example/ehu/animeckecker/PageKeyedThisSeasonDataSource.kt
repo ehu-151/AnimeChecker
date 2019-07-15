@@ -58,8 +58,10 @@ class PageKeyedThisSeasonDataSource(
 
                 var data = it.works
                 rejectAnimeId?.forEach { reject ->
-                    data = it.works.filterNot { it.id == reject }.toMutableList()
+                    data = data.filterNot { it.id == reject }.toMutableList()
                 }
+
+                data.retainAll { it.media == "tv" || it.media == "web" }
                 // 表示する
                 callback(data, next)
                 networkState.postValue(Status.Success(it.works))
