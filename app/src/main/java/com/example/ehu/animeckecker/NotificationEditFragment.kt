@@ -39,7 +39,8 @@ class NotificationEditFragment : Fragment() {
 
         // isEdit共通
         binding = FragmentNotificationEditBinding.inflate(inflater, container, false)
-        binding.editText.setOnClickListener { showTimePicker() }
+        binding.animeTitle.text = this.row.animeTitle
+        binding.time.setOnClickListener { showTimePicker() }
 
         // isEditによって、入力データ、遷移を分ける
         if (isEdit) {
@@ -55,7 +56,7 @@ class NotificationEditFragment : Fragment() {
 
     private fun setConfigToRow(animeId: Int, animeTiele: String) {
         // 放送時刻をセット
-        val (hour, minute) = binding.editText.text.toString().split(":").map { it.toInt() }
+        val (hour, minute) = binding.time.text.toString().split(":").map { it.toInt() }
         this.row.hour = hour
         this.row.minute = minute
         this.row.second = 0
@@ -157,7 +158,7 @@ class NotificationEditFragment : Fragment() {
     private fun setUpComponent() {
         // 放送開始時間のセット
         val timeText = "${this.row.hour?.zeroFill()}:${this.row.minute?.zeroFill()}"
-        binding.editText.setText(timeText)
+        binding.time.setText(timeText)
         // 曜日のセット
         binding.mon.isChecked = false
         for (i in 0 until binding.dayOfWeek.childCount) {
@@ -230,7 +231,7 @@ class NotificationEditFragment : Fragment() {
                 val hour = String.format("%02d", hourOfDay)
                 val min = String.format("%02d", minute)
                 val timeText = "$hour:$min"
-                binding.editText.setText(timeText)
+                binding.time.setText(timeText)
             }
         }
         TimePickerFragment().show((activity as FragmentActivity).supportFragmentManager, "TAG")
