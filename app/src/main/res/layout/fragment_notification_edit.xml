@@ -5,15 +5,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".NotificationEditFragment">
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="タップして放送時間を指定"
+                android:gravity="center"
+                style="@android:style/Widget.Material.Button.Borderless"
+                android:textAppearance="@android:style/TextAppearance.Material.Title"
+                android:ems="10"
+                android:id="@+id/editText"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toTopOf="parent" android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="16dp"/>
         <com.google.android.material.chip.ChipGroup
                 android:id="@+id/day_of_week"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:singleLine="true"
                 app:singleSelection="true"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginStart="16dp"
+                app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toBottomOf="@+id/editText"
+                android:layout_marginTop="16dp">
             <com.google.android.material.chip.Chip
                     android:id="@+id/mon"
                     android:layout_width="wrap_content"
@@ -71,7 +86,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:id="@+id/chipGroupMinute"
-                app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toBottomOf="@+id/day_of_week">
+                app:layout_constraintHorizontal_bias="0.0" app:layout_constraintTop_toBottomOf="@+id/day_of_week"
+                android:layout_marginTop="8dp" android:layout_marginStart="16dp" android:layout_marginEnd="16dp">
             <com.google.android.material.chip.Chip
                     android:id="@+id/minute_5"
                     android:layout_width="wrap_content"
@@ -97,8 +113,10 @@
         <com.google.android.material.chip.ChipGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:layout_editor_absoluteX="-27dp" app:layout_constraintTop_toBottomOf="@+id/chipGroupMinute"
-                android:id="@+id/chipGroupHour">
+                app:layout_constraintTop_toBottomOf="@+id/chipGroupMinute"
+                android:id="@+id/chipGroupHour" android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp">
             <com.google.android.material.chip.Chip
                     android:id="@+id/hour_1"
                     android:layout_width="wrap_content"
@@ -142,23 +160,15 @@
                 android:id="@+id/create"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/cancel"
-                app:layout_constraintTop_toBottomOf="@+id/chipGroupHour"/>
+                app:layout_constraintTop_toBottomOf="@+id/chipGroupHour" android:layout_marginTop="16dp"/>
         <Button
                 android:text="やめる"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/cancel"
                 app:layout_constraintStart_toEndOf="@+id/create" app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/chipGroupHour"/>
-        <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="time"
-                android:hint="放送時間を指定"
-                android:ems="10"
-                android:id="@+id/editText" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/create" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/chipGroupHour"
+                android:layout_marginTop="16dp"/>
         <Button
                 android:text="通知を削除する"
                 android:visibility="gone"
@@ -168,42 +178,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/editText" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
         />
-        <com.google.android.material.chip.ChipGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" android:id="@+id/chipGroupSecound"
-                app:layout_constraintHorizontal_bias="0.0"
-                android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/create_debug">
-            <com.google.android.material.chip.Chip
-                    android:id="@+id/second_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3秒"
-                    android:tag="3"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"/>
-            <com.google.android.material.chip.Chip
-                    android:id="@+id/second_5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5秒"
-                    android:tag="5"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"/>
-            <com.google.android.material.chip.Chip
-                    android:id="@+id/second_7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="7秒"
-                    android:tag="7"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"/>
-        </com.google.android.material.chip.ChipGroup>
-        <Button
-                android:text="今から「?秒後」に通知"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/create_debug"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

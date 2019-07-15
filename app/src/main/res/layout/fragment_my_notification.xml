@@ -20,7 +20,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                 <TextView
-                        android:text="通知がありません。"
+                        android:text="@string/warning_no_notify"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" app:layout_constraintTop_toTopOf="parent"
@@ -28,7 +28,7 @@
                         app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
                         android:id="@+id/textView2"/>
                 <TextView
-                        android:text="通知を作成してください"
+                        android:text="@string/warning_no_create"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" android:id="@+id/textView3"
