@@ -17,8 +17,8 @@ class ThisSeasonViewModel() : ViewModel() {
     val config: PagedList.Config
     lateinit var workData: LiveData<PagedList<Works>>
 
-    fun loadWork(token: String, filterSeason: String) {
-        val factory = ThisSeasonDataSourceFactory(api, token, filterSeason)
+    fun loadWork(token: String, filterSeason: String, rejectAnimeIds: IntArray?) {
+        val factory = ThisSeasonDataSourceFactory(api, token, filterSeason, rejectAnimeIds)
         workData = LivePagedListBuilder(factory, config).build()
     }
 

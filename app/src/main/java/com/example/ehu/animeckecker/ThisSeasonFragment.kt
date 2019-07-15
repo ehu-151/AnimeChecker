@@ -45,7 +45,7 @@ class ThisSeasonFragment : Fragment() {
         binding.recycler.layoutManager = LinearLayoutManager(context)
         binding.recycler.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         binding.recycler.adapter = adapter
-        viewModel.loadWork(token, getThisSeason())
+        viewModel.loadWork(token, getThisSeason(), rejectAnimeIds)
         viewModel.workData.observe(this, Observer {
             Log.d("app_thisseason_work", it.toString())
             adapter.submitList(it)
