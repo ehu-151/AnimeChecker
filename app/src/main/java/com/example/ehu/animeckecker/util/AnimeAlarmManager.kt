@@ -5,13 +5,39 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import com.example.ehu.animeckecker.viewmodel.NotificationAlarmViewModel
 import java.util.*
+import androidx.core.content.ContextCompat.createDeviceProtectedStorageContext
+import com.example.ehu.animeckecker.repository.NotificationAlarmRepository
+import com.example.ehu.animeckecker.room.NotificationAlarmEntity
+
 
 class AnimeAlarmManager() : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // 再起動した時
+        // DBから、アラームを復元する
+        // 通常の Application の Context に対し、Direct Boot 用の Context を生成
+        var directBootContext: Context = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            context!!
+        } else {
+            context?.createDeviceProtectedStorageContext()!!
+        }
+        // dbから、通知に必要な値を取得
+        val alarm = NotificationAlarmRepository(context).getAllNotificationAlarm()
+        val alarmGroup = alarm.groupBy { it.animeId }
+        for (alr in alarmGroup) {
+            // animeId Groupごと
+            alr.value.forEach {
+                val work = NotificationAlarmRepository(context).getAniemWorkById(it.animeId)[0]
+                registerNotificationAlarm(
+                    context, it.id, it.animeId, work.title,
+                    work.dayOfWeek, work.hour, work.minute, work.second,
+                    it.beforeSecond, it.beforeTimeText
+                )
+            }
+        }
     }
 
     /**
