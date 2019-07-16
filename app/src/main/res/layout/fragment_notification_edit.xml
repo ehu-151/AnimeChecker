@@ -123,21 +123,21 @@
                     android:id="@+id/minute_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5分"
+                    android:text="5分前"
                     android:tag="300"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
             <com.google.android.material.chip.Chip
                     android:id="@+id/minute_10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10分"
+                    android:text="10分前"
                     android:tag="600"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
             <com.google.android.material.chip.Chip
                     android:id="@+id/minute_30"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="30分"
+                    android:text="30分前"
                     android:tag="1800"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
         </com.google.android.material.chip.ChipGroup>
@@ -152,35 +152,35 @@
                     android:id="@+id/hour_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1時間"
+                    android:text="1時間前"
                     android:tag="3600"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
             <com.google.android.material.chip.Chip
                     android:id="@+id/hour_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2時間"
+                    android:text="2時間前"
                     android:tag="7200"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
             <com.google.android.material.chip.Chip
                     android:id="@+id/hour_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3時間"
+                    android:text="3時間前"
                     android:tag="10800"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
             <com.google.android.material.chip.Chip
                     android:id="@+id/hour_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4時間"
+                    android:text="4時間前"
                     android:tag="14400"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
             <com.google.android.material.chip.Chip
                     android:id="@+id/hour_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5時間"
+                    android:text="5時間前"
                     android:tag="18000"
                     style="@style/Widget.MaterialComponents.Chip.Filter"/>
         </com.google.android.material.chip.ChipGroup>
