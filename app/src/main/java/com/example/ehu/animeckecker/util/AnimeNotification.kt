@@ -22,7 +22,7 @@ class AnimeNotification(private val context: Context) {
      *  例：\[放送3分前] AnimeTitle
      */
     fun notifyThisSeasonBroadcast(animeTitle: String, time: String) {
-        val nowTitle = "【放送${time}前】 $animeTitle"
+        val nowTitle = "【放送${time}】 $animeTitle"
         notify(nowTitle)
     }
 
