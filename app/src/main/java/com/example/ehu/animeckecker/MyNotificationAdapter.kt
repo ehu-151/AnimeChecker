@@ -51,7 +51,7 @@ class MyNotificationAdapter(private val context: Context, private val entity: Li
     private fun setUpChip(chipTag: String, chipText: String): Chip {
         // Chipを追加
         val chip = Chip(context).apply {
-            text = (chipText + "前")
+            text = chipText
             tag = chipTag
             isCheckedIconVisible = false
             isCheckable = false
