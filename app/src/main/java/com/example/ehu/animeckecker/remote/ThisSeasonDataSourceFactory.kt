@@ -13,6 +13,6 @@ class ThisSeasonDataSourceFactory(
     val source = PageKeyedThisSeasonDataSource(service, token, filterSeason, rejectAnimeId)
 
     override fun create(): DataSource<Int, Works> {
-        return PageKeyedThisSeasonDataSource(service, token, filterSeason, rejectAnimeId)
+        return source
     }
 }

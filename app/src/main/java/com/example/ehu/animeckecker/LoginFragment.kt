@@ -65,22 +65,22 @@ class LoginFragment : Fragment() {
         val viewModel = LoginViewModel(LoginRepository())
 
         viewModel.loadAccesToken(clientId, clientSecret, redirectUrl, code)
-
-        viewModel.tokenData.observe(this, Observer {
-
+        viewModel.status.observe(this, Observer {
             when (it) {
-                is Status.Logging -> {
-
+                Status.RUNNING -> {
                 }
-                is Status.Success -> {
-                    setLoginInfoToPrefer(it.data.accessToken)
-                    Navigation.findNavController(binding.root).navigate(R.id.action_login_go_back)
-                }
-                is Status.Failure -> {
+                Status.FAILED -> {
                     Toast.makeText(context, "ログインに失敗しました", Toast.LENGTH_SHORT).show()
                 }
+                Status.FAILED_401 -> {
+                }
+                Status.SUCCESS -> {
+                }
             }
-
+        })
+        viewModel.tokenData.observe(this, Observer {
+            setLoginInfoToPrefer(it.accessToken)
+            Navigation.findNavController(binding.root).navigate(R.id.action_login_go_back)
         })
     }
 

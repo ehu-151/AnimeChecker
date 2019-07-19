@@ -1,5 +1,6 @@
 package com.example.ehu.animeckecker
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.getItemId()) {
-                R.id.action_logout -> logout()
+                R.id.action_logout -> logout(this)
             }
             true
         }
@@ -47,14 +48,14 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun logout() {
-        val token = AppSharedPreferences(this).getToken()
+    fun logout(context: Context) {
+        val token = AppSharedPreferences(context).getToken()
         LoginRepository().logout(token)
-        Toast.makeText(this, "ログアウトしました", Toast.LENGTH_SHORT).show()
-        AppSharedPreferences(this).setIsLogin(false)
-        AppSharedPreferences(this).setToken("")
+        Toast.makeText(context, "ログアウトしました", Toast.LENGTH_SHORT).show()
+        AppSharedPreferences(context).setIsLogin(false)
+        AppSharedPreferences(context).setToken("")
         val nav = NavAction(R.id.nav_graph).destinationId
-        Navigation.findNavController(this, R.id.my_nav_host_fragment).navigate(nav)
+        Navigation.findNavController(MainActivity(), R.id.my_nav_host_fragment).navigate(nav)
     }
 
     override fun onSupportNavigateUp() = findNavController(this, R.id.my_nav_host_fragment).navigateUp()
