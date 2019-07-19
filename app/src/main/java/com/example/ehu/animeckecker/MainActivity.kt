@@ -2,6 +2,7 @@ package com.example.ehu.animeckecker
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavAction
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     private fun logout() {
         val token = AppSharedPreferences(this).getToken()
         LoginRepository().logout(token)
+        Toast.makeText(this, "ログアウトしました", Toast.LENGTH_SHORT).show()
         AppSharedPreferences(this).setIsLogin(false)
         AppSharedPreferences(this).setToken("")
         val nav = NavAction(R.id.nav_graph).destinationId
