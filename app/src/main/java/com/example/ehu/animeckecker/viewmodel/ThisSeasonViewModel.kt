@@ -18,7 +18,7 @@ class ThisSeasonViewModel() : ViewModel() {
     val api: AnnictApiService
     val config: PagedList.Config
     lateinit var workData: LiveData<PagedList<Works>>
-    lateinit var netWorkState: MutableLiveData<Status>
+    var netWorkState: MutableLiveData<Status> = MutableLiveData()
 
     fun loadWork(token: String, filterSeason: String, rejectAnimeIds: IntArray?) {
         val factory = ThisSeasonDataSourceFactory(api, token, filterSeason, rejectAnimeIds)

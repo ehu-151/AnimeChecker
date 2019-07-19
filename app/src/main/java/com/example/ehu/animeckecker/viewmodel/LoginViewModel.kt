@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
     private val _tokenData: MutableLiveData<AcceseTokenModel> = MutableLiveData()
     val tokenData: LiveData<AcceseTokenModel> = _tokenData
-    lateinit var status: MutableLiveData<Status>
+    var status: MutableLiveData<Status> = MutableLiveData()
     fun loadAccesToken(
         clientId: String,
         clientSecret: String,
