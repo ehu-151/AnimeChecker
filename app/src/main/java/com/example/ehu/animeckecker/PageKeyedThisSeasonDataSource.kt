@@ -16,7 +16,7 @@ class PageKeyedThisSeasonDataSource(
 ) :
     PageKeyedDataSource<Int, Works>() {
 
-    val networkState = MutableLiveData<Status<List<Works>>>()
+    val networkState = MutableLiveData<Status>()
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Works>) {
         callAPI(1, params.requestedLoadSize, token, filterSeason, rejectAnimeId) { work, next ->
@@ -44,12 +44,16 @@ class PageKeyedThisSeasonDataSource(
     ) {
         Log.d("app_thisseason", "page:$page, perPage$perPage")
 
-        networkState.postValue(Status.Logging)
+        networkState.postValue(Status.RUNNING)
 
         try {
             // 一覧を取得
             val response =
                 service.getWorks(token, page = page, filterSeason = filterSeason, perPage = perPage).execute()
+
+            if (response.code() == 401) {
+                networkState.postValue(Status.FAILED_401)
+            }
 
             response.body()?.let {
                 var next: Int? = null
@@ -64,7 +68,7 @@ class PageKeyedThisSeasonDataSource(
                 data.retainAll { it.media == "tv" || it.media == "web" }
                 // 表示する
                 callback(data, next)
-                networkState.postValue(Status.Success(it.works))
+                networkState.postValue(Status.SUCCESS)
             }
         } catch (e: IOException) {
         }

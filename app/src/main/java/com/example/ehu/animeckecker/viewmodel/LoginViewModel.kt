@@ -10,8 +10,9 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
-    private val _tokenData: MutableLiveData<Status<AcceseTokenModel>> = MutableLiveData()
-    val tokenData: LiveData<Status<AcceseTokenModel>> = _tokenData
+    private val _tokenData: MutableLiveData<AcceseTokenModel> = MutableLiveData()
+    val tokenData: LiveData<AcceseTokenModel> = _tokenData
+    var status: MutableLiveData<Status> = MutableLiveData()
     fun loadAccesToken(
         clientId: String,
         clientSecret: String,
@@ -21,11 +22,11 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
         if (_tokenData.value == null) {
             GlobalScope.launch {
                 val response = repository.getAccessToken(clientId, clientSecret, redirectUrl, code)
-                _tokenData.postValue(Status.Logging)
+//                _tokenData.postValue(Status.Logging)
                 if (response.code() == 200) {
-                    _tokenData.postValue(Status.Success(response.body()!!))
+                    _tokenData.postValue(response.body()!!)
                 } else {
-                    _tokenData.postValue(Status.Failure(Throwable(response.errorBody().toString())))
+                    status.postValue(Status.FAILED)
                 }
             }
         }

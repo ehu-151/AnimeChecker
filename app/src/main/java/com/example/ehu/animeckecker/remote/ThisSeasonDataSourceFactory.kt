@@ -9,7 +9,10 @@ class ThisSeasonDataSourceFactory(
     private val filterSeason: String,
     private val rejectAnimeId: IntArray?
 ) : DataSource.Factory<Int, Works>() {
+
+    val source = PageKeyedThisSeasonDataSource(service, token, filterSeason, rejectAnimeId)
+
     override fun create(): DataSource<Int, Works> {
-        return PageKeyedThisSeasonDataSource(service, token, filterSeason, rejectAnimeId)
+        return source
     }
 }
