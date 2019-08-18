@@ -64,7 +64,7 @@ class ThisSeasonFragment : Fragment() {
             }
         })
         viewModel.workData.observe(this, Observer {
-            Log.d("app_thisseason_work", it.toString())
+            Log.d("app_thisseason_work", it.map { it.title +"\t"}.toString())
             adapter.submitList(it)
         })
     }

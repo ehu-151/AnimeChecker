@@ -1,5 +1,6 @@
 package com.example.ehu.animeckecker
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
@@ -22,7 +23,9 @@ class ThisSeasonListAdapter() : PagedListAdapter<Works, ThisSeasonListAdapter.Vi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindTo(getItem(position))
+        Log.d("app_thisseason_list",  "$position\t${getItem(position)!!.title}")
         binding.title.setOnClickListener {
+            Log.d("app_thisseason_list_ti",  "position:$position\tid:${getItem(position)!!.id}\t${getItem(position)!!.title}")
             val myNotificationRow = MyNotificationRow(
                 animeId = getItem(position)!!.id,
                 animeTitle = getItem(position)!!.title

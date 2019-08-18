@@ -61,11 +61,11 @@ class PageKeyedThisSeasonDataSource(
                 if (it.nextPage != null) next = page + 1
 
                 var data = it.works
-                rejectAnimeId?.forEach { reject ->
-                    data = data.filterNot { it.id == reject }.toMutableList()
-                }
+//                rejectAnimeId?.forEach { reject ->
+//                    data = data.filterNot { it.id == reject }.toMutableList()
+//                }
 
-                data.retainAll { it.media == "tv" || it.media == "web" }
+//                data.retainAll { it.media == "tv" || it.media == "web" }
                 // 表示する
                 callback(data, next)
                 networkState.postValue(Status.SUCCESS)
