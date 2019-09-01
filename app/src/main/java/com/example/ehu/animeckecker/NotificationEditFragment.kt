@@ -104,38 +104,43 @@ class NotificationEditFragment : Fragment() {
             if (!isEnmpyComponent()) return@setOnClickListener
             setConfigToRow(row.animeId, row.animeTitle)
 
-            // 一旦全削除,前のidで回す。
-            beforeEditRow.id.forEachIndexed { index, id ->
-                AnimeAlarmManager().deleteNotificationAlarm(
-                    context!!,
-                    id,
-                    this.row.animeId,
-                    this.row.animeTitle,
-                    beforeEditRow.time.values.toList()[index]
-                )
-            }
-
             // timeを取り出す。
             val beforeSecond = mutableListOf<Int>()
             val beforeSecondText = mutableListOf<String>()
-            this.row.time.forEach {
-                beforeSecond.add(it.key)
-                beforeSecondText.add(it.value)
-            }
-            // idごとに、alarmをセット
-            this.row.id.forEachIndexed { index, id ->
-                AnimeAlarmManager().registerNotificationAlarm(
-                    context!!,
-                    id, this.row.animeId, this.row.animeTitle,
-                    this.row.dayOfWeek!!, this.row.hour!!, this.row.minute!!, this.row.second!!,
-                    beforeSecond[index], beforeSecondText[index]
-                )
+            this.row.time.forEach { time ->
+                beforeSecond.add(time.key)
+                beforeSecondText.add(time.value)
             }
 
-            Navigation.findNavController(it).navigate(R.id.action_no_stack_to_myNotificationFragment)
+//
+//            // 一旦全削除,前のidで回す。
+//            beforeEditRow.id.forEachIndexed { index, id ->
+//                AnimeAlarmManager().deleteNotificationAlarm(
+//                    context!!,
+//                    id,
+//                    this.row.animeId,
+//                    this.row.animeTitle,
+//                    beforeEditRow.time.values.toList()[index]
+//                )
+//            }
+//
+//
+//            // idごとに、alarmをセット
+//            this.row.id.forEachIndexed { index, id ->
+//                AnimeAlarmManager().registerNotificationAlarm(
+//                    context!!,
+//                    id, this.row.animeId, this.row.animeTitle,
+//                    this.row.dayOfWeek!!, this.row.hour!!, this.row.minute!!, this.row.second!!,
+//                    beforeSecond[index], beforeSecondText[index]
+//                )
+//            }
+
+            Navigation.findNavController(it)
+                .navigate(R.id.action_no_stack_to_myNotificationFragment)
         }
         binding.cancel.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_no_stack_to_myNotificationFragment)
+            Navigation.findNavController(it)
+                .navigate(R.id.action_no_stack_to_myNotificationFragment)
         }
         binding.delete.setOnClickListener {
             // このアニメの通知をすべて削除する。
@@ -149,7 +154,8 @@ class NotificationEditFragment : Fragment() {
                     beforeTimeText[index]
                 )
             }
-            Navigation.findNavController(it).navigate(R.id.action_no_stack_to_myNotificationFragment)
+            Navigation.findNavController(it)
+                .navigate(R.id.action_no_stack_to_myNotificationFragment)
         }
 
     }
@@ -207,7 +213,8 @@ class NotificationEditFragment : Fragment() {
                 )
             }
 
-            Navigation.findNavController(it).navigate(R.id.action_no_stack_to_myNotificationFragment)
+            Navigation.findNavController(it)
+                .navigate(R.id.action_no_stack_to_myNotificationFragment)
         }
         binding.cancel.setOnClickListener {
             Navigation.findNavController(it).navigate(R.id.action_edit_first_cancel)
@@ -227,7 +234,13 @@ class NotificationEditFragment : Fragment() {
                 val minute = c.get(Calendar.MINUTE)
 
                 // Create a new instance of TimePickerDialog and return it
-                return TimePickerDialog(activity, this, hour, minute, DateFormat.is24HourFormat(activity))
+                return TimePickerDialog(
+                    activity,
+                    this,
+                    hour,
+                    minute,
+                    DateFormat.is24HourFormat(activity)
+                )
             }
 
             override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
