@@ -93,7 +93,7 @@ class AnimeAlarmManager() : BroadcastReceiver() {
 
         //pendingIntent
         val pendingIntent =
-            PendingIntent.getBroadcast(context, notificatioId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context, notificatioId, intent, PendingIntent.FLAG_CANCEL_CURRENT)
         //alarm
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
         alarmManager!!.setExact(AlarmManager.RTC_WAKEUP, startedAt.timeInMillis, pendingIntent)
@@ -107,7 +107,7 @@ class AnimeAlarmManager() : BroadcastReceiver() {
         }
         //pendingIntent
         val pendingIntent =
-            PendingIntent.getBroadcast(context, notificationId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(context, notificationId, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT)
         pendingIntent.cancel()
         //alarm
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
