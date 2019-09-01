@@ -92,6 +92,7 @@ class NotificationEditFragment : Fragment() {
         }
     }
 
+    // 「アラーム編集時」
     private fun setUpAgainEdit() {
         // Deleteボタンの表示
         binding.delete.visibility = View.VISIBLE
