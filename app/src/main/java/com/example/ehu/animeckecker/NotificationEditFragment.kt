@@ -45,7 +45,7 @@ class NotificationEditFragment : Fragment() {
 
         // isEditによって、入力データ、遷移を分ける
         if (isEdit) {
-            beforeEditRow = afterEditRow.copy()
+            beforeEditRow = afterEditRow.copyRow()
             setUpAgainEdit()
         } else {
             setUpFirstEdit()
@@ -106,35 +106,37 @@ class NotificationEditFragment : Fragment() {
             setConfigToRow(afterEditRow.animeId, afterEditRow.animeTitle)
 
             // timeを取り出す。
+            val afterTime = this.afterEditRow.time
+            val beforeTime = this.beforeEditRow.time
+
             val beforeSecond = mutableListOf<Int>()
-            val beforeSecondText = mutableListOf<String>()
-            this.afterEditRow.time.forEach { time ->
-                beforeSecond.add(time.key)
-                beforeSecondText.add(time.value)
-            }
-
-            val afterSecond   = mutableListOf<Int>()
-            val afterSecondText = mutableListOf<String>()
-            for (i in 0 until binding.chipGroupMinute.childCount) {
-                val chip = binding.chipGroupMinute.getChildAt(i) as Chip
-                if (chip.isChecked) {
-
-                }
-            }
-            for (i in 0 until binding.chipGroupHour.childCount) {
-                val chip = binding.chipGroupHour.getChildAt(i) as Chip
-                if (chip.isChecked) {
-                    val sId = "${this.afterEditRow.animeId}${chip.tag.toString().toInt()}"
-                    this.afterEditRow.id.add(sId.toInt())
-                    this.afterEditRow.time.put(chip.tag.toString().toInt(), chip.text.toString())
-                }
-            }
+//            val beforeSecondText = mutableListOf<String>()
+//            this.afterEditRow.time.forEach { time ->
+//                beforeSecond.add(time.key)
+//                beforeSecondText.add(time.value)
+//            }
+//
+//            val afterSecond = mutableListOf<Int>()
+//            val afterSecondText = mutableListOf<String>()
+//            for (i in 0 until binding.chipGroupMinute.childCount) {
+//                val chip = binding.chipGroupMinute.getChildAt(i) as Chip
+//                if (chip.isChecked) {
+//
+//                }
+//            }
+//            for (i in 0 until binding.chipGroupHour.childCount) {
+//                val chip = binding.chipGroupHour.getChildAt(i) as Chip
+//                if (chip.isChecked) {
+//                    val sId = "${this.afterEditRow.animeId}${chip.tag.toString().toInt()}"
+//                    this.afterEditRow.id.add(sId.toInt())
+//                    this.afterEditRow.time.put(chip.tag.toString().toInt(), chip.text.toString())
+//                }
+//            }
 
             //DB
             // timeが増えた場合はinsert
 
             // timeが減った場合はdelete
-
 
 
 //
@@ -190,7 +192,8 @@ class NotificationEditFragment : Fragment() {
      */
     private fun setUpComponent() {
         // 放送開始時間のセット
-        val timeText = "${this.afterEditRow.hour?.zeroFill()}:${this.afterEditRow.minute?.zeroFill()}"
+        val timeText =
+            "${this.afterEditRow.hour?.zeroFill()}:${this.afterEditRow.minute?.zeroFill()}"
         binding.time.setText(timeText)
         // 曜日のセット
         binding.mon.isChecked = false
@@ -232,9 +235,15 @@ class NotificationEditFragment : Fragment() {
             this.afterEditRow.id.forEachIndexed { index, id ->
                 AnimeAlarmManager().registerNotificationAlarm(
                     context!!,
-                    id, this.afterEditRow.animeId, this.afterEditRow.animeTitle,
-                    this.afterEditRow.dayOfWeek!!, this.afterEditRow.hour!!, this.afterEditRow.minute!!, this.afterEditRow.second!!,
-                    beforeSecond[index], beforeSecondText[index]
+                    id,
+                    this.afterEditRow.animeId,
+                    this.afterEditRow.animeTitle,
+                    this.afterEditRow.dayOfWeek!!,
+                    this.afterEditRow.hour!!,
+                    this.afterEditRow.minute!!,
+                    this.afterEditRow.second!!,
+                    beforeSecond[index],
+                    beforeSecondText[index]
                 )
             }
 

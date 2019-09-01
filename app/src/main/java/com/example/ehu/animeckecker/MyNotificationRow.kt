@@ -13,4 +13,31 @@ data class MyNotificationRow(
     var second: Int? = null,
     var startAtText: String? = null,
     var time: MutableMap<Int, String> = mutableMapOf()
-) : Serializable
+) : Serializable {
+
+    // ディープコピー
+    fun copyRow(
+        id: MutableList<Int> = this.id,
+        animeId: Int = this.animeId,
+        animeTitle: String = this.animeTitle,
+        dayOfWeek: Int? = this.dayOfWeek,
+        dayOfWeekText: String? = this.dayOfWeekText,
+        hour: Int? = this.hour,
+        minute: Int? = this.minute,
+        second: Int? = this.second,
+        startAtText: String? = this.startAtText,
+        time: MutableMap<Int, String> = this.time
+    ) = MyNotificationRow(
+        id.toMutableList(),
+        animeId,
+        animeTitle,
+        dayOfWeek,
+        dayOfWeekText,
+        hour,
+        minute,
+        second,
+        startAtText,
+        time.toMutableMap()
+    )
+
+}
