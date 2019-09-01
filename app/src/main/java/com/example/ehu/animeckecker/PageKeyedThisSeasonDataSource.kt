@@ -55,22 +55,30 @@ class PageKeyedThisSeasonDataSource(
                 networkState.postValue(Status.FAILED_401)
             }
 
-            response.body()?.let {
+            response.body()?.let { body ->
                 var next: Int? = null
                 // nextPageがあるなら、インクリメント
-                if (it.nextPage != null) next = page + 1
+                if (body.nextPage != null) next = page + 1
 
-                var data = it.works
-//                rejectAnimeId?.forEach { reject ->
-//                    data = data.filterNot { it.id == reject }.toMutableList()
-//                }
+                val work = workFilter(body.works)
 
-//                data.retainAll { it.media == "tv" || it.media == "web" }
+                Log.d("app_page_work", work.size.toString() + "\n" + work.map { "${it.id}\t${it.title}\n" }.toString())
                 // 表示する
-                callback(data, next)
+                callback(work, next)
                 networkState.postValue(Status.SUCCESS)
             }
         } catch (e: IOException) {
         }
+    }
+
+    private fun workFilter(work: MutableList<Works>): MutableList<Works> {
+        var data = work
+        // tvとwebのみに絞る
+        data.retainAll { it.media == "tv" || it.media == "web" }
+        // 既にalarm登録したアニメを除外する
+        rejectAnimeId?.forEach { reject ->
+            data = data.filterNot { it.id == reject }.toMutableList()
+        }
+        return data
     }
 }
